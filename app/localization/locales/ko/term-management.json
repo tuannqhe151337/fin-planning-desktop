@@ -1,0 +1,47 @@
+{
+  "Term management": "기간 관리",
+  "Add new term": "새 기간 추가",
+  "Term": "기간",
+  "Start date": "시작일",
+  "Start": "시작",
+  "End date": "종료일",
+  "Term detail": "기간 세부 정보",
+  "Start term": "기간 시작",
+  "Update term": "기간 업데이트",
+  "Update": "업데이트",
+  "Detail": "세부 정보",
+  "Plan": "계획",
+  "Report": "보고서",
+  "Status": "상태",
+  "Monthly": "월간",
+  "Edit": "편집",
+  "Delete term": "기간 삭제",
+  "No data found": "데이터 없음.",
+  "Create term": "기간 생성",
+  "Term name": "기간 이름",
+  "Quarterly": "분기별",
+  "Half year": "반기",
+  "Allow to reupload": "재업로드 허용",
+  "Reupload start date": "재업로드 시작일",
+  "Reupload end date": "재업로드 종료일",
+  "Create new term": "새 기간 생성",
+  "start_term_message": {
+    "part1": "",
+    "part2": "{{termName}}",
+    "part3": " 기간을 시작하려고 합니다"
+  },
+  "delete_term_message": {
+    "part1": "",
+    "part2": "{{termName}}",
+    "part3": " 기간을 삭제하려고 합니다"
+  },
+  "confirmation_message": {
+    "part1": "이 작업은",
+    "part2": "취소할 수 없습니다",
+    "part3": ". 정말 확실합니까?"
+  },
+  "No, cancel": "아니요, 취소",
+  "Yes, start term": "예, 기간 시작",
+  "Yes, delete": "예, 삭제",
+  "Back": "뒤로"
+}

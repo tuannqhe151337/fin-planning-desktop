@@ -1,0 +1,48 @@
+{
+  "Term management": "Term management",
+  "Add new term": "Add new user",
+  "Term": "Term",
+  "Start date": "Start date",
+  "Start": "Start",
+  "End date": "End date",
+  "Term detail": "Term detail",
+  "Start term": "Start term",
+  "Update term": "Update term",
+  "Update": "Update",
+  "Detail": "Detail",
+  "Plan": "Plan",
+  "Report": "Report",
+  "Status": "Status",
+  "Monthly": "Monthly",
+  "Edit": "Edit",
+  "Delete term": "Delete term",
+  "No data found": "No data found.",
+  "Create term": "Create term",
+  "Term name": "Term name",
+  "Quarterly": "Quarterly",
+  "Half year": "Half year",
+  "Allow to reupload": "Allow to reupload",
+  "Reupload start date": "Reupload start date",
+  "Reupload end date": "Reupload end date",
+  "Create new term": "Create new term",
+  "start_term_message": {
+    "part1": "You're going to start term ",
+    "part2": "{{termName}}",
+    "part3": ""
+  },
+
+  "delete_term_message": {
+    "part1": "You're going to delete term ",
+    "part2": "{{termName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "This action",
+    "part2": "cannot",
+    "part3": "be reversed. Are you sure?"
+  },
+  "No, cancel": "No, cancel",
+  "Yes, start term": "Yes, start term",
+  "Yes, delete": "Yes, delete",
+  "Back": "Back"
+}

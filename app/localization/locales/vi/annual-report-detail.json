@@ -1,0 +1,17 @@
+{
+  "No annual found": "Không tìm thấy báo cáo hằng năm nào",
+  "Annual Report": "Báo cáo hàng năm",
+  "Report": "Báo cáo năm {{year}}",
+  "ReportYear": "Báo cáo thường niên năm {{year}}",
+  "Download report": "Tải xuống bản báo cáo",
+  "Total terms": "Tổng kỳ",
+  "Total departments": "Tổng phòng ban",
+  "Overview": "Khái quát",
+  "Detail": "Chi tiết",
+  "Loading": "Đang tải",
+  "No data available": "Không có dữ liệu",
+  "Department": "Phòng ban",
+  "Total expenses": "Tổng chi tiêu",
+  "Biggest expenditure": "Chi tiêu lớn nhất",
+  "Cost type": "Loại chi phí"
+}

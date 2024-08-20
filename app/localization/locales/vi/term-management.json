@@ -1,0 +1,48 @@
+{
+  "Term management": "Quản lý kỳ hạn",
+  "Add new term": "Tạo kỳ mới",
+  "Term": "Kỳ hạn",
+  "Start date": "Ngày bắt đầu",
+  "Start": "Bắt đầu",
+  "End date": "Ngày kết thúc",
+  "Term detail": "Chi tiết kỳ hạn",
+  "Start term": "Bắt đầu kỳ",
+  "Update term": "Cập nhật kỳ",
+  "Update": "Cập nhật",
+  "Detail": "Chi tiết",
+  "Plan": "Kế hoạch",
+  "Report": "Báo cáo",
+  "Status": "Trạng thái",
+  "Monthly": "Hàng tháng",
+  "Edit": "Chỉnh sửa",
+  "Delete term": "Xóa kỳ hạn",
+  "No data found": "Không có dữ liệu.",
+  "Create term": "Tạo kỳ",
+  "Term name": "Tên kỳ",
+  "Quarterly": "Hàng quý",
+  "Half year": "Nửa năm",
+  "Allow to reupload": "Cho phép tải lên lại",
+  "Reupload start date": "Ngày bắt đầu tải lại",
+  "Reupload end date": "Ngày kết thúc tải lại",
+  "Create new term": "Tạo kỳ mới",
+  "start_term_message": {
+    "part1": "Bạn đang bắt đầu kỳ ",
+    "part2": "{{termName}}",
+    "part3": ""
+  },
+  "delete_term_message": {
+    "part1": "Bạn đang bắt đầu xóa kỳ ",
+    "part2": "{{termName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "Hành động này",
+    "part2": "không thể",
+    "part3": "hoàn tác. Bạn chắc chứ?"
+  },
+  "No, cancel": "Không, hủy",
+  "Yes, start term": "Đồng ý, bắt đầu kỳ",
+  "Yes, delete": "Đồng ý, xóa",
+  "Back": "Trở lại"
+
+}

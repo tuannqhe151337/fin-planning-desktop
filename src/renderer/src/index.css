@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    @apply h-4 w-4;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-200 dark:bg-neutral-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-400 dark:bg-neutral-700;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-500 dark:bg-neutral-600;
+  }
+}
+
+/* react-resizable */
+.react-resizable {
+  position: relative;
+}
+
+.react-resizable-handle {
+  display: block;
+}
+
+.react-resizable-handle:hover {
+  background: hsl(var(--twc-primary));
+  transition-duration: 500ms;
+}
+
+.react-resizable-handle-n {
+  position: absolute;
+  top: -5px;
+  width: 100%;
+  height: 5px;
+  cursor: n-resize;
+}
+
+.react-resizable-handle-s {
+  position: absolute;
+  bottom: -5px;
+  width: 100%;
+  height: 5px;
+  cursor: s-resize;
+}
+
+.react-resizable-handle-e {
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  width: 5px;
+  height: 100%;
+  cursor: e-resize;
+}
+
+.react-resizable-handle-w {
+  position: absolute;
+  top: 0px;
+  left: -5px;
+  width: 5px;
+  height: 100%;
+  cursor: e-resize;
+}
+
+.react-resizable-handle-se {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+  width: 15px;
+  height: 15px;
+}
+
+/* custom-select.css */
+.custom-select__option {
+  @apply !text-sm !font-bold dark:!font-bold !py-3 px-4 !text-neutral-500 dark:bg-black/90 dark:!text-neutral-200 duration-200;
+}
+
+.custom-select__input {
+  @apply text-sm font-bold !text-neutral-500 dark:!text-neutral-200;
+}
+
+/* css placeholder khi chưa tương tác với ô select */
+.custom-select__single-value {
+  @apply text-sm text-neutral-500 !font-bold dark:text-white opacity-60 duration-200;
+}
+
+/* css cho trạng thái ban đầu của hộp select */
+.custom-select__control {
+  @apply !bg-transparent !cursor-pointer !p-0 !m-0 !text-sm text-neutral-500 font-semibold dark:border-neutral-700 dark:border-2 duration-200;
+}
+
+.custom-select__menu-list {
+  @apply !p-0 !m-0;
+}
+
+.custom-select__option:hover {
+  @apply font-semibold dark:bg-primary-900 dark:text-white/80;
+  @apply cursor-pointer;
+}
+
+.custom-select__option--is-selected {
+  /* Màu nền khi option được chọn */
+  @apply font-semibold bg-primary-100 !text-white dark:bg-primary-900 dark:text-white/80;
+}
+
+/* Ẩn mũi tên trên thanh cuộn  */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Thiết lập chiều rộng của thanh cuộn */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* CSS CHO CÁC LABEL TRONG Ô INPUT */
+.custom-wrapper label {
+  /* color: red;  */
+  @apply dark:text-neutral-400 opacity-60;
+}

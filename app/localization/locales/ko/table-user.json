@@ -1,0 +1,9 @@
+{
+  "ID": "아이디",
+  "Username": "사용자 이름",
+  "Role": "역할",
+  "Email": "이메일",
+  "Department": "부서",
+  "Position": "직위",
+  "No data found": "데이터 없음."
+}

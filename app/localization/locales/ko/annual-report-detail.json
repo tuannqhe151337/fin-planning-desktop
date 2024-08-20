@@ -1,0 +1,17 @@
+{
+  "No annual found": "연례 보고서 없음",
+  "Annual Report": "연례 보고서",
+  "Report": "{{year}} 보고서",
+  "ReportYear": "{{year}} 년 의 연례 보고서",
+  "Download report": "보고서 다운로드",
+  "Total terms": "총 기간",
+  "Total departments": "총 부서",
+  "Overview": "개요",
+  "Detail": "세부사항",
+  "Loading": "로딩 중",
+  "No data available": "데이터 없음",
+  "Department": "부서",
+  "Total expenses": "총 지출",
+  "Biggest expenditure": "최대 지출",
+  "Cost type": "비용 유형"
+}

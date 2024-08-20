@@ -1,0 +1,15 @@
+{
+  "User management": "사용자 관리",
+  "Create new user": "새 사용자 생성",
+  "Create user": "사용자 생성",
+  "Select role": "역할 선택",
+  "Select department": "부서 선택",
+  "Select position": "직위 선택",
+  "Full name": "전체 이름",
+  "Phone": "전화번호",
+  "Email": "이메일",
+  "Date of birth": "생년월일",
+  "Address": "주소",
+  "No data found": "데이터 없음.",
+  "Update user": "사용자 업데이트"
+}

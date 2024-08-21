@@ -11,10 +11,10 @@ import { useState } from "react";
 import { TERipple } from "tw-elements-react";
 import { useCloseOutside } from "../../shared/hooks/use-close-popup";
 import { CostTypeFilter } from "../../entities/cost-type-filter";
-import { StatusPlanFilter } from "../../entities/status-plan-filter";
 import clsx from "clsx";
 import { CurrencyChanger } from "../../entities/currency-changer";
 import { Currency } from "../../providers/store/api/currencyApi";
+import { StatusExpenseFilter } from "@renderer/entities/status-expense-filter";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -310,9 +310,8 @@ export const ListPlanDetailFilter: React.FC<Props> = ({
                     }}
                   />
                 </motion.div>
-
-                <motion.div variants={childrenAnimation} className="mr-4">
-                  <StatusPlanFilter
+                <motion.div variants={childrenAnimation} className="mr-4 ">
+                  <StatusExpenseFilter
                     onChange={(option) => {
                       onStatusIdChange && onStatusIdChange(option?.value);
                     }}

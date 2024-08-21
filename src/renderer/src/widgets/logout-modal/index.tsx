@@ -56,7 +56,7 @@ export const LogoutModal: React.FC<Props> = ({ show, onClose }) => {
 
   return (
     <Modal
-      className="w-[70vw] xl:w-[50vw] h-max flex flex-col justify-center items-center"
+      className="w-[70vw] xl:w-[50vw] z-50 h-max flex flex-col justify-center items-center"
       show={show}
       onClose={onClose}
     >

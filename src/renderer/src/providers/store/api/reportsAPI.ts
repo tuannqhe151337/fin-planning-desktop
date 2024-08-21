@@ -10,6 +10,7 @@ import {
 export interface ListReportParameters {
   query?: string | null;
   termId?: number | null;
+  statusId?: number | null;
   page: number;
   pageSize: number;
 }
@@ -169,7 +170,7 @@ const staggeredBaseQuery = retry(
   }),
   {
     maxRetries: 5,
-  }
+  },
 );
 
 const reportsAPI = createApi({
@@ -182,7 +183,7 @@ const reportsAPI = createApi({
         PaginationResponse<Report[]>,
         ListReportParameters
       >({
-        query: ({ query, termId, page, pageSize }) => {
+        query: ({ query, termId, statusId, page, pageSize }) => {
           let endpoint = `report/list?page=${page}&size=${pageSize}`;
 
           if (query && query !== "") {
@@ -191,6 +192,10 @@ const reportsAPI = createApi({
 
           if (termId) {
             endpoint += `&termId=${termId}`;
+          }
+
+          if (statusId) {
+            endpoint += `&statusId=${statusId}`;
           }
 
           return endpoint;

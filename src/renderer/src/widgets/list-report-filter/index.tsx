@@ -4,6 +4,7 @@ import { SearchBox } from "../../shared/search-box";
 import { IconButton } from "../../shared/icon-button";
 import { FaFilter } from "react-icons/fa6";
 import { TermFilter } from "../../entities/term-filter";
+import { StatusReportFilter } from "@renderer/entities/status-report-filter";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -55,12 +56,14 @@ interface Props {
   searchboxValue?: string;
   onSearchboxChange?: (value: string) => any;
   onTermIdChange?: (termId: number | null | undefined) => any;
+  onStatusIdChange?: (statusId: number | null | undefined) => any;
 }
 
 export const ListReportFilter: React.FC<Props> = ({
   searchboxValue,
   onSearchboxChange,
   onTermIdChange,
+  onStatusIdChange,
 }) => {
   // UI: show 3 select box
   const [showFilterBtn, setShowFilterBtn] = useState(false);
@@ -78,6 +81,13 @@ export const ListReportFilter: React.FC<Props> = ({
           <TermFilter
             onChange={(option) => {
               onTermIdChange && onTermIdChange(option?.value);
+            }}
+          />
+        </motion.div>
+        <motion.div variants={childrenAnimation} className="mr-4 ">
+          <StatusReportFilter
+            onChange={(option) => {
+              onStatusIdChange && onStatusIdChange(option?.value);
             }}
           />
         </motion.div>

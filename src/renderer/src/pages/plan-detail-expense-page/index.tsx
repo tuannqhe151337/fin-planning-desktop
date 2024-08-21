@@ -198,7 +198,7 @@ export const PlanDetailExpensePage: React.FC = () => {
                 import.meta.env.VITE_BACKEND_HOST
               }plan/download/last-version-xlsx?planId=${planId}`,
               token,
-              `${plan.name}-v${plan.version}.xlsx`
+              `${plan.name}-v${plan.version}.xlsx`,
             );
           }
         }}

@@ -6,7 +6,7 @@ import {
   PaginationResponse,
 } from "./type";
 
-export interface PlanStatus {
+export interface ReportStatus {
   statusId: number;
   code: string;
   name: string;
@@ -32,7 +32,7 @@ const staggeredBaseQuery = retry(
   }),
   {
     maxRetries: 5,
-  }
+  },
 );
 
 export const statusAPI = createApi({
@@ -44,9 +44,12 @@ export const statusAPI = createApi({
         return `/term-status/term-status-list`;
       },
     }),
-    getListStatusPlan: builder.query<PaginationResponse<PlanStatus[]>, void>({
+    getListStatusReport: builder.query<
+      PaginationResponse<ReportStatus[]>,
+      void
+    >({
       query: () => {
-        return `/plan/plan-status`;
+        return `/report/report-status`;
       },
     }),
     getAllExpenseStatus: builder.query<ListResponse<ExpenseStatus[]>, void>({
@@ -59,6 +62,6 @@ export const statusAPI = createApi({
 
 export const {
   useGetListStatusTermQuery,
-  useGetListStatusPlanQuery,
+  useGetListStatusReportQuery,
   useGetAllExpenseStatusQuery,
 } = statusAPI;

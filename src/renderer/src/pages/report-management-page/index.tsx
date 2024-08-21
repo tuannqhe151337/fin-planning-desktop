@@ -107,6 +107,8 @@ export const ReportManagementList: React.FC = () => {
 
   const [termId, setTermId] = useState<number | null>();
 
+  const [statusId, setStatusId] = useState<number | null>();
+
   const [page, setPage] = useState<number>(1);
 
   // Is data empty (derived from data)
@@ -129,11 +131,15 @@ export const ReportManagementList: React.FC = () => {
         paramters.termId = termId;
       }
 
+      if (statusId) {
+        paramters.statusId = statusId;
+      }
+
       fetchReport(paramters, true);
     }, 200);
 
     return () => clearTimeout(timeoutId);
-  }, [searchboxValue, page, termId]);
+  }, [searchboxValue, page, termId, statusId]);
 
   // Mark as reviewed
   const [markAsReviewed, { isSuccess }] = useMarkAsReviewedMutation();
@@ -154,10 +160,10 @@ export const ReportManagementList: React.FC = () => {
               draft.data[index].status.name = "Reviewed";
             }
           });
-        }
+        },
       );
     },
-    [markAsReviewed]
+    [markAsReviewed],
   );
 
   // Mark as reviewed success
@@ -196,6 +202,9 @@ export const ReportManagementList: React.FC = () => {
           }}
           onTermIdChange={(termId) => {
             setTermId(termId);
+          }}
+          onStatusIdChange={(statusId) => {
+            setStatusId(statusId);
           }}
         />
       </motion.div>

@@ -7,12 +7,12 @@ import { FaDownload, FaUpload } from "react-icons/fa";
 import { useState } from "react";
 import { TERipple } from "tw-elements-react";
 import { useCloseOutside } from "../../shared/hooks/use-close-popup";
-import { StatusTermFilter } from "../../entities/status-term-filter";
 import { CostTypeFilter } from "../../entities/cost-type-filter";
 import { Button } from "../../shared/button";
 import { RiDeleteRow } from "react-icons/ri";
 import { CurrencyChanger } from "../../entities/currency-changer";
 import { Currency } from "../../providers/store/api/currencyApi";
+import { StatusExpenseFilter } from "@renderer/entities/status-expense-filter";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -325,7 +325,7 @@ export const ListReportExpenseFilter: React.FC<Props> = ({
                 </motion.div>
 
                 <motion.div variants={childrenAnimation} className="mr-4">
-                  <StatusTermFilter
+                  <StatusExpenseFilter
                     onChange={(option) => {
                       onStatusIdChange && onStatusIdChange(option?.value);
                     }}

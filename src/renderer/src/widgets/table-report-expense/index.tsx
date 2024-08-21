@@ -122,7 +122,7 @@ export const TableReportExpenses: React.FC<Props> = ({
         onEscPress && onEscPress();
       }
     },
-    { enableOnFormTags: ["input", "INPUT"] }
+    { enableOnFormTags: ["input", "INPUT"] },
   );
 
   // Prevent select on shift + click
@@ -135,7 +135,7 @@ export const TableReportExpenses: React.FC<Props> = ({
     () => {
       document.addEventListener("selectstart", preventSelect);
     },
-    { keydown: true }
+    { keydown: true },
   );
 
   useHotkeys(
@@ -143,7 +143,7 @@ export const TableReportExpenses: React.FC<Props> = ({
     () => {
       document.removeEventListener("selectstart", preventSelect);
     },
-    { keyup: true }
+    { keyup: true },
   );
 
   return (
@@ -294,6 +294,7 @@ export const TableReportExpenses: React.FC<Props> = ({
                     <NumericFormat
                       displayType="text"
                       value={expense.unitPrice}
+                      decimalScale={2}
                       prefix={
                         expense.currency.affix === AFFIX.PREFIX
                           ? expense.currency.symbol
@@ -322,6 +323,7 @@ export const TableReportExpenses: React.FC<Props> = ({
                     <NumericFormat
                       displayType="text"
                       value={expense.unitPrice * expense.amount}
+                      decimalScale={2}
                       prefix={
                         expense.currency.affix === AFFIX.PREFIX
                           ? expense.currency.symbol

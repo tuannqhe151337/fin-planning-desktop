@@ -100,8 +100,6 @@ export const PositionManagementList: React.FC = () => {
     const timeoutId = setTimeout(() => {
       const paramters: ListPositionParameters = {
         query: searchboxValue,
-        sortBy: "name",
-        sortType: "asc",
         page,
         pageSize: 10,
       };

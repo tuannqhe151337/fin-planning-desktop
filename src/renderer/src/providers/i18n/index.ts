@@ -16,7 +16,7 @@ i18n
     debug: true,
     saveMissing: true,
     saveMissingTo: "current",
-    lng: "vi",
+    lng: "en",
   });
 
 export default i18n;

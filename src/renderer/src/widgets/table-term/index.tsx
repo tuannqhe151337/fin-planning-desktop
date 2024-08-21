@@ -292,6 +292,7 @@ export const TableTermManagement: React.FC<Props> = ({
           top={contextMenuTop}
           left={contextMenuLeft}
           showStartTerm={chosenTerm.status.code === "NEW"}
+          showDeleteTerm={chosenTerm.status.code === "NEW"}
           onStartTerm={() => {
             setStartModal(true);
           }}
@@ -304,7 +305,7 @@ export const TableTermManagement: React.FC<Props> = ({
           }}
           onViewTermDetail={() => {
             navigate(
-              `/term-management/detail/information/${chosenTerm.termId}`
+              `/term-management/detail/information/${chosenTerm.termId}`,
             );
           }}
         />

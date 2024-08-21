@@ -100,8 +100,6 @@ export const SupplierManagementList: React.FC = () => {
     const timeoutId = setTimeout(() => {
       const paramters: ListSupplierParameters = {
         query: searchboxValue,
-        sortBy: "name",
-        sortType: "asc",
         page,
         pageSize: 10,
       };

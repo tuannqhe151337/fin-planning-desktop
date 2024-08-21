@@ -105,8 +105,6 @@ export const CostTypeManagementList: React.FC = () => {
     const timeoutId = setTimeout(() => {
       const paramters: ListCostTypeParameters = {
         query: searchboxValue,
-        sortBy: "name",
-        sortType: "asc",
         page,
         pageSize: 10,
       };

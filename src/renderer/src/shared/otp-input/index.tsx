@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { OTPInput, OTPInputContext } from "input-otp";
 import { Dot } from "lucide-react";
@@ -13,7 +11,7 @@ const InputOTP = React.forwardRef<
     ref={ref}
     containerClassName={cn(
       "flex items-center gap-2 has-[:disabled]:opacity-50",
-      containerClassName
+      containerClassName,
     )}
     className={cn("disabled:cursor-not-allowed bg-white", className)} // Thêm bg-white để đổi nền thành màu trắng
     {...props}
@@ -44,7 +42,7 @@ const InputOTPSlot = React.forwardRef<
         isActive &&
           "z-10 ring-2 ring-ring ring-offset-background dark:border-neutral-600",
         className,
-        "bg-white text-xl dark:bg-black dark:text-primary-600 dark:border-neutral-600" // Thêm bg-white và text-2xl để đổi nền thành màu trắng và tăng kích thước chữ
+        "bg-white text-xl dark:bg-black dark:text-primary-600 dark:border-neutral-600", // Thêm bg-white và text-2xl để đổi nền thành màu trắng và tăng kích thước chữ
       )}
       {...props}
     >

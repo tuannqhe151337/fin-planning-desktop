@@ -37,10 +37,12 @@ export const MonthlyExpectedActualCostChart: React.FC<Props> = ({
       };
 
       for (let monthlyRecord of data.data) {
-        expectedActualCostMap[ACTUAL_COST_KEY].push(monthlyRecord.actualCost);
-        expectedActualCostMap[EXPECTED_COST_KEY].push(
-          monthlyRecord.expectedCost
-        );
+        if (monthlyRecord.actualCost && monthlyRecord.expectedCost) {
+          expectedActualCostMap[ACTUAL_COST_KEY].push(monthlyRecord.actualCost);
+          expectedActualCostMap[EXPECTED_COST_KEY].push(
+            monthlyRecord.expectedCost,
+          );
+        }
       }
 
       dataChart.push({
@@ -61,7 +63,7 @@ export const MonthlyExpectedActualCostChart: React.FC<Props> = ({
     <div
       className={cn(
         "relative w-full h-full border shadow dark:border-neutral-800 dark:shadow-[0_0_15px_rgb(0,0,0,0.3)] rounded-xl pt-9 pb-12 px-8",
-        className
+        className,
       )}
     >
       <div className="flex flex-row flex-wrap mb-8">

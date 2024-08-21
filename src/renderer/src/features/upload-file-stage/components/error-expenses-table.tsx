@@ -408,6 +408,7 @@ export const ErrorExpensesTable: React.FC<Props> = ({
                             <NumericFormat
                               displayType="text"
                               value={expense.unitPrice.value}
+                              decimalScale={2}
                               disabled
                               thousandSeparator
                             />
@@ -447,6 +448,7 @@ export const ErrorExpensesTable: React.FC<Props> = ({
                             <NumericFormat
                               displayType="text"
                               value={expense.amount.value}
+                              decimalScale={2}
                               disabled
                               thousandSeparator
                             />
@@ -468,6 +470,7 @@ export const ErrorExpensesTable: React.FC<Props> = ({
                       >
                         <NumericFormat
                           displayType="text"
+                          decimalScale={2}
                           value={calculateTotalCost(
                             expense.unitPrice.value,
                             expense.amount.value,

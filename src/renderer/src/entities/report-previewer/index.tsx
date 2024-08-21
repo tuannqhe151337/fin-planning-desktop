@@ -121,6 +121,7 @@ export const ReportPreviewer: React.FC<Props> = ({
                             <NumericFormat
                               displayType="text"
                               value={expectedCostData?.cost}
+                              decimalScale={2}
                               prefix={
                                 expectedCostData?.currency.affix ===
                                 AFFIX.PREFIX
@@ -150,6 +151,7 @@ export const ReportPreviewer: React.FC<Props> = ({
                             <NumericFormat
                               displayType="text"
                               value={expectedCostData?.cost}
+                              decimalScale={2}
                               prefix={
                                 expectedCostData?.currency.affix ===
                                 AFFIX.PREFIX

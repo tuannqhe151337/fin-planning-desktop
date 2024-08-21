@@ -177,7 +177,7 @@ export const PlanDetailRootPage: React.FC = () => {
                       import.meta.env.VITE_BACKEND_HOST
                     }plan/download/last-version-xlsx?planId=${planId}`,
                     token,
-                    `${plan.name}-${plan.version}.xlsx`
+                    `${plan.name}-${plan.version}.xlsx`,
                   );
                 }
               }}
@@ -252,6 +252,7 @@ export const PlanDetailRootPage: React.FC = () => {
               <NumericFormat
                 displayType="text"
                 value={plan?.expectedCost.cost}
+                decimalScale={2}
                 prefix={
                   plan?.expectedCost.currency.affix === AFFIX.PREFIX
                     ? ` ${plan?.expectedCost.currency.name}`
@@ -277,6 +278,7 @@ export const PlanDetailRootPage: React.FC = () => {
               <NumericFormat
                 displayType="text"
                 value={plan?.actualCost.cost}
+                decimalScale={2}
                 prefix={
                   plan?.actualCost.currency.affix === AFFIX.PREFIX
                     ? ` ${plan?.actualCost.currency.name}`

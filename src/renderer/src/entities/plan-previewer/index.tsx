@@ -103,6 +103,7 @@ export const PlanPreviewer: React.FC<Props> = ({
                           <NumericFormat
                             displayType="text"
                             value={plan?.expectedCost.cost}
+                            decimalScale={2}
                             prefix={
                               plan?.expectedCost.currency.affix === AFFIX.PREFIX
                                 ? ` ${plan?.expectedCost.currency.name}`
@@ -130,6 +131,7 @@ export const PlanPreviewer: React.FC<Props> = ({
                           <NumericFormat
                             displayType="text"
                             value={plan?.actualCost.cost}
+                            decimalScale={2}
                             prefix={
                               plan?.actualCost.currency.affix === AFFIX.PREFIX
                                 ? ` ${plan?.actualCost.currency.name}`

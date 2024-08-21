@@ -277,6 +277,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         <NumericFormat
                           displayType="text"
                           value={expense.unitPrice}
+                          decimalScale={2}
                           disabled
                           thousandSeparator
                         />
@@ -300,6 +301,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         <NumericFormat
                           displayType="text"
                           value={expense.unitPrice * expense.amount}
+                          decimalScale={2}
                           thousandSeparator
                         />
                       </div>

@@ -14,6 +14,7 @@ interface Props {
   bottom?: number;
   right?: number;
   showStartTerm?: boolean;
+  showDeleteTerm?: boolean;
   onStartTerm?: () => any;
   onCreateTerm?: () => any;
   onViewTermDetail?: () => any;
@@ -29,6 +30,7 @@ export const TermActionContextMenu: React.FC<Props> = ({
   bottom,
   right,
   showStartTerm,
+  showDeleteTerm,
   onStartTerm,
   onCreateTerm,
   onViewTermDetail,
@@ -61,7 +63,7 @@ export const TermActionContextMenu: React.FC<Props> = ({
 
   useHotkeys("d", () => {
     if (show) {
-      onDeleteTerm && onDeleteTerm();
+      showDeleteTerm && onDeleteTerm && onDeleteTerm();
     }
   });
 
@@ -120,17 +122,19 @@ export const TermActionContextMenu: React.FC<Props> = ({
           }
           onClick={onEditTerm}
         />
-        <ContextMenuItem
-          className="group-hover:text-red-600 dark:group-hover:text-red-600"
-          icon={<FaTrash className="text-lg -ml-0.5" />}
-          text={
-            <>
-              <span className="underline">D</span>
-              <span>elete term</span>
-            </>
-          }
-          onClick={onDeleteTerm}
-        />
+        {showDeleteTerm && (
+          <ContextMenuItem
+            className="group-hover:text-red-600 dark:group-hover:text-red-600"
+            icon={<FaTrash className="text-lg -ml-0.5" />}
+            text={
+              <>
+                <span className="underline">D</span>
+                <span>elete term</span>
+              </>
+            }
+            onClick={onDeleteTerm}
+          />
+        )}
       </div>
     </ContextMenu>
   );

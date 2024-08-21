@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Variants, motion } from "framer-motion";
 import { IconButton } from "../../shared/icon-button";
 import { Modal } from "../../shared/modal";
@@ -17,7 +17,6 @@ import { downloadFileFromServer } from "../../shared/utils/download-file-from-se
 import { UploadFileStage } from "./component/upload-file-stage";
 import { TEInput } from "tw-elements-react";
 import { DisabledSelect } from "../../shared/disabled-select";
-import { useWindowHeight } from "@renderer/shared/utils/use-window-height";
 
 enum AnimationStage {
   LEFT = "left",

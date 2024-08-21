@@ -106,8 +106,6 @@ export const DepartmentManagementList: React.FC = () => {
     const timeoutId = setTimeout(() => {
       const paramters: ListDepartmentParameters = {
         query: searchboxValue,
-        sortBy: "name",
-        sortType: "asc",
         page,
         pageSize: 10,
       };

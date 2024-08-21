@@ -4,10 +4,12 @@ import { IoClose } from "react-icons/io5";
 import { Button } from "../../shared/button";
 import { IoIosWarning } from "react-icons/io";
 import { useDeleteTermMutation } from "../../providers/store/api/termApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { ErrorData } from "@renderer/providers/store/api/type";
+import { uppercaseFirstCharacter } from "@renderer/shared/utils/uppercase-first-character";
 
 interface Props {
   termId: string | number;
@@ -30,7 +32,7 @@ export const DeleteTermModal: React.FC<Props> = ({
   // Navigate
   const navigate = useNavigate();
 
-  const [deleteTerm, { isError, isLoading, isSuccess }] =
+  const [deleteTerm, { isError, isLoading, isSuccess, error }] =
     useDeleteTermMutation();
 
   useEffect(() => {
@@ -41,6 +43,34 @@ export const DeleteTermModal: React.FC<Props> = ({
       navigate("/term-management");
     }
   }, [isError, isLoading, isSuccess]);
+
+  // Error message
+  const [errorMessage, setErrorMessage] = useState<string>();
+
+  useEffect(() => {
+    if (isError) {
+      if (
+        error &&
+        typeof error === "object" &&
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in (error.data as any)
+      ) {
+        setErrorMessage(
+          uppercaseFirstCharacter((error.data as ErrorData).message),
+        );
+      } else {
+        setErrorMessage("Something went wrong, please try again!");
+      }
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isError) {
+      toast(errorMessage, { type: "error" });
+    }
+  }, [isError, errorMessage]);
 
   return (
     <Modal

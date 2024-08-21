@@ -212,7 +212,7 @@ export const ReportDetailRootPage: React.FC = () => {
                       import.meta.env.VITE_BACKEND_HOST
                     }report/download-xlsx?reportId=${reportId}`,
                     token,
-                    `${report.name}.xlsx`
+                    `${report.name}.xlsx`,
                   );
                 }
               }}
@@ -328,6 +328,7 @@ export const ReportDetailRootPage: React.FC = () => {
               <NumericFormat
                 displayType="text"
                 value={expectedCostData?.cost}
+                decimalScale={2}
                 prefix={
                   expectedCostData?.currency.affix === AFFIX.PREFIX
                     ? ` ${expectedCostData?.currency.name}`
@@ -353,6 +354,7 @@ export const ReportDetailRootPage: React.FC = () => {
               <NumericFormat
                 displayType="text"
                 value={actualCostData?.cost}
+                decimalScale={2}
                 prefix={
                   actualCostData?.currency.affix === AFFIX.PREFIX
                     ? ` ${actualCostData?.currency.name}`

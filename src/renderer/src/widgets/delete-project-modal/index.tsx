@@ -7,8 +7,10 @@ import {
   Project,
   useDeleteProjectMutation,
 } from "../../providers/store/api/projectsApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { ErrorData } from "@renderer/providers/store/api/type";
+import { uppercaseFirstCharacter } from "@renderer/shared/utils/uppercase-first-character";
 
 interface Props {
   project: Project;
@@ -24,7 +26,7 @@ export const DeleteProjectModal: React.FC<Props> = ({
   onDeleteSuccessfully,
 }) => {
   // Mutation
-  const [deleteProject, { isError, isLoading, isSuccess }] =
+  const [deleteProject, { isError, isLoading, isSuccess, error }] =
     useDeleteProjectMutation();
 
   useEffect(() => {
@@ -34,6 +36,34 @@ export const DeleteProjectModal: React.FC<Props> = ({
       onDeleteSuccessfully && onDeleteSuccessfully(project);
     }
   }, [isError, isLoading, isSuccess]);
+
+  // Error message
+  const [errorMessage, setErrorMessage] = useState<string>();
+
+  useEffect(() => {
+    if (isError) {
+      if (
+        error &&
+        typeof error === "object" &&
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in (error.data as any)
+      ) {
+        setErrorMessage(
+          uppercaseFirstCharacter((error.data as ErrorData).message),
+        );
+      } else {
+        setErrorMessage("Something went wrong, please try again!");
+      }
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isError) {
+      toast(errorMessage, { type: "error" });
+    }
+  }, [isError, errorMessage]);
 
   return (
     <Modal

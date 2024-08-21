@@ -14,6 +14,7 @@ export const CurrencyInput: React.FC<Props> = ({ value, onChange }) => {
       onValueChange={(value, sourceInfo) => {
         onChange && onChange(value, sourceInfo);
       }}
+      decimalScale={2}
       thousandSeparator="."
       decimalSeparator=","
       valueIsNumericString

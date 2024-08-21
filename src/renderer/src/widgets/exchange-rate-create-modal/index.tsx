@@ -39,7 +39,7 @@ const MonthSchema = z.string().refine(
   },
   {
     message: "Invalid month",
-  }
+  },
 );
 
 const CurrencyIdSchema = z.number();
@@ -49,7 +49,7 @@ const AmountSchema = z.optional(z.number());
 const MonthlyExchangeRateCreateSchema = z.object({
   month: MonthSchema,
   exchangeRates: z.array(
-    z.object({ currencyId: CurrencyIdSchema, amount: AmountSchema })
+    z.object({ currencyId: CurrencyIdSchema, amount: AmountSchema }),
   ),
 });
 
@@ -114,7 +114,7 @@ export const ExchangeRateCreateModal: React.FC<Props> = ({
     if (isError) {
       if (error && "data" in error && "message" in (error.data as any)) {
         setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message)
+          uppercaseFirstCharacter((error.data as ErrorData).message),
         );
       } else {
         setErrorMessage("Something went wrong, please try again!");
@@ -220,6 +220,7 @@ export const ExchangeRateCreateModal: React.FC<Props> = ({
                                 customInput={TEInput}
                                 value={value || 0}
                                 allowNegative={false}
+                                decimalScale={2}
                                 prefix={
                                   baseCurrency.affix === AFFIX.PREFIX
                                     ? baseCurrency.symbol

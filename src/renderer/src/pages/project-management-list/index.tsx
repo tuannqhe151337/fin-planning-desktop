@@ -100,8 +100,6 @@ export const ProjectManagementList: React.FC = () => {
     const timeoutId = setTimeout(() => {
       const paramters: ListProjectParameters = {
         query: searchboxValue,
-        sortBy: "name",
-        sortType: "asc",
         page,
         pageSize: 10,
       };

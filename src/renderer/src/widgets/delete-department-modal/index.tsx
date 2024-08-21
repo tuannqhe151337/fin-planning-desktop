@@ -3,12 +3,14 @@ import { Modal } from "../../shared/modal";
 import { IoClose } from "react-icons/io5";
 import { Button } from "../../shared/button";
 import { IoIosWarning } from "react-icons/io";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
   Department,
   useDeleteDepartmentMutation,
 } from "../../providers/store/api/departmentApi";
+import { uppercaseFirstCharacter } from "@renderer/shared/utils/uppercase-first-character";
+import { ErrorData } from "@renderer/providers/store/api/type";
 
 interface Props {
   department: Department;
@@ -24,7 +26,7 @@ export const DeleteDepartmentModal: React.FC<Props> = ({
   onDeleteSuccessfully,
 }) => {
   // Mutation
-  const [deleteDepartment, { isError, isLoading, isSuccess }] =
+  const [deleteDepartment, { isError, isLoading, isSuccess, error }] =
     useDeleteDepartmentMutation();
 
   useEffect(() => {
@@ -34,6 +36,34 @@ export const DeleteDepartmentModal: React.FC<Props> = ({
       onDeleteSuccessfully && onDeleteSuccessfully(department);
     }
   }, [isError, isLoading, isSuccess]);
+
+  // Error message
+  const [errorMessage, setErrorMessage] = useState<string>();
+
+  useEffect(() => {
+    if (isError) {
+      if (
+        error &&
+        typeof error === "object" &&
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in (error.data as any)
+      ) {
+        setErrorMessage(
+          uppercaseFirstCharacter((error.data as ErrorData).message),
+        );
+      } else {
+        setErrorMessage("Something went wrong, please try again!");
+      }
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isError) {
+      toast(errorMessage, { type: "error" });
+    }
+  }, [isError, errorMessage]);
 
   return (
     <Modal

@@ -99,11 +99,11 @@ export const TablePosition: React.FC<Props> = ({
               scope="col"
               className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
             >
-              ID
+              No.
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="px-6 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
               Name
             </th>
@@ -134,7 +134,7 @@ export const TablePosition: React.FC<Props> = ({
         </thead>
         <tbody>
           {positions &&
-            positions.map((Position, index) => (
+            positions.map((position, index) => (
               <motion.tr
                 key={index}
                 variants={rowAnimation}
@@ -160,7 +160,7 @@ export const TablePosition: React.FC<Props> = ({
                   setShowContextMenu(true);
                   setContextMenuLeft(e.pageX);
                   setContextMenuTop(e.pageY);
-                  setChosenPosition(Position);
+                  setChosenPosition(position);
                 }}
               >
                 <td className="whitespace-nowrap px-6 py-4 font-medium text-center w-[100px]">
@@ -168,16 +168,16 @@ export const TablePosition: React.FC<Props> = ({
                     <Skeleton className="w-[100px]" />
                   ) : (
                     <p className="font-extrabold py-2 duration-200">
-                      {Position.id}
+                      {index + 1}
                     </p>
                   )}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                <td className="whitespace-nowrap px-6 py-4 font-medium text-left">
                   {isFetching ? (
                     <Skeleton className="w-[400px]" />
                   ) : (
                     <p className="font-extrabold py-2 duration-200">
-                      {Position.name}
+                      {position.name}
                     </p>
                   )}
                 </td>
@@ -185,14 +185,14 @@ export const TablePosition: React.FC<Props> = ({
                   {isFetching ? (
                     <Skeleton className="w-[200px]" />
                   ) : (
-                    <div>{formatISODateFromResponse(Position.createdAt)}</div>
+                    <div>{formatISODateFromResponse(position.createdAt)}</div>
                   )}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 font-bold w-[250px]">
                   {isFetching ? (
                     <Skeleton className="w-[200px]" />
                   ) : (
-                    <div>{formatISODateFromResponse(Position.updatedAt)}</div>
+                    <div>{formatISODateFromResponse(position.updatedAt)}</div>
                   )}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 w-[100px]">
@@ -212,7 +212,7 @@ export const TablePosition: React.FC<Props> = ({
                         tooltip="Edit Position"
                         onClick={(event) => {
                           event.stopPropagation();
-                          onEditPosition && onEditPosition(Position);
+                          onEditPosition && onEditPosition(position);
                         }}
                       >
                         <AiFillEdit className="text-primary-600 text-2xl" />
@@ -221,7 +221,7 @@ export const TablePosition: React.FC<Props> = ({
                         tooltip="Delete Position"
                         onClick={(event) => {
                           event.stopPropagation();
-                          onDeletePosition && onDeletePosition(Position);
+                          onDeletePosition && onDeletePosition(position);
                         }}
                       >
                         <FaTrash className="text-red-600 text-xl" />

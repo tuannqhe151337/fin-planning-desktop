@@ -19,6 +19,7 @@ import { TermPreviewer } from "../../entities/term-previewer";
 import { PlanPreviewer } from "../../entities/plan-previewer";
 import { useIsAuthorizedToReuploadFn } from "../../features/use-is-authorized-to-reupload-fn";
 import { ReloadCloudIcon } from "../../shared/icons/reload-cloud-icon";
+import { truncateString } from "../../shared/utils/truncate-string";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -127,19 +128,19 @@ export const TablePlanManagement: React.FC<Props> = ({
           <tr>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80 rounded-tl-lg"
+              className="px-20 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80 rounded-tl-lg"
             >
-              Plan
+              Plan name
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="px-12 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
               Term
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="px-6 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
               Department
             </th>
@@ -198,7 +199,7 @@ export const TablePlanManagement: React.FC<Props> = ({
               >
                 <td
                   className={clsx({
-                    "whitespace-nowrap px-6 py-5 font-extrabold": true,
+                    "whitespace-nowrap px-6 py-5 font-extrabold w-max": true,
                     "rounded-bl-lg": index === plans.length - 1,
                   })}
                 >
@@ -206,12 +207,14 @@ export const TablePlanManagement: React.FC<Props> = ({
                     <Skeleton className="w-[200px]" />
                   ) : (
                     <PlanPreviewer planId={plan.planId}>
-                      <div className="group-hover:underline">{plan.name}</div>
+                      <div className="group-hover:underline">
+                        {truncateString(plan.name, 38)}
+                      </div>
                     </PlanPreviewer>
                   )}
                 </td>
                 <td
-                  className="whitespace-nowrap px-6 py-5 font-bold"
+                  className="whitespace-nowrap px-7 py-5 font-bold"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {isFetching ? (
@@ -231,7 +234,7 @@ export const TablePlanManagement: React.FC<Props> = ({
                     </TermPreviewer>
                   )}
                 </td>
-                <td className="whitespace-nowrap px-6 py-5 font-bold">
+                <td className="whitespace-nowrap px-6 py-5 text-left font-bold">
                   {isFetching ? (
                     <Skeleton className="w-[200px]" />
                   ) : (

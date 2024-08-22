@@ -15,8 +15,8 @@ import { TermActionContextMenu } from "../../entities/term-action-context-menu";
 import { DeleteTermModal } from "../delete-term-modal";
 import { Skeleton } from "../../shared/skeleton";
 import { TermPreviewer } from "../../entities/term-previewer";
-import { TermTag } from "../../entities/term-tag";
 import { useTranslation } from "react-i18next";
+import { TermStatusIcon } from "../../entities/term-status-icon";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -110,9 +110,9 @@ export const TableTermManagement: React.FC<Props> = ({
           <tr>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="pl-28 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
-              {t("Term")}
+              {t("Term name")}
             </th>
             <th
               scope="col"
@@ -178,18 +178,13 @@ export const TableTermManagement: React.FC<Props> = ({
                   {isFetching ? (
                     <Skeleton className="w-[200px]" />
                   ) : (
-                    <div className="flex flex-row flex-wrap w-max">
-                      <TermPreviewer
-                        termId={term.termId}
-                        containerClassName="py-2 ml-14"
-                      >
+                    <div className="flex flex-row flex-wrap items-center w-max pl-14">
+                      <TermStatusIcon status={term.status.code} />
+                      <TermPreviewer termId={term.termId}>
                         <p className="font-extrabold group-hover:underline">
                           {term.name}
                         </p>
                       </TermPreviewer>
-                      <div>
-                        <TermTag status={term.status.code} />
-                      </div>
                     </div>
                   )}
                 </td>
@@ -305,7 +300,7 @@ export const TableTermManagement: React.FC<Props> = ({
           }}
           onViewTermDetail={() => {
             navigate(
-              `/term-management/detail/information/${chosenTerm.termId}`,
+              `/term-management/detail/information/${chosenTerm.termId}`
             );
           }}
         />

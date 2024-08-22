@@ -99,11 +99,11 @@ export const TableCostType: React.FC<Props> = ({
               scope="col"
               className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
             >
-              ID
+              No.
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="px-6 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
               Name
             </th>
@@ -134,7 +134,7 @@ export const TableCostType: React.FC<Props> = ({
         </thead>
         <tbody>
           {costTypes &&
-            costTypes.map((CostType, index) => (
+            costTypes.map((costType, index) => (
               <motion.tr
                 key={index}
                 variants={rowAnimation}
@@ -160,7 +160,7 @@ export const TableCostType: React.FC<Props> = ({
                   setShowContextMenu(true);
                   setContextMenuLeft(e.pageX);
                   setContextMenuTop(e.pageY);
-                  setChosenCostType(CostType);
+                  setChosenCostType(costType);
                 }}
               >
                 <td className="whitespace-nowrap px-6 py-4 font-medium text-center w-[100px]">
@@ -168,7 +168,7 @@ export const TableCostType: React.FC<Props> = ({
                     <Skeleton className="w-[100px]" />
                   ) : (
                     <p className="font-extrabold py-2 duration-200">
-                      {CostType.costTypeId}
+                      {index + 1}
                     </p>
                   )}
                 </td>
@@ -176,8 +176,8 @@ export const TableCostType: React.FC<Props> = ({
                   {isFetching ? (
                     <Skeleton className="w-[200px]" />
                   ) : (
-                    <p className="font-extrabold py-2 duration-200">
-                      {CostType.name}
+                    <p className="font-extrabold py-2 text-left duration-200">
+                      {costType.name}
                     </p>
                   )}
                 </td>
@@ -185,14 +185,14 @@ export const TableCostType: React.FC<Props> = ({
                   {isFetching ? (
                     <Skeleton className="w-[100px]" />
                   ) : (
-                    <div>{formatISODateFromResponse(CostType.createdAt)}</div>
+                    <div>{formatISODateFromResponse(costType.createdAt)}</div>
                   )}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 font-bold w-[250px]">
                   {isFetching ? (
                     <Skeleton className="w-[100px]" />
                   ) : (
-                    <div>{formatISODateFromResponse(CostType.updatedAt)}</div>
+                    <div>{formatISODateFromResponse(costType.updatedAt)}</div>
                   )}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 w-[100px]">
@@ -212,7 +212,7 @@ export const TableCostType: React.FC<Props> = ({
                         tooltip="Edit cost type"
                         onClick={(event) => {
                           event.stopPropagation();
-                          onEditCostType && onEditCostType(CostType);
+                          onEditCostType && onEditCostType(costType);
                         }}
                       >
                         <AiFillEdit className="text-primary-600 text-2xl" />
@@ -221,7 +221,7 @@ export const TableCostType: React.FC<Props> = ({
                         tooltip="Delete cost type"
                         onClick={(event) => {
                           event.stopPropagation();
-                          onDeleteCostType && onDeleteCostType(CostType);
+                          onDeleteCostType && onDeleteCostType(costType);
                         }}
                       >
                         <FaTrash className="text-red-600 text-xl" />

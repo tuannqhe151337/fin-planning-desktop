@@ -6,7 +6,7 @@ interface Props {
 
 export const LogoRedirect: React.FC<Props> = ({ to = "/" }) => {
   return (
-    <div className="text-primary-500 ml-16 p-6">
+    <div className="text-primary-500 ml-10 p-6">
       <Link to={to}>
         <p className="text-primary">
           <span className="text-4xl font-black">F</span>

@@ -99,11 +99,11 @@ export const TableProject: React.FC<Props> = ({
               scope="col"
               className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
             >
-              ID
+              No.
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="px-6 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
               Name
             </th>
@@ -168,7 +168,7 @@ export const TableProject: React.FC<Props> = ({
                     <Skeleton className="w-[100px]" />
                   ) : (
                     <p className="font-extrabold py-2 duration-200">
-                      {project.projectId}
+                      {index + 1}
                     </p>
                   )}
                 </td>
@@ -176,7 +176,7 @@ export const TableProject: React.FC<Props> = ({
                   {isFetching ? (
                     <Skeleton className="w-[400px]" />
                   ) : (
-                    <p className="font-extrabold py-2 duration-200">
+                    <p className="font-extrabold py-2 text-left duration-200">
                       {project.name}
                     </p>
                   )}

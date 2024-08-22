@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,14 +20,14 @@ import { PiBagSimpleFill } from "react-icons/pi";
 import { MdEmail } from "react-icons/md";
 import { useCreateUserMutation } from "../../providers/store/api/usersApi";
 import { CgSpinner } from "react-icons/cg";
-import { ErrorData, Role } from "../../providers/store/api/type";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
+import { Role } from "../../providers/store/api/type";
 import { toast } from "react-toastify";
 import { allowOnlyNumber } from "../../shared/utils/allow-only-number";
 import { formatISODateForBody } from "../../shared/utils/format-iso-date-for-body";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
 import { usePageAuthorizedForRole } from "../../features/use-page-authorized-for-role";
 import { useTranslation } from "react-i18next";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -81,7 +81,7 @@ const FullNameSchema = z
   // .min(5, "Full name length must be at least 5 characters")
   .regex(
     /^[\p{L}\s]{5,}$/u,
-    "Full name should be at least 5 characters long and should not contain special characters"
+    "Full name should be at least 5 characters long and should not contain special characters",
   );
 
 const PhoneNumberSchema = z
@@ -161,19 +161,7 @@ export const UserCreate: React.FC = () => {
   }, [isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message)
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   useEffect(() => {
     if (isError) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { TERipple, TEInput } from "tw-elements-react";
 import { Variants, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ import {
   useLoginMutation,
 } from "../../providers/store/api/authApi";
 import { CgSpinner } from "react-icons/cg";
-import { ErrorData, LocalStorageItemKey } from "../../providers/store/api/type";
+import { LocalStorageItemKey } from "../../providers/store/api/type";
 import { LogoRedirect } from "../../widgets/logo-redirect";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
 import { PasswordInput } from "../../shared/password-input";
@@ -21,8 +21,8 @@ import { z, ZodType } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputValidationMessage } from "../../shared/validation-input-message";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
 import lamviecImg from "../../assets/images/lamviec.svg";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -151,19 +151,7 @@ export const LoginPage: React.FC = () => {
   }, [isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message),
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   return (
     <div className="flex flex-row flex-wrap w-full">

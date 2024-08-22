@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { IconButton } from "../../shared/icon-button";
 import { Modal } from "../../shared/modal";
@@ -8,9 +9,7 @@ import { NumericFormat, PatternFormat } from "react-number-format";
 import { CgSpinner } from "react-icons/cg";
 import { Button } from "../../shared/button";
 import { InputRate } from "./ui/input-rate";
-import { useEffect, useState } from "react";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
-import { AFFIX, ErrorData } from "../../providers/store/api/type";
+import { AFFIX } from "../../providers/store/api/type";
 import {
   CreateMonthlyExchangeRateBody,
   useCreateMonthlyExchangeRateMutation,
@@ -22,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { InputValidationMessage } from "../../shared/validation-input-message";
 import { useGetBaseCurrency } from "../../features/use-get-base-currency";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
 
 const MonthSchema = z.string().refine(
   (month) => {
@@ -108,19 +108,7 @@ export const ExchangeRateCreateModal: React.FC<Props> = ({
   }, [isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message),
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   // Base currency
   const baseCurrency = useGetBaseCurrency();

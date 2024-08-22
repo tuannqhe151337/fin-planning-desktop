@@ -55,7 +55,7 @@ export const PlanPreviewer: React.FC<Props> = ({
 
   return (
     <div
-      className={cn("relative w-max m-auto px-5 py-2", containerClassName)}
+      className={cn("relative w-max pl-14 py-2", containerClassName)}
       onMouseEnter={() => {
         setIsHover(true);
       }}

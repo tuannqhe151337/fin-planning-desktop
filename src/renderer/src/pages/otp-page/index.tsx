@@ -23,13 +23,12 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useOtpMutation } from "../../providers/store/api/usersApi";
-import { useEffect, useState } from "react";
-import { ErrorData } from "../../providers/store/api/type";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
+import { useEffect } from "react";
 import { InputValidationMessage } from "../../shared/validation-input-message";
 import { CgSpinner } from "react-icons/cg";
 import { Button } from "../../shared/button";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -137,19 +136,7 @@ export const OtpPage: React.FC = () => {
   }, [isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message),
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   return (
     <div className="flex flex-row flex-wrap w-full">

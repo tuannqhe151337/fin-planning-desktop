@@ -1,9 +1,11 @@
+import { UnexpectedErrorPage } from "@renderer/pages/unexpected-error-page";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
 const router = createHashRouter([
   // Auth pages
   {
     path: "/auth",
+    errorElement: <UnexpectedErrorPage />,
     children: [
       {
         path: "login",
@@ -52,6 +54,7 @@ const router = createHashRouter([
   // Protected pages
   {
     path: "/",
+    errorElement: <UnexpectedErrorPage />,
     lazy: async () => {
       const ProtectedRootPage = (
         await import("../../pages/protected-root-page")
@@ -562,6 +565,19 @@ const router = createHashRouter([
         ],
       },
     ],
+  },
+
+  // 404 page
+  {
+    path: "*",
+    lazy: async () => {
+      const NotFoundPage = (await import("../../pages/not-found-page"))
+        .NotFoundPage;
+
+      return {
+        element: <NotFoundPage />,
+      };
+    },
   },
 ]);
 

@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { DeleteReportModal } from "../delete-report-modal";
 import { Report } from "../../providers/store/api/reportsAPI";
 import { Skeleton } from "../../shared/skeleton";
-import { ReportTag } from "../../entities/report-tag";
 import { parseISOInResponse } from "../../shared/utils/parse-iso-in-response";
 import { format } from "date-fns";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -16,6 +15,8 @@ import { downloadFileFromServer } from "../../shared/utils/download-file-from-se
 import { useIsAuthorizedAndTimeToReviewReport } from "../../features/use-is-authorized-time-to-review-report";
 import { TermPreviewer } from "../../entities/term-previewer";
 import { ReportPreviewer } from "../../entities/report-previewer";
+import { truncateString } from "../../shared/utils/truncate-string";
+import { ReportStatusIcon } from "../../entities/report-status-icon";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -115,19 +116,19 @@ export const TableReportManagement: React.FC<Props> = ({
           <tr>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80 rounded-tl-lg"
+              className="pl-28 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80 rounded-tl-lg"
             >
-              Report
+              Report name
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="px-10 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
               Term
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80 rounded-tr-lg"
+              className="pl-10 pr-20 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80 rounded-tr-lg"
             >
               Created at
             </th>
@@ -165,7 +166,7 @@ export const TableReportManagement: React.FC<Props> = ({
               >
                 <td
                   className={clsx({
-                    "whitespace-nowrap w-[600px] px-6 py-5 font-extrabold":
+                    "whitespace-nowrap w-[550px] px-6 py-5 font-extrabold":
                       true,
                     "rounded-bl-lg": index === reports.length - 1,
                   })}
@@ -173,18 +174,19 @@ export const TableReportManagement: React.FC<Props> = ({
                   {isFetching ? (
                     <Skeleton className="w-[200px]" />
                   ) : (
-                    <div className="flex flex-row flex-wrap items-center ml-14">
-                      <ReportPreviewer reportId={report.reportId}>
-                        <span className="group-hover:underline pr-5">
-                          {report.name}
-                        </span>{" "}
+                    <div className="flex flex-row flex-wrap items-center ml-14 pr-5 group-hover:underline">
+                      <ReportStatusIcon statusCode={report.status.code} />
+                      <ReportPreviewer
+                        containerClassName="px-4 text-left w-[300px]"
+                        reportId={report.reportId}
+                      >
+                        {truncateString(report.name, 38)}
                       </ReportPreviewer>
-                      <ReportTag statusCode={report.status.code} />
                     </div>
                   )}
                 </td>
                 <td
-                  className="whitespace-nowrap px-6 py-5 font-bold"
+                  className="whitespace-nowrap px-6 py-5 w-max text-left font-bold"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {isFetching ? (
@@ -195,14 +197,14 @@ export const TableReportManagement: React.FC<Props> = ({
                         to={`/term-management/detail/information/${report.term.termId}`}
                         className="hover:text-sky-600 dark:hover:text-sky-600 hover:underline duration-200"
                       >
-                        {report.term.name}
+                        {truncateString(report.term.name, 45)}
                       </Link>
                     </TermPreviewer>
                   )}
                 </td>
                 <td
                   className={clsx({
-                    "whitespace-nowrap px-6 py-5 font-bold": true,
+                    "whitespace-nowrap pl-10 pr-20 py-5 font-bold": true,
                     "rounded-br-lg": index === reports.length - 1,
                   })}
                 >

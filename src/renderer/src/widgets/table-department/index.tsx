@@ -99,11 +99,11 @@ export const TableDepartment: React.FC<Props> = ({
               scope="col"
               className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
             >
-              ID
+              No.
             </th>
             <th
               scope="col"
-              className="px-6 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80"
+              className="px-6 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
               Name
             </th>
@@ -168,11 +168,11 @@ export const TableDepartment: React.FC<Props> = ({
                     <Skeleton className="w-[100px]" />
                   ) : (
                     <p className="font-extrabold py-2 duration-200">
-                      {department.departmentId}
+                      {index + 1}
                     </p>
                   )}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                <td className="whitespace-nowrap px-6 py-4 font-medium text-left">
                   {isFetching ? (
                     <Skeleton className="w-[200px]" />
                   ) : (

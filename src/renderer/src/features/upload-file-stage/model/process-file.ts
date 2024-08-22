@@ -146,6 +146,10 @@ export const processFile = async ({
         // Get row
         const row = rows[index];
 
+        if (checkLineEmpty(row)) {
+          continue;
+        }
+
         // Any row that have index >= 3 will be mapped to expense
         if (index + 1 >= BeginLine) {
           // Get data from cell
@@ -216,7 +220,7 @@ export const processFile = async ({
           let expenseId = typeof rawExpenseId === "number" ? rawExpenseId : 0;
           if (options && options.validateExpenseId) {
             const expenseIdErrorMessage = getZodMessasges(
-              () => (expenseId = ExpenseIdSchema.parse(rawExpenseId))
+              () => (expenseId = ExpenseIdSchema.parse(rawExpenseId)),
             );
 
             if (expenseIdErrorMessage) {
@@ -230,7 +234,7 @@ export const processFile = async ({
             typeof rawExpenseCode === "string" ? rawExpenseCode : "";
           if (options && options.validateExpenseCode) {
             const expenseCodeErrorMessage = getZodMessasges(
-              () => (expenseCode = ExpenseCodeSchema.parse(rawExpenseCode))
+              () => (expenseCode = ExpenseCodeSchema.parse(rawExpenseCode)),
             );
 
             if (expenseCodeErrorMessage) {
@@ -242,7 +246,7 @@ export const processFile = async ({
           // -- Expense name
           let expenseName = "";
           const expenseNameErrorMessage = getZodMessasges(
-            () => (expenseName = ExpenseNameSchema.parse(rawExpenseName))
+            () => (expenseName = ExpenseNameSchema.parse(rawExpenseName)),
           );
 
           if (expenseNameErrorMessage) {
@@ -253,7 +257,7 @@ export const processFile = async ({
           // -- Cost type
           let costTypeName = "";
           const costTypeErrorMessage = getZodMessasges(
-            () => (costTypeName = CostTypeSchema.parse(rawCostType))
+            () => (costTypeName = CostTypeSchema.parse(rawCostType)),
           );
 
           if (costTypeErrorMessage) {
@@ -274,7 +278,7 @@ export const processFile = async ({
           // -- Unit price
           let unitPrice = 0;
           const unitPriceErrorMessage = getZodMessasges(
-            () => (unitPrice = UnitPriceSchema.parse(rawUnitPrice))
+            () => (unitPrice = UnitPriceSchema.parse(rawUnitPrice)),
           );
 
           if (unitPriceErrorMessage) {
@@ -285,7 +289,7 @@ export const processFile = async ({
           // -- Amount
           let amount = 0;
           const amountErrorMessage = getZodMessasges(
-            () => (amount = AmountSchema.parse(rawAmount))
+            () => (amount = AmountSchema.parse(rawAmount)),
           );
 
           if (amountErrorMessage) {
@@ -296,7 +300,7 @@ export const processFile = async ({
           // -- Currency
           let currencyName = "";
           const currencyNameErrorMessage = getZodMessasges(
-            () => (currencyName = CurrencyNameSchema.parse(rawCurrencyName))
+            () => (currencyName = CurrencyNameSchema.parse(rawCurrencyName)),
           );
 
           if (currencyNameErrorMessage) {
@@ -318,7 +322,7 @@ export const processFile = async ({
           // -- Project
           let projectName = "";
           const projectNameErrorMessage = getZodMessasges(
-            () => (projectName = ProjectNameSchema.parse(rawProjectName))
+            () => (projectName = ProjectNameSchema.parse(rawProjectName)),
           );
 
           if (projectNameErrorMessage) {
@@ -340,7 +344,7 @@ export const processFile = async ({
           // -- Supplier
           let supplierName = "";
           const supplierNameErrorMessage = getZodMessasges(
-            () => (supplierName = SupplierNameSchema.parse(rawSupplierName))
+            () => (supplierName = SupplierNameSchema.parse(rawSupplierName)),
           );
 
           if (supplierNameErrorMessage) {
@@ -362,7 +366,7 @@ export const processFile = async ({
           // -- Pic
           let pic = "";
           const picErrorMessage = getZodMessasges(
-            () => (pic = PicSchema.parse(rawPic))
+            () => (pic = PicSchema.parse(rawPic)),
           );
 
           if (picErrorMessage) {
@@ -376,7 +380,7 @@ export const processFile = async ({
           if (options && options.validateStatusCode) {
             let statusCode = "";
             const statusCodeErrorMessage = getZodMessasges(
-              () => (statusCode = StatusCodeSchema.parse(rawStatusCode))
+              () => (statusCode = StatusCodeSchema.parse(rawStatusCode)),
             );
 
             if (statusCodeErrorMessage) {
@@ -530,7 +534,7 @@ export const processFile = async ({
 };
 
 const mapCostTypeListByLowercaseName = (
-  costTypeList: CostType[]
+  costTypeList: CostType[],
 ): Record<string, CostType> => {
   const costTypeMap: Record<string, CostType> = {};
 
@@ -542,7 +546,7 @@ const mapCostTypeListByLowercaseName = (
 };
 
 const mapProjectListByLowercaseName = (
-  projectList: Project[]
+  projectList: Project[],
 ): Record<string, Project> => {
   const projectMap: Record<string, Project> = {};
 
@@ -554,7 +558,7 @@ const mapProjectListByLowercaseName = (
 };
 
 const mapSupplierListByLowercaseName = (
-  supplierList: Supplier[]
+  supplierList: Supplier[],
 ): Record<string, Supplier> => {
   const supplierMap: Record<string, Supplier> = {};
 
@@ -566,7 +570,7 @@ const mapSupplierListByLowercaseName = (
 };
 
 const mapCurrencyListByLowercaseName = (
-  currencyList: Currency[]
+  currencyList: Currency[],
 ): Record<string, Currency> => {
   const currencyMap: Record<string, Currency> = {};
 
@@ -578,7 +582,7 @@ const mapCurrencyListByLowercaseName = (
 };
 
 const mapExpenseStatusCodeByLowercaseName = (
-  expenseStatusList: ExpenseStatus[]
+  expenseStatusList: ExpenseStatus[],
 ): Record<string, ExpenseStatus> => {
   const expenseStatusCodeMap: Record<string, ExpenseStatus> = {};
 
@@ -587,4 +591,22 @@ const mapExpenseStatusCodeByLowercaseName = (
   }
 
   return expenseStatusCodeMap;
+};
+
+const checkLineEmpty = (
+  line?: (string | number | Date | undefined)[],
+): boolean => {
+  if (!line) {
+    return false;
+  }
+
+  let isCellEmpty = true;
+
+  for (let cell of line) {
+    if (cell && cell !== 0) {
+      isCellEmpty = false;
+    }
+  }
+
+  return isCellEmpty;
 };

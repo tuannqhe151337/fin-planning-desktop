@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Modal } from "../../shared/modal";
 import { IconButton } from "../../shared/icon-button";
 import { IoClose } from "react-icons/io5";
@@ -15,9 +15,8 @@ import {
 import { CgSpinner } from "react-icons/cg";
 import { toast } from "react-toastify";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
-import { ErrorData } from "../../providers/store/api/type";
 import clsx from "clsx";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
 
 type FormData = {
   departmentName: string;
@@ -91,19 +90,7 @@ export const DepartmentEditModal: React.FC<Props> = ({
   }, [isLoading, isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message)
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   return (
     <Modal

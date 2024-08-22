@@ -14,8 +14,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
-import { ErrorData, Role } from "../../providers/store/api/type";
+import { Role } from "../../providers/store/api/type";
 import { TEInput } from "tw-elements-react";
 import { InputValidationMessage } from "../../shared/validation-input-message";
 import RadioCardOption from "../../entities/radio-card-option";
@@ -32,6 +31,7 @@ import clsx from "clsx";
 import { Switch } from "../../shared/switch";
 import { usePageAuthorizedForRole } from "../../features/use-page-authorized-for-role";
 import { useTranslation } from "react-i18next";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -136,7 +136,7 @@ export const TermUpdate: React.FC = () => {
         const minimumStartDate = new Date(
           new Date().getFullYear(),
           monthOfStartDate,
-          termInterval?.startTermDate
+          termInterval?.startTermDate,
         );
         const maximumEndDate = addDate(minimumStartDate, {
           days: termInterval?.endTermInterval,
@@ -201,8 +201,8 @@ export const TermUpdate: React.FC = () => {
                 minimumReuploadDate.getMonth() + 1
               } - 
             ${maximumReuploadDate.getDate()}/${
-                maximumReuploadDate.getMonth() + 1
-              }`,
+              maximumReuploadDate.getMonth() + 1
+            }`,
               path: ["reuploadEndDate"],
             });
           }
@@ -230,8 +230,8 @@ export const TermUpdate: React.FC = () => {
                 minimumReuploadDate.getMonth() + 1
               } - 
             ${maximumReuploadDate.getDate()}/${
-                maximumReuploadDate.getMonth() + 1
-              }`,
+              maximumReuploadDate.getMonth() + 1
+            }`,
               path: ["reuploadEndDate"],
             });
           }
@@ -326,19 +326,7 @@ export const TermUpdate: React.FC = () => {
   }, [isLoading, isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message)
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   useEffect(() => {
     if (isError) {
@@ -431,7 +419,7 @@ export const TermUpdate: React.FC = () => {
                           const minimumStartDate = new Date(
                             startDate.getFullYear(),
                             monthOfStartDate,
-                            termInterval?.startTermDate
+                            termInterval?.startTermDate,
                           );
                           const maximumEndDate = addDate(minimumStartDate, {
                             days: termInterval?.endTermInterval,
@@ -447,11 +435,11 @@ export const TermUpdate: React.FC = () => {
                                   minimumStartDate.getMonth() + 1
                                 } - ${maximumEndDate.getDate()}/${
                                   maximumEndDate.getMonth() + 1
-                                }`
+                                }`,
                               );
                             } else {
                               throw new Error(
-                                `Must be between day ${minimumStartDate.getDate()} - ${maximumEndDate.getDate()}`
+                                `Must be between day ${minimumStartDate.getDate()} - ${maximumEndDate.getDate()}`,
                               );
                             }
                           }
@@ -501,7 +489,7 @@ export const TermUpdate: React.FC = () => {
                           const minimumStartDate = new Date(
                             watch("startDate").getFullYear(),
                             watch("startDate").getMonth(),
-                            termInterval?.startTermDate
+                            termInterval?.startTermDate,
                           );
                           const maximumEndDate = addDate(minimumStartDate, {
                             days: termInterval?.endTermInterval,
@@ -514,11 +502,11 @@ export const TermUpdate: React.FC = () => {
                             throw new Error(
                               `Must be between
                           ${minimumStartDate.getDate()}/${
-                                minimumStartDate.getMonth() + 1
-                              } - 
+                            minimumStartDate.getMonth() + 1
+                          } - 
                           ${maximumEndDate.getDate()}/${
-                                maximumEndDate.getMonth() + 1
-                              }`
+                            maximumEndDate.getMonth() + 1
+                          }`,
                             );
                           }
                         }}
@@ -678,13 +666,13 @@ export const TermUpdate: React.FC = () => {
                           const minimumStartDate = new Date(
                             new Date().getFullYear(),
                             monthOfStartDate,
-                            termInterval?.startTermDate
+                            termInterval?.startTermDate,
                           );
                           const minimumReuploadDate = addDate(
                             minimumStartDate,
                             {
                               days: termInterval?.startReuploadInterval,
-                            }
+                            },
                           );
                           const maximumReuploadDate = addDate(
                             minimumStartDate,
@@ -692,7 +680,7 @@ export const TermUpdate: React.FC = () => {
                               days:
                                 (termInterval?.startReuploadInterval || 0) +
                                 (termInterval?.endReuploadInterval || 0),
-                            }
+                            },
                           );
 
                           if (
@@ -703,11 +691,11 @@ export const TermUpdate: React.FC = () => {
                             throw new Error(
                               `Must be between
                           ${minimumReuploadDate.getDate()}/${
-                                minimumReuploadDate.getMonth() + 1
-                              } - 
+                            minimumReuploadDate.getMonth() + 1
+                          } - 
                           ${maximumReuploadDate.getDate()}/${
-                                maximumReuploadDate.getMonth() + 1
-                              }`
+                            maximumReuploadDate.getMonth() + 1
+                          }`,
                             );
                           }
                         }}
@@ -767,7 +755,7 @@ export const TermUpdate: React.FC = () => {
                             reuploadEndDate < reuploadStartDate
                           ) {
                             throw new Error(
-                              "Must be after reupload start date"
+                              "Must be after reupload start date",
                             );
                           }
 
@@ -776,13 +764,13 @@ export const TermUpdate: React.FC = () => {
                           const minimumStartDate = new Date(
                             new Date().getFullYear(),
                             monthOfStartDate,
-                            termInterval?.startTermDate
+                            termInterval?.startTermDate,
                           );
                           const minimumReuploadDate = addDate(
                             minimumStartDate,
                             {
                               days: termInterval?.startReuploadInterval,
-                            }
+                            },
                           );
                           const maximumReuploadDate = addDate(
                             minimumStartDate,
@@ -790,7 +778,7 @@ export const TermUpdate: React.FC = () => {
                               days:
                                 (termInterval?.startReuploadInterval || 0) +
                                 (termInterval?.endReuploadInterval || 0),
-                            }
+                            },
                           );
 
                           if (
@@ -801,11 +789,11 @@ export const TermUpdate: React.FC = () => {
                             throw new Error(
                               `Must be between
                           ${minimumReuploadDate.getDate()}/${
-                                minimumReuploadDate.getMonth() + 1
-                              } - 
+                            minimumReuploadDate.getMonth() + 1
+                          } - 
                           ${maximumReuploadDate.getDate()}/${
-                                maximumReuploadDate.getMonth() + 1
-                              }`
+                            maximumReuploadDate.getMonth() + 1
+                          }`,
                             );
                           }
                         }}

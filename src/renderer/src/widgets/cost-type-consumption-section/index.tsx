@@ -1,8 +1,8 @@
+import React, { useState } from "react";
 import { Variants, motion } from "framer-motion";
 import { MonthlyCostTypeExpenseChart } from "../../widgets/monthly-cost-type-expense-chart";
 import { YearlyCostTypeExpenseChart } from "../../widgets/yearly-cost-type-expense-chart";
 import { YearFilter } from "../../entities/year-filter";
-import { useState } from "react";
 import {
   CostTypeOption,
   SelectMultiCostType,
@@ -42,7 +42,7 @@ const childrenAnimation: Variants = {
   },
 };
 
-export const CostTypeConsumptionSection = () => {
+export const CostTypeConsumptionSection = React.memo(() => {
   // Select year
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
@@ -112,4 +112,4 @@ export const CostTypeConsumptionSection = () => {
       </motion.div>
     </>
   );
-};
+});

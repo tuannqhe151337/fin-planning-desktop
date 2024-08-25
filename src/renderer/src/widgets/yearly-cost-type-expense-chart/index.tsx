@@ -7,6 +7,7 @@ import {
   useGetAllCostTypeQuery,
 } from "../../providers/store/api/costTypeAPI";
 import { FaChartPie } from "react-icons/fa6";
+import { formatViMoney } from "@renderer/shared/utils/format-vi-money";
 
 interface Props {
   year: number;
@@ -42,7 +43,7 @@ export const YearlyCostTypeExpenseChart: React.FC<Props> = ({
       if (chosenCostTypeIdList.findIndex((id) => id === 0)) {
         listCostType =
           costTypeResult?.data.filter(({ costTypeId }) =>
-            chosenCostTypeIdList.includes(costTypeId)
+            chosenCostTypeIdList.includes(costTypeId),
           ) || [];
       }
     } else if (chosenCostTypeIdList && chosenCostTypeIdList?.length === 0) {
@@ -68,7 +69,7 @@ export const YearlyCostTypeExpenseChart: React.FC<Props> = ({
     <div
       className={cn(
         "flex flex-col w-full h-full border shadow dark:border-neutral-800 dark:shadow-[0_0_15px_rgb(0,0,0,0.3)] rounded-xl py-7 px-8",
-        className
+        className,
       )}
     >
       <div className="flex flex-row flex-wrap w-full mt-2.5">
@@ -88,7 +89,23 @@ export const YearlyCostTypeExpenseChart: React.FC<Props> = ({
               plotOptions: {
                 pie: {
                   donut: {
-                    labels: { show: true },
+                    labels: {
+                      show: true,
+                      value: {
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        formatter(val) {
+                          return formatViMoney(parseFloat(val));
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              yaxis: {
+                labels: {
+                  formatter: (val) => {
+                    return formatViMoney(val);
                   },
                 },
               },

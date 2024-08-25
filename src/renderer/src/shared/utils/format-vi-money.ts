@@ -1,7 +1,7 @@
 export const formatViMoney = (number?: number): string => {
   // Chuyển số thành chuỗi và thêm dấu phẩy
   const formattedNumber = number
-    ? number
+    ? (Math.round(number * 100) / 100)
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         .trim()

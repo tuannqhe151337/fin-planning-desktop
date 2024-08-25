@@ -96,7 +96,10 @@ const PositionIdSchema = z.number().gt(0, "Please choose a position");
 
 const DepartmentIdSchema = z.number().gt(0, "Please choose a department");
 
-const AddressSchema = z.string().nullable();
+const AddressSchema = z
+  .string()
+  .min(1, "Address can not be empty")
+  .max(200, "Address can not be greater than 200 characters");
 
 const RoleIdSchema = z.number().gt(0, "Please choose a role");
 
@@ -139,8 +142,6 @@ export const UserCreate: React.FC = () => {
     useCreateUserMutation();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    const birthDateString = formatISODateForBody(data.birthDate);
-
     createUser({
       fullName: data.fullName,
       email: data.email,
@@ -148,7 +149,7 @@ export const UserCreate: React.FC = () => {
       departmentId: data.departmentId,
       roleId: data.roleId,
       positionId: data.positionId,
-      dob: birthDateString,
+      dob: formatISODateForBody(data.birthDate),
       address: data.address || "",
     });
   };
@@ -215,6 +216,13 @@ export const UserCreate: React.FC = () => {
                 label={t("Full name")}
                 className="mb-4 bg-white dark:bg-neutral-900"
                 autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.currentTarget.blur();
+                  } else if (e.key === "Enter") {
+                    handleSubmit(onSubmit)();
+                  }
+                }}
                 {...register("fullName", { required: true })}
               />
               <InputValidationMessage
@@ -269,6 +277,13 @@ export const UserCreate: React.FC = () => {
                     label={t("Phone")}
                     className="mb-4 w-full bg-white dark:bg-neutral-900"
                     value={value}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        e.currentTarget.blur();
+                      } else if (e.key === "Enter") {
+                        handleSubmit(onSubmit)();
+                      }
+                    }}
                     onChange={(e) => {
                       onChange(allowOnlyNumber(e.currentTarget.value));
                     }}
@@ -325,6 +340,13 @@ export const UserCreate: React.FC = () => {
                 type="email"
                 label={t("Email")}
                 className="mb-4 w-full bg-white dark:bg-neutral-900"
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.currentTarget.blur();
+                  } else if (e.key === "Enter") {
+                    handleSubmit(onSubmit)();
+                  }
+                }}
                 {...register("email", { required: true })}
               />
               <InputValidationMessage
@@ -375,6 +397,13 @@ export const UserCreate: React.FC = () => {
                 type="text"
                 label={t("Address")}
                 className="mb-4 w-full bg-white dark:bg-neutral-900"
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.currentTarget.blur();
+                  } else if (e.key === "Enter") {
+                    handleSubmit(onSubmit)();
+                  }
+                }}
                 {...register("address")}
               />
             </motion.div>

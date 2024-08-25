@@ -31,6 +31,7 @@ import { usePageAuthorizedForRole } from "../../features/use-page-authorized-for
 import { parseISOInResponse } from "../../shared/utils/parse-iso-in-response";
 import { useTranslation } from "react-i18next";
 import { useProcessError } from "@renderer/shared/utils/use-process-error";
+import { formatISODateForBody } from "@renderer/shared/utils/format-iso-date-for-body";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -109,7 +110,10 @@ const PositionIdSchema = z.number().gt(0, "Please choose a position");
 
 const DepartmentIdSchema = z.number().gt(0, "Please choose a department");
 
-const AddressSchema = z.string().nullable();
+const AddressSchema = z
+  .string()
+  .min(1, "Address can not be empty")
+  .max(200, "Address can not be greater than 200 characters");
 
 const RoleIdSchema = z.number().gt(0, "Please choose a role");
 
@@ -180,8 +184,6 @@ export const UserEditPage: React.FC = () => {
     useUpdateUserMutation();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    const birthDateString = data.birthDate.toISOString().replace("Z", "");
-
     if (userId) {
       const numericUserId = parseInt(userId, 10);
 
@@ -193,7 +195,7 @@ export const UserEditPage: React.FC = () => {
         departmentId: data.departmentId,
         roleId: data.roleId,
         positionId: data.positionId,
-        dob: birthDateString,
+        dob: formatISODateForBody(data.birthDate),
         address: data.address || "",
       });
     }
@@ -278,6 +280,13 @@ export const UserEditPage: React.FC = () => {
                   label={t("Full name")}
                   className="mb-4 font-semibold !text-neutral-500 bg-white dark:bg-neutral-900"
                   autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("fullName", { required: true })}
                 />
                 <InputValidationMessage
@@ -347,6 +356,13 @@ export const UserEditPage: React.FC = () => {
                       onChange={(e) => {
                         onChange(allowOnlyNumber(e.currentTarget.value));
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") {
+                          e.currentTarget.blur();
+                        } else if (e.key === "Enter") {
+                          handleSubmit(onSubmit)();
+                        }
+                      }}
                       {...props}
                     />
                   )}
@@ -414,6 +430,13 @@ export const UserEditPage: React.FC = () => {
                   type="email"
                   label={t("Email")}
                   className="mb-4 w-full font-semibold !text-neutral-500 bg-white dark:bg-neutral-900"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("email", { required: true })}
                 />
                 <InputValidationMessage
@@ -476,6 +499,13 @@ export const UserEditPage: React.FC = () => {
                   type="text"
                   label={t("Address")}
                   className="mb-4 w-full font-semibold !text-neutral-500 bg-white dark:bg-neutral-900"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("address")}
                 />
               </InputSkeleton>

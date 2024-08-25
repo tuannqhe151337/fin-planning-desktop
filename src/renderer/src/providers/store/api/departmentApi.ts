@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { ListResponse, LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface Department {
   departmentId: number;
@@ -84,7 +85,7 @@ export const departmentAPI = createApi({
       query: (createDepartmentBody) => ({
         url: `/department/create`,
         method: "POST",
-        body: createDepartmentBody,
+        body: trimObject(createDepartmentBody),
       }),
       invalidatesTags: ["departments"],
     }),
@@ -92,7 +93,7 @@ export const departmentAPI = createApi({
       query: (updateDepartmentBody) => ({
         url: `/department/update`,
         method: "PUT",
-        body: updateDepartmentBody,
+        body: trimObject(updateDepartmentBody),
       }),
       invalidatesTags: ["departments"],
     }),
@@ -100,7 +101,7 @@ export const departmentAPI = createApi({
       query: (deleteDepartmentBody) => ({
         url: `/department`,
         method: "DELETE",
-        body: deleteDepartmentBody,
+        body: trimObject(deleteDepartmentBody),
       }),
       invalidatesTags: ["departments"],
     }),

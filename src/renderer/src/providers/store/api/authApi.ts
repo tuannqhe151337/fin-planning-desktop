@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { LocalStorageItemKey } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface LoginBody {
   email: string;
@@ -75,13 +76,10 @@ export const authAPI = createApi({
   tagTypes: ["me"],
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginBody>({
-      query: ({ email, password }) => ({
+      query: (loginBody) => ({
         url: "auth/login",
         method: "POST",
-        body: {
-          email,
-          password,
-        },
+        body: trimObject(loginBody),
       }),
       invalidatesTags: ["me"],
     }),
@@ -99,7 +97,7 @@ export const authAPI = createApi({
       query: (userSettingBody) => ({
         url: "user/user-setting/update",
         method: "PUT",
-        body: userSettingBody,
+        body: trimObject(userSettingBody),
       }),
       invalidatesTags: ["me"],
     }),

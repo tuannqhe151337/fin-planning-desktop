@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { ListResponse, LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface Supplier {
   supplierId: number;
@@ -69,7 +70,7 @@ export const supplierAPI = createApi({
       query: (createSupplierBody) => ({
         url: `/supplier/create`,
         method: "POST",
-        body: createSupplierBody,
+        body: trimObject(createSupplierBody),
       }),
       invalidatesTags: ["suppliers"],
     }),
@@ -78,7 +79,7 @@ export const supplierAPI = createApi({
       query: (updateSupplierBody) => ({
         url: `/supplier/update`,
         method: "PUT",
-        body: updateSupplierBody,
+        body: trimObject(updateSupplierBody),
       }),
       invalidatesTags: ["suppliers"],
     }),
@@ -87,7 +88,7 @@ export const supplierAPI = createApi({
       query: (deleteSupplierBody) => ({
         url: `/supplier`,
         method: "DELETE",
-        body: deleteSupplierBody,
+        body: trimObject(deleteSupplierBody),
       }),
       invalidatesTags: ["suppliers"],
     }),

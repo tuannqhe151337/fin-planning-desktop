@@ -23,13 +23,13 @@ export const YearFilter: React.FC<Props> = ({
 }) => {
   // Select state
   const [selectedOption, setSelectedOption] = useState<YearOption | null>(
-    defaultOption
+    defaultOption,
   );
 
   // Generate year options
   const yearOptions = useMemo(() => {
     const currentYear = new Date().getFullYear();
-    const years = [];
+    const years: YearOption[] = [];
     for (let year = currentYear; year >= 1980; year--) {
       if (year !== defaultOption.value) {
         years.push({ value: year, label: year.toString() });
@@ -42,11 +42,11 @@ export const YearFilter: React.FC<Props> = ({
   const loadOptions: LoadOptions<YearOption, any, any> = async (
     inputValue,
     _,
-    { page }
+    { page },
   ) => {
     // Filter options based on inputValue
     const filteredOptions = yearOptions.filter((option) =>
-      option.label.includes(inputValue)
+      option.label.includes(inputValue),
     );
 
     // Paginate options
@@ -58,7 +58,9 @@ export const YearFilter: React.FC<Props> = ({
 
     return {
       options:
-        page === 1 ? [defaultOption, ...paginatedOptions] : paginatedOptions,
+        page === 1 && !inputValue
+          ? [defaultOption, ...paginatedOptions]
+          : paginatedOptions,
       hasMore,
       additional: { page: page + 1 },
     };

@@ -120,18 +120,16 @@ export const ReportPreviewer: React.FC<Props> = ({
                           <p className="text-left text-sm font-bold text-neutral-500/80 dark:text-neutral-400">
                             <NumericFormat
                               displayType="text"
-                              value={expectedCostData?.cost}
+                              value={actualCostData?.cost}
                               decimalScale={2}
                               prefix={
-                                expectedCostData?.currency.affix ===
-                                AFFIX.PREFIX
-                                  ? ` ${expectedCostData?.currency.name}`
+                                actualCostData?.currency.affix === AFFIX.PREFIX
+                                  ? ` ${actualCostData?.currency.name}`
                                   : undefined
                               }
                               suffix={
-                                expectedCostData?.currency.affix ===
-                                AFFIX.SUFFIX
-                                  ? ` ${expectedCostData?.currency.name}`
+                                actualCostData?.currency.affix === AFFIX.SUFFIX
+                                  ? ` ${actualCostData?.currency.name}`
                                   : undefined
                               }
                               thousandSeparator

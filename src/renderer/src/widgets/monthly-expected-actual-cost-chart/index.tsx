@@ -3,6 +3,7 @@ import { YearFilter } from "../../entities/year-filter";
 import { cn } from "../../shared/utils/cn";
 import { useEffect, useMemo, useState } from "react";
 import { useLazyGetMonthlyExpectedActualCostQuery } from "../../providers/store/api/dashboardAPI";
+import { formatViMoney } from "@renderer/shared/utils/format-vi-money";
 
 interface Props {
   className?: string;
@@ -100,6 +101,13 @@ export const MonthlyExpectedActualCostChart: React.FC<Props> = ({
             },
           },
           legend: { position: "top" },
+          yaxis: {
+            labels: {
+              formatter: (val) => {
+                return formatViMoney(val);
+              },
+            },
+          },
         }}
         series={dataChart}
         type="area"

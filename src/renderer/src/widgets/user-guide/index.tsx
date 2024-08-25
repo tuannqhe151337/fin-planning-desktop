@@ -39,7 +39,7 @@ export const UserGuide: React.FC = () => {
       >
         <div className="relative min-w-[550px] min-h-[95vh]">
           <Document
-            className="-mt-5 ml-3"
+            className="-mt-3 ml-3"
             file={
               import.meta.env.VITE_USER_GUIDE_URL
                 ? import.meta.env.VITE_USER_GUIDE_URL
@@ -66,7 +66,7 @@ export const UserGuide: React.FC = () => {
                     } else if (page > 1) {
                       return page - 1;
                     }
-                  })
+                  }),
                 );
               }}
               onNext={() => {
@@ -77,7 +77,7 @@ export const UserGuide: React.FC = () => {
                     } else if (page < numPages) {
                       return page + 1;
                     }
-                  })
+                  }),
                 );
               }}
             />

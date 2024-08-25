@@ -4,6 +4,9 @@ import { cn } from "../../shared/utils/cn";
 import { useEffect, useMemo, useState } from "react";
 import { useLazyGetMonthlyExpectedActualCostQuery } from "../../providers/store/api/dashboardAPI";
 import { formatViMoney } from "@renderer/shared/utils/format-vi-money";
+import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
+import { useConvertNumberToMonthFn } from "../../shared/utils/use-convert-number-to-month-fn";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   className?: string;
@@ -12,6 +15,9 @@ interface Props {
 export const MonthlyExpectedActualCostChart: React.FC<Props> = ({
   className,
 }) => {
+  // Translation
+  const { t, i18n } = useTranslation(["home"]);
+
   // Select year
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
@@ -47,18 +53,24 @@ export const MonthlyExpectedActualCostChart: React.FC<Props> = ({
       }
 
       dataChart.push({
-        name: "Expected cost",
+        name: t("Expected cost"),
         data: expectedActualCostMap[EXPECTED_COST_KEY],
       });
 
       dataChart.push({
-        name: "Actual cost",
+        name: t("Actual cost"),
         data: expectedActualCostMap[ACTUAL_COST_KEY],
       });
     }
 
     return dataChart;
-  }, [data]);
+  }, [data, i18n.language]);
+
+  // UI: dark mode
+  const isDarkmode = useDetectDarkmode();
+
+  // Change value 1, 2, 3,... to month
+  const convertNumberToMonth = useConvertNumberToMonthFn();
 
   return (
     <div
@@ -96,17 +108,41 @@ export const MonthlyExpectedActualCostChart: React.FC<Props> = ({
           fill: {
             type: "gradient",
             gradient: {
-              shadeIntensity: 1,
+              shadeIntensity: isDarkmode ? 0 : 1,
               stops: [0, 90, 100],
             },
           },
-          legend: { position: "top" },
+          legend: {
+            position: "top",
+            fontSize: "13px",
+            labels: {
+              colors: "#a3a3a3",
+            },
+          },
           yaxis: {
             labels: {
+              style: {
+                fontWeight: "bold",
+                colors: "#a3a3a3",
+              },
               formatter: (val) => {
                 return formatViMoney(val);
               },
             },
+          },
+          xaxis: {
+            labels: {
+              style: {
+                fontWeight: "bold",
+                colors: "#a3a3a3",
+              },
+              formatter: (val) => {
+                return convertNumberToMonth(val);
+              },
+            },
+          },
+          tooltip: {
+            theme: isDarkmode ? "dark" : "light",
           },
         }}
         series={dataChart}

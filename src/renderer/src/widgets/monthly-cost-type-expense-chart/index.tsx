@@ -7,6 +7,8 @@ import {
   useGetAllCostTypeQuery,
 } from "../../providers/store/api/costTypeAPI";
 import { formatViMoney } from "@renderer/shared/utils/format-vi-money";
+import { useConvertNumberToMonthFn } from "../../shared/utils/use-convert-number-to-month-fn";
+import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
 
 interface Props {
   year: number;
@@ -96,6 +98,12 @@ export const MonthlyCostTypeExpenseChart: React.FC<Props> = ({
     return dataChart;
   }, [data, listChosenCostType]);
 
+  // UI: dark mode
+  const isDarkmode = useDetectDarkmode();
+
+  // Change value 1, 2, 3,... to month
+  const convertNumberToMonth = useConvertNumberToMonthFn();
+
   return (
     <div
       className={cn(
@@ -121,17 +129,41 @@ export const MonthlyCostTypeExpenseChart: React.FC<Props> = ({
           fill: {
             type: "gradient",
             gradient: {
-              shadeIntensity: 1,
+              shadeIntensity: isDarkmode ? 0 : 1,
               stops: [0, 90, 100],
             },
           },
-          legend: { position: "top" },
+          legend: {
+            position: "top",
+            fontSize: "13px",
+            labels: {
+              colors: "#a3a3a3",
+            },
+          },
           yaxis: {
             labels: {
+              style: {
+                fontWeight: "bold",
+                colors: "#a3a3a3",
+              },
               formatter: (val) => {
                 return formatViMoney(val);
               },
             },
+          },
+          xaxis: {
+            labels: {
+              style: {
+                fontWeight: "bold",
+                colors: "#a3a3a3",
+              },
+              formatter: (val) => {
+                return convertNumberToMonth(val);
+              },
+            },
+          },
+          tooltip: {
+            theme: isDarkmode ? "dark" : "light",
           },
         }}
         series={dataChart}

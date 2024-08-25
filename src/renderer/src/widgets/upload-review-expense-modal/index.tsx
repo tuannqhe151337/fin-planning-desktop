@@ -15,7 +15,7 @@ import {
   useLazyGetReportDetailQuery,
   useReviewListExpensesMutation,
 } from "../../providers/store/api/reportsAPI";
-import { useWindowHeight } from "@renderer/shared/utils/use-window-height";
+import { useWindowHeight } from "../../shared/utils/use-window-height";
 
 enum AnimationStage {
   LEFT = "left",
@@ -168,10 +168,10 @@ export const UploadReviewExpenseModal: React.FC<Props> = ({
                 >
                   <UploadFileStage
                     hide={stage !== 1}
+                    dropzoneHeight={dropzoneHeight}
                     validateExpenseId
                     validateStatusCode
                     downloadButtonText="Download report"
-                    dropzoneHeight={dropzoneHeight}
                     onDownloadTemplateClick={() => {
                       const token = localStorage.getItem(
                         LocalStorageItemKey.TOKEN,
@@ -211,6 +211,7 @@ export const UploadReviewExpenseModal: React.FC<Props> = ({
                   variants={stageAnimation}
                 >
                   <ConfirmExpensesStage
+                    pageSize={6}
                     submitButtonText="Upload report review"
                     isLoading={isLoading}
                     expenses={expenses}
@@ -218,6 +219,7 @@ export const UploadReviewExpenseModal: React.FC<Props> = ({
                     showExpenseCodeColumn
                     showStatusColumn
                     hide={stage !== 2}
+                    confirmTableHeightOffset={290}
                     onPreviousState={() => {
                       setStage(1);
                     }}

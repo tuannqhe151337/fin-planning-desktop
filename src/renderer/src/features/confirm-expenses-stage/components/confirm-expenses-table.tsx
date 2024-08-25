@@ -6,7 +6,7 @@ import { ExpenseTag } from "../../../entities/expense-tag";
 import { Expense } from "../../upload-file-stage/type";
 import clsx from "clsx";
 import { TETooltip } from "tw-elements-react";
-import { useWindowHeight } from "@renderer/shared/utils/use-window-height";
+import { useWindowHeight } from "../../../shared/utils/use-window-height";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -56,14 +56,17 @@ const rowAnimation: Variants = {
 interface Props {
   expenses?: Expense[];
   hide?: boolean;
+  tableOffsetHeight?: number;
   showExpenseIdColumn?: boolean;
   showExpenseCodeColumn?: boolean;
   showStatusColumn?: boolean;
+  pageSize?: number;
 }
 
 export const ConfirmExpensesTable: React.FC<Props> = ({
   expenses,
   hide,
+  tableOffsetHeight = 380,
   showExpenseIdColumn = false,
   showExpenseCodeColumn = false,
   showStatusColumn = false,
@@ -85,7 +88,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
         }
       }
     },
-    [],
+    []
   );
 
   // UI: small text for large table
@@ -97,18 +100,20 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
   const windowHeight = useWindowHeight();
 
   const tableHeight = useMemo(() => {
-    return windowHeight - 420;
-  }, [windowHeight]);
+    return windowHeight * 0.95 - tableOffsetHeight;
+  }, [windowHeight, tableOffsetHeight]);
 
   useEffect(() => {
     // Header height: 32px
     // Row height: 56px
-    setPageSize(Math.floor((windowHeight - 426 - 32) / 56));
-  }, [windowHeight]);
+    const headerHeight = isSmallText ? 28 : 32;
+    const rowHeight = isSmallText ? 52 : 56;
+    setPageSize(Math.floor((tableHeight - headerHeight) / rowHeight));
+  }, [windowHeight, tableHeight, tableOffsetHeight]);
 
   return (
     <div>
-      <div className="min-h-[312px]" style={{ height: tableHeight }}>
+      <div style={{ height: tableHeight }}>
         <table className="table-auto sm:mt-3 lg:mt-5 mx-auto">
           <thead className="xl:text-base lg:text-sm md:text-sm sm:text-sm text-neutral-400/70 dark:text-neutral-500">
             <tr>
@@ -134,7 +139,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
               )}
               <th
                 className={clsx({
-                  "px-1 lg:py-1 font-semibold dark:font-bold": true,
+                  "px-4 lg:py-1 font-semibold dark:font-bold text-left": true,
                   "text-sm": isSmallText,
                 })}
               >
@@ -154,7 +159,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                   "text-sm": isSmallText,
                 })}
               >
-                Unit price (VND)
+                Unit price
               </th>
               <th
                 className={clsx({
@@ -170,7 +175,15 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                   "text-sm": isSmallText,
                 })}
               >
-                Total (VND)
+                Total
+              </th>
+              <th
+                className={clsx({
+                  "px-1 lg:py-1 font-semibold dark:font-bold": true,
+                  "text-sm": isSmallText,
+                })}
+              >
+                Currency
               </th>
               <th
                 className={clsx({
@@ -277,9 +290,9 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         <NumericFormat
                           displayType="text"
                           value={expense.unitPrice}
-                          decimalScale={2}
                           disabled
                           thousandSeparator
+                          decimalScale={2}
                         />
                       </div>
                     </td>
@@ -301,9 +314,24 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         <NumericFormat
                           displayType="text"
                           value={expense.unitPrice * expense.amount}
-                          decimalScale={2}
                           thousandSeparator
+                          decimalScale={2}
                         />
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 xl:w-min font-bold text-right">
+                      <div
+                        className={clsx({
+                          "text-sm": isSmallText,
+                        })}
+                      >
+                        <div
+                          className={clsx({
+                            "text-sm": isSmallText,
+                          })}
+                        >
+                          {expense.currency.name}
+                        </div>
                       </div>
                     </td>
                     <td className="px-4 py-4 xl:w-min font-bold text-center">
@@ -363,7 +391,6 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
         transition={{ delay: 0.4 }}
       >
         <Pagination
-          className="mt-3"
           page={page}
           totalPage={Math.ceil(expenses ? expenses.length / pageSize : 1)}
           onNext={() =>

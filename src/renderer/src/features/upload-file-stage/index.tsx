@@ -117,7 +117,7 @@ export const UploadFileStage: React.FC<Props> = ({
 
   // UI: file processing
   const [fileUploadStage, setFileUploadStage] = useState<FileUploadStage>(
-    FileUploadStage.EMPTY
+    FileUploadStage.EMPTY,
   );
   const [fileName, setFileName] = useState<string>();
   const [fileSize, setFileSize] = useState<number>();
@@ -180,34 +180,38 @@ export const UploadFileStage: React.FC<Props> = ({
             currencyListResult?.data
           ) {
             // Validate data
-            const { errors, expenses, isError } = await processFile({
-              file,
-              costTypeList: costTypeListResult.data,
-              expenseStatusList: expenseStatusListResult.data,
-              projectList: projectListResult.data,
-              currencyList: currencyListResult.data,
-              supplierList: supplierListResult.data,
-              checkListUsernameExist: async (usernameList) => {
-                const { data } = await checkuserExist({ usernameList });
+            try {
+              const { errors, expenses, isError } = await processFile({
+                file,
+                costTypeList: costTypeListResult.data,
+                expenseStatusList: expenseStatusListResult.data,
+                projectList: projectListResult.data,
+                currencyList: currencyListResult.data,
+                supplierList: supplierListResult.data,
+                checkListUsernameExist: async (usernameList) => {
+                  const { data } = await checkuserExist({ usernameList });
 
-                return data?.data || [];
-              },
-              options: {
-                validateExpenseCode,
-                validateStatusCode,
-                validateExpenseId,
-              },
-            });
+                  return data?.data || [];
+                },
+                options: {
+                  validateExpenseCode,
+                  validateStatusCode,
+                  validateExpenseId,
+                },
+              });
 
-            // Set to state to show table
-            setExpenses(expenses);
-            setExpenseErrors(errors);
+              // Set to state to show table
+              setExpenses(expenses);
+              setExpenseErrors(errors);
 
-            // UI: show error table or go to next stage
-            if (isError) {
-              setFileUploadStage(FileUploadStage.VALIDATION_ERROR);
-            } else {
-              setFileUploadStage(FileUploadStage.SUCCESS);
+              // UI: show error table or go to next stage
+              if (isError) {
+                setFileUploadStage(FileUploadStage.VALIDATION_ERROR);
+              } else {
+                setFileUploadStage(FileUploadStage.SUCCESS);
+              }
+            } catch (_) {
+              setFileUploadStage(FileUploadStage.INVALID_FORMAT_ERROR);
             }
           }
         }

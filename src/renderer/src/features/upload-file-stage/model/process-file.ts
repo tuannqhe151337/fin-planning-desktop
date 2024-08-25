@@ -10,6 +10,13 @@ import { Project } from "../../../providers/store/api/projectsApi";
 import { Currency } from "../../../providers/store/api/currencyApi";
 import { UserResponse } from "../../../providers/store/api/plansApi";
 
+// Sheet name
+const ExpenseSheetName = "Expense";
+const ListSheetName = "List";
+
+// Header line
+const HeaderLine = 2;
+
 // Beggining line to start to read expense
 const BeginLine = 3;
 
@@ -126,6 +133,22 @@ export const processFile = async ({
     cellDates: true,
   });
 
+  // Check if the excel file have exactly 2 sheets: Expense and List
+  if (workbook.SheetNames.length !== 2) {
+    throw new Error("Invalid file format");
+  }
+
+  for (let sheetName of workbook.SheetNames) {
+    if (
+      sheetName.normalize().toLowerCase() !==
+        ExpenseSheetName.normalize().toLowerCase() &&
+      sheetName.normalize().toLowerCase() !==
+        ListSheetName.normalize().toLowerCase()
+    ) {
+      throw new Error("Invalid file format");
+    }
+  }
+
   // Loop through each sheet
   for (let sheetName of workbook.SheetNames) {
     // Only import the sheet that have name "Expense"
@@ -146,6 +169,14 @@ export const processFile = async ({
         // Get row
         const row = rows[index];
 
+        // Check header can't be a blank line
+        if (index + 1 === HeaderLine) {
+          if (checkLineEmpty(row)) {
+            throw new Error("Invalid file format");
+          }
+        }
+
+        // Skip if line empty
         if (checkLineEmpty(row)) {
           continue;
         }
@@ -311,8 +342,8 @@ export const processFile = async ({
 
           let currency: Currency | null | undefined = undefined;
           if (currencyName) {
-            if (currencyMap[currencyName.toLowerCase()]) {
-              currency = currencyMap[currencyName.toLowerCase()];
+            if (currencyMap[currencyName.normalize().toLowerCase()]) {
+              currency = currencyMap[currencyName.normalize().toLowerCase()];
             } else {
               isLineError = true;
               expenseError.currency.errorMessage = "Invalid currency";
@@ -575,7 +606,7 @@ const mapCurrencyListByLowercaseName = (
   const currencyMap: Record<string, Currency> = {};
 
   for (const currency of currencyList) {
-    currencyMap[currency.name.toLowerCase()] = currency;
+    currencyMap[currency.name.normalize().toLowerCase()] = currency;
   }
 
   return currencyMap;

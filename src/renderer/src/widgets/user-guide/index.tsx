@@ -31,15 +31,15 @@ export const UserGuide: React.FC = () => {
       </div>
 
       <Modal
-        className="flex flex-col justify-center items-center bg-white dark:bg-white rounded-2xl w-[550px] h-[95vh] overflow-hidden"
+        className="flex flex-col justify-center items-center bg-white dark:bg-white rounded-2xl w-[525px] h-[95vh] overflow-hidden"
         show={showUserGuide}
         onClose={() => {
           setShowUserGuide(false);
         }}
       >
-        <div className="relative min-w-[550px] min-h-[95vh]">
+        <div className="relative min-w-[525px] min-h-[95vh]">
           <Document
-            className="-mt-3 ml-3"
+            className="-mt-3"
             file={
               import.meta.env.VITE_USER_GUIDE_URL
                 ? import.meta.env.VITE_USER_GUIDE_URL

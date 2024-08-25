@@ -1,7 +1,6 @@
+import { lazy } from "react";
 import { Variants, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-
-import { lazy } from "react";
 import { useScrollToTopOnLoad } from "../../shared/hooks/use-scroll-to-top-on-load";
 import { MonthlyExpectedActualCostChart } from "../../widgets/monthly-expected-actual-cost-chart";
 import { useMeQuery } from "../../providers/store/api/authApi";
@@ -23,15 +22,13 @@ const staggerChildrenAnimation: Variants = {
     transition: {
       staggerChildren: 0.05,
       staggerDirection: -1,
-      delayChildren: 0.15,
-      duration: 0.15,
+      delayChildren: 0.2,
     },
   },
   [AnimationStage.VISIBLE]: {
     transition: {
       staggerChildren: 0.05,
-      delayChildren: 0.15,
-      duration: 0.15,
+      delayChildren: 0.2,
     },
   },
 };
@@ -69,7 +66,7 @@ export const HomePage: React.FC = () => {
       </div>
 
       {me?.role.code === Role.ACCOUNTANT && (
-        <motion.div className="mt-10 px-10">
+        <motion.div className="mt-10 px-10" variants={childrenAnimation}>
           <MonthlyExpectedActualCostChart />
         </motion.div>
       )}

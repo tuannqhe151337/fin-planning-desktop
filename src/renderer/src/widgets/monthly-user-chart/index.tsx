@@ -1,14 +1,14 @@
+import React, { useEffect, useMemo, useState } from "react";
 import Chart from "react-apexcharts";
 import { YearFilter } from "../../entities/year-filter";
 import { cn } from "../../shared/utils/cn";
-import { useEffect, useMemo, useState } from "react";
 import { useLazyGetMonthlyUserStatsQuery } from "../../providers/store/api/dashboardAPI";
 
 interface Props {
   className?: string;
 }
 
-export const MonthlyUserChart: React.FC<Props> = ({ className }) => {
+export const MonthlyUserChart: React.FC<Props> = React.memo(({ className }) => {
   // Select year
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
@@ -35,20 +35,20 @@ export const MonthlyUserChart: React.FC<Props> = ({ className }) => {
 
       for (let monthlyRecord of data.data) {
         expectedActualCostMap[NUMBER_USER_CREATED].push(
-          monthlyRecord.numberUserCreated
+          monthlyRecord.numberUserCreated,
         );
         expectedActualCostMap[NUMBER_USER_DELETED].push(
-          monthlyRecord.numberUserDeleted
+          monthlyRecord.numberUserDeleted,
         );
       }
 
       dataChart.push({
-        name: "User activated",
+        name: "User joined",
         data: expectedActualCostMap[NUMBER_USER_CREATED],
       });
 
       dataChart.push({
-        name: "User deactivated",
+        name: "User left",
         data: expectedActualCostMap[NUMBER_USER_DELETED],
       });
     }
@@ -60,7 +60,7 @@ export const MonthlyUserChart: React.FC<Props> = ({ className }) => {
     <div
       className={cn(
         "relative w-full h-full border shadow dark:border-neutral-800 dark:shadow-[0_0_15px_rgb(0,0,0,0.3)] rounded-xl pt-9 pb-12 px-8",
-        className
+        className,
       )}
     >
       <div className="flex flex-row flex-wrap mb-8">
@@ -84,6 +84,7 @@ export const MonthlyUserChart: React.FC<Props> = ({ className }) => {
       <Chart
         options={{
           chart: {
+            id: "monthly-user-chart",
             toolbar: { show: true, offsetY: 355 },
             animations: { enabled: true },
           },
@@ -105,4 +106,4 @@ export const MonthlyUserChart: React.FC<Props> = ({ className }) => {
       />
     </div>
   );
-};
+});

@@ -88,7 +88,7 @@ export const Modal: React.FC<Props> = ({
         ReactDOM.createPortal(
           <div
             className={cn(
-              `fixed flex w-full h-full top-0 left-0 backdrop-blur z-30 cursor-pointer`,
+              `fixed flex w-full h-full top-0 left-0 backdrop-blur z-[100] cursor-pointer`,
               containerClassName,
             )}
           >

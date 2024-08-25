@@ -155,7 +155,7 @@ export const TableExchangeRate: React.FC<Props> = ({
   const calculateAmountCompareToBaseCurrency = useCallback(
     (
       currencyExchangeMap: Record<number, ExchangeRate>,
-      currencyId: number
+      currencyId: number,
     ): number => {
       if (
         !baseCurrency ||
@@ -170,7 +170,7 @@ export const TableExchangeRate: React.FC<Props> = ({
         currencyExchangeMap[baseCurrency.currencyId].amount
       );
     },
-    [baseCurrency]
+    [baseCurrency],
   );
 
   return (
@@ -194,7 +194,7 @@ export const TableExchangeRate: React.FC<Props> = ({
             </th>
             {currencies?.data
               .filter(
-                (currency) => currency.currencyId !== baseCurrency?.currencyId
+                (currency) => currency.currencyId !== baseCurrency?.currencyId,
               )
               .map(({ currencyId, name }) => (
                 <th
@@ -226,7 +226,7 @@ export const TableExchangeRate: React.FC<Props> = ({
         >
           {monthlyExchangeRateMap.map((monthlyExchangeRate, index) => (
             <tr
-              key={index}
+              key={monthlyExchangeRate.month}
               className={clsx({
                 "group text-primary-500 hover:text-primary-600 dark:text-primary-600 dark:hover:text-primary-400 duration-200":
                   true,
@@ -260,7 +260,8 @@ export const TableExchangeRate: React.FC<Props> = ({
               </td>
               {currencies?.data
                 .filter(
-                  (currency) => currency.currencyId !== baseCurrency?.currencyId
+                  (currency) =>
+                    currency.currencyId !== baseCurrency?.currencyId,
                 )
                 .map(({ currencyId }) => (
                   <td
@@ -275,7 +276,7 @@ export const TableExchangeRate: React.FC<Props> = ({
                       }
                       initialValue={calculateAmountCompareToBaseCurrency(
                         monthlyExchangeRate.exchangeRateMap,
-                        currencyId
+                        currencyId,
                       )}
                       baseCurrencyValue={
                         monthlyExchangeRate.exchangeRateMap[

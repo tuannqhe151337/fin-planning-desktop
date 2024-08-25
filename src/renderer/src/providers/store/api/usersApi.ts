@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface CreateUserBody {
   fullName: string;
@@ -196,7 +197,7 @@ const usersApi = createApi({
         query: (createUserBody) => ({
           url: "user",
           method: "POST",
-          body: createUserBody,
+          body: trimObject(createUserBody),
         }),
         invalidatesTags: ["users"],
       }),
@@ -205,7 +206,7 @@ const usersApi = createApi({
         query: (updateUserBody) => ({
           url: "user",
           method: "PUT",
-          body: updateUserBody,
+          body: trimObject(updateUserBody),
         }),
         invalidatesTags: ["users"],
       }),
@@ -214,7 +215,7 @@ const usersApi = createApi({
         query: (deleteUserBody) => ({
           url: "user",
           method: "DELETE",
-          body: deleteUserBody,
+          body: trimObject(deleteUserBody),
         }),
         invalidatesTags: ["users"],
       }),
@@ -223,7 +224,7 @@ const usersApi = createApi({
         query: (activateUserBody) => ({
           url: "user/activate",
           method: "POST",
-          body: activateUserBody,
+          body: trimObject(activateUserBody),
         }),
         invalidatesTags: ["users"],
       }),
@@ -237,7 +238,7 @@ const usersApi = createApi({
         query: (changePasswordUserBody) => ({
           url: "user/change-password",
           method: "POST",
-          body: changePasswordUserBody,
+          body: trimObject(changePasswordUserBody),
         }),
       }),
 
@@ -245,7 +246,7 @@ const usersApi = createApi({
         query: (forgotPasswordBody) => ({
           url: "user/auth/forgot-password",
           method: "POST",
-          body: forgotPasswordBody,
+          body: trimObject(forgotPasswordBody),
         }),
       }),
 

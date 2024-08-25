@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { AFFIX, LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface MonthlyExchangeRate {
   month: string;
@@ -126,7 +127,7 @@ export const exchangeRateAPI = createApi({
       query: (createExchangeRateBody) => ({
         url: `/exchange/create`,
         method: "POST",
-        body: createExchangeRateBody,
+        body: trimObject(createExchangeRateBody),
       }),
       invalidatesTags: ["exchange-rate"],
     }),
@@ -138,7 +139,7 @@ export const exchangeRateAPI = createApi({
       query: (updateExchangeRateBody) => ({
         url: `/exchange/update`,
         method: "PUT",
-        body: updateExchangeRateBody,
+        body: trimObject(updateExchangeRateBody),
       }),
       invalidatesTags: ["exchange-rate"],
     }),
@@ -147,7 +148,7 @@ export const exchangeRateAPI = createApi({
       query: (createExchangeRateBody) => ({
         url: `/exchange/update/new-exchange-rate`,
         method: "POST",
-        body: createExchangeRateBody,
+        body: trimObject(createExchangeRateBody),
       }),
       invalidatesTags: ["exchange-rate"],
     }),
@@ -159,7 +160,7 @@ export const exchangeRateAPI = createApi({
       query: (deleteExchangeRateBody) => ({
         url: `/exchange`,
         method: "DELETE",
-        body: deleteExchangeRateBody,
+        body: trimObject(deleteExchangeRateBody),
       }),
       invalidatesTags: ["exchange-rate"],
     }),

@@ -5,6 +5,7 @@ import {
   LocalStorageItemKey,
   PaginationResponse,
 } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface ListPlanParameters {
   query?: string | null;
@@ -17,6 +18,8 @@ export interface ListPlanParameters {
 export interface ListPlanExpenseParameters {
   query?: string | null;
   planId: number | null;
+  projectId?: number | null;
+  supplierId?: number | null;
   statusId?: number | null;
   costTypeId?: number | null;
   currencyId?: number | null;
@@ -325,7 +328,7 @@ const plansApi = createApi({
         query: (createPlanBody) => ({
           url: `plan/create`,
           method: "POST",
-          body: createPlanBody,
+          body: trimObject(createPlanBody),
         }),
         invalidatesTags: ["plans"],
       }),
@@ -337,7 +340,7 @@ const plansApi = createApi({
         query: (checkUserExistBody) => ({
           url: `plan/check-user-exist`,
           method: "POST",
-          body: checkUserExistBody,
+          body: trimObject(checkUserExistBody),
         }),
       }),
 
@@ -350,6 +353,8 @@ const plansApi = createApi({
           planId,
           costTypeId,
           statusId,
+          projectId,
+          supplierId,
           currencyId,
           page,
           pageSize,
@@ -368,6 +373,14 @@ const plansApi = createApi({
             endpoint += `&costTypeId=${costTypeId}`;
           }
 
+          if (projectId) {
+            endpoint += `&projectId=${projectId}`;
+          }
+
+          if (supplierId) {
+            endpoint += `&supplierId=${supplierId}`;
+          }
+
           if (statusId) {
             endpoint += `&statusId=${statusId}`;
           }
@@ -381,7 +394,7 @@ const plansApi = createApi({
         query: (reuploadPlanBody) => ({
           url: "plan/re-upload",
           method: "PUT",
-          body: reuploadPlanBody,
+          body: trimObject(reuploadPlanBody),
         }),
         invalidatesTags: ["plan-detail"],
       }),

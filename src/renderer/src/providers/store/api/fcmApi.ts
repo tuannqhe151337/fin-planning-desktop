@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { LocalStorageItemKey } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface RegisterTokenBody {
   token: string;
@@ -34,14 +35,14 @@ export const fcmApi = createApi({
       query: (registerTokenBody) => ({
         url: `/fcm/register`,
         method: "POST",
-        body: registerTokenBody,
+        body: trimObject(registerTokenBody),
       }),
     }),
     deleteFCMToken: builder.mutation<any, DeleteTokenBody>({
       query: (removeTokenBody) => ({
         url: `/fcm/remove`,
         method: "DELETE",
-        body: removeTokenBody,
+        body: trimObject(removeTokenBody),
       }),
     }),
   }),

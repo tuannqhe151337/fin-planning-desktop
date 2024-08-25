@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export enum Duration {
   "MONTHLY" = "MONTHLY",
@@ -132,7 +133,7 @@ const staggeredBaseQuery = retry(
 export const termAPI = createApi({
   reducerPath: "termAPI",
   baseQuery: staggeredBaseQuery,
-  tagTypes: ["terms"],
+  tagTypes: ["terms", "create-plan-terms"],
   endpoints: (builder) => ({
     getListTerm: builder.query<PaginationResponse<Term[]>, ListTermParameters>({
       query: ({ query, statusId, page, pageSize }) => {
@@ -148,7 +149,7 @@ export const termAPI = createApi({
 
         return endpoint;
       },
-      providesTags: ["terms"],
+      providesTags: ["terms", "create-plan-terms"],
     }),
 
     getListTermInterval: builder.query<TermInterval, void>({
@@ -174,7 +175,7 @@ export const termAPI = createApi({
       query: (createTermBody) => ({
         url: "term",
         method: "POST",
-        body: createTermBody,
+        body: trimObject(createTermBody),
       }),
       invalidatesTags: ["terms"],
     }),
@@ -188,7 +189,7 @@ export const termAPI = createApi({
       query: (updateTermBody) => ({
         url: "term",
         method: "PUT",
-        body: updateTermBody,
+        body: trimObject(updateTermBody),
       }),
       invalidatesTags: ["terms"],
     }),
@@ -197,7 +198,7 @@ export const termAPI = createApi({
       query: (startTermBody) => ({
         url: "term/start",
         method: "POST",
-        body: startTermBody,
+        body: trimObject(startTermBody),
       }),
       invalidatesTags: ["terms"],
     }),
@@ -206,7 +207,7 @@ export const termAPI = createApi({
       query: (deleteTermBody) => ({
         url: "term",
         method: "DELETE",
-        body: deleteTermBody,
+        body: trimObject(deleteTermBody),
       }),
       invalidatesTags: ["terms"],
     }),

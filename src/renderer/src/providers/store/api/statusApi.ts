@@ -32,7 +32,7 @@ const staggeredBaseQuery = retry(
   }),
   {
     maxRetries: 5,
-  },
+  }
 );
 
 export const statusAPI = createApi({

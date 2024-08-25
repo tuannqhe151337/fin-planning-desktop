@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface Position {
   id: number;
@@ -64,7 +65,7 @@ export const positionAPI = createApi({
       query: (createPositionBody) => ({
         url: `/position/create`,
         method: "POST",
-        body: createPositionBody,
+        body: trimObject(createPositionBody),
       }),
       invalidatesTags: ["positions"],
     }),
@@ -72,7 +73,7 @@ export const positionAPI = createApi({
       query: (updatePositionBody) => ({
         url: `/position/update`,
         method: "PUT",
-        body: updatePositionBody,
+        body: trimObject(updatePositionBody),
       }),
       invalidatesTags: ["positions"],
     }),
@@ -80,7 +81,7 @@ export const positionAPI = createApi({
       query: (deletePositionBody) => ({
         url: `/position`,
         method: "DELETE",
-        body: deletePositionBody,
+        body: trimObject(deletePositionBody),
       }),
       invalidatesTags: ["positions"],
     }),

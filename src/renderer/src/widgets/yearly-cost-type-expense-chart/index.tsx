@@ -9,6 +9,7 @@ import {
 import { FaChartPie } from "react-icons/fa6";
 import { formatViMoney } from "../../shared/utils/format-vi-money";
 import { useInView } from "react-intersection-observer";
+import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
 
 interface Props {
   year: number;
@@ -47,7 +48,7 @@ export const YearlyCostTypeExpenseChart: React.FC<Props> = ({
       if (chosenCostTypeIdList.findIndex((id) => id === 0)) {
         listCostType =
           costTypeResult?.data.filter(({ costTypeId }) =>
-            chosenCostTypeIdList.includes(costTypeId)
+            chosenCostTypeIdList.includes(costTypeId),
           ) || [];
       }
     } else if (chosenCostTypeIdList && chosenCostTypeIdList?.length === 0) {
@@ -73,12 +74,15 @@ export const YearlyCostTypeExpenseChart: React.FC<Props> = ({
     }
   }, [data, listChosenCostType, inView]);
 
+  // Dark mode
+  const isDarkmode = useDetectDarkmode();
+
   return (
     <div
       ref={ref}
       className={cn(
         "flex flex-col w-full h-full border shadow dark:border-neutral-800 dark:shadow-[0_0_15px_rgb(0,0,0,0.3)] rounded-xl py-7 px-8",
-        className
+        className,
       )}
     >
       <div className="flex flex-row flex-wrap w-full mt-2.5">
@@ -98,6 +102,7 @@ export const YearlyCostTypeExpenseChart: React.FC<Props> = ({
                 redrawOnParentResize: true,
                 redrawOnWindowResize: true,
               },
+              stroke: { show: isDarkmode ? false : true },
               legend: { show: false },
               labels: listChosenCostType.map(({ name }) => name) || [],
               dataLabels: { enabled: true },
@@ -109,6 +114,7 @@ export const YearlyCostTypeExpenseChart: React.FC<Props> = ({
                       value: {
                         fontSize: "14px",
                         fontWeight: "bold",
+                        color: isDarkmode ? "white" : "#9ca3af",
                         formatter(val) {
                           return formatViMoney(parseFloat(val));
                         },

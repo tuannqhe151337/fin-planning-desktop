@@ -3,6 +3,8 @@ import Chart from "react-apexcharts";
 import { YearFilter } from "../../entities/year-filter";
 import { cn } from "../../shared/utils/cn";
 import { useLazyGetMonthlyUserStatsQuery } from "../../providers/store/api/dashboardAPI";
+import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
+import { useConvertNumberToMonthFn } from "../../shared/utils/use-convert-number-to-month-fn";
 
 interface Props {
   className?: string;
@@ -56,6 +58,12 @@ export const MonthlyUserChart: React.FC<Props> = React.memo(({ className }) => {
     return dataChart;
   }, [data]);
 
+  // Darkmode
+  const isDarkmode = useDetectDarkmode();
+
+  // Change value 1, 2, 3,... to month
+  const convertNumberToMonth = useConvertNumberToMonthFn();
+
   return (
     <div
       className={cn(
@@ -86,7 +94,11 @@ export const MonthlyUserChart: React.FC<Props> = React.memo(({ className }) => {
           chart: {
             id: "monthly-user-chart",
             toolbar: { show: true, offsetY: 355 },
-            animations: { enabled: true },
+            animations: {
+              enabled: true,
+            },
+            redrawOnParentResize: true,
+            redrawOnWindowResize: true,
           },
           dataLabels: { enabled: false },
           stroke: { curve: "smooth" },
@@ -97,8 +109,39 @@ export const MonthlyUserChart: React.FC<Props> = React.memo(({ className }) => {
               stops: [0, 90, 100],
             },
           },
+          legend: {
+            position: "top",
+            fontSize: "13px",
+            labels: {
+              colors: "#a3a3a3",
+            },
+          },
+          yaxis: {
+            labels: {
+              style: {
+                fontWeight: "bold",
+                colors: "#a3a3a3",
+              },
+            },
+          },
+          xaxis: {
+            labels: {
+              style: {
+                fontWeight: "bold",
+                colors: "#a3a3a3",
+              },
+              formatter: (val) => {
+                return convertNumberToMonth(val);
+              },
+            },
+          },
+          tooltip: {
+            theme: isDarkmode ? "dark" : "light",
+          },
+          grid: {
+            borderColor: isDarkmode ? "#404040" : "#e5e5e5",
+          },
           colors: ["#00E396", "#FF4560"],
-          legend: { position: "top" },
         }}
         series={dataChart}
         type="area"

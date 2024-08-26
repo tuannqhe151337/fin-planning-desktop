@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { cn } from "../../shared/utils/cn";
-import { YearFilter } from "../../entities/year-filter";
 import { useLazyGetDepartmentUserStatsQuery } from "../../providers/store/api/dashboardAPI";
 import { FaChartPie } from "react-icons/fa6";
 import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
@@ -12,17 +11,12 @@ interface Props {
 
 export const DepartmentUserChart: React.FC<Props> = React.memo(
   ({ className }) => {
-    // Select year
-    const [year, setYear] = useState<number>(new Date().getFullYear());
-
     // Get chart's data
-    const [getYearlyCostType, { data }] = useLazyGetDepartmentUserStatsQuery();
+    const [getDepartmentStats, { data }] = useLazyGetDepartmentUserStatsQuery();
 
     useEffect(() => {
-      if (year) {
-        getYearlyCostType({ year });
-      }
-    }, [year]);
+      getDepartmentStats();
+    });
 
     const dataChart: ApexNonAxisChartSeries = useMemo(() => {
       return data?.data.map(({ numberUser }) => numberUser || 0) || [];
@@ -44,17 +38,6 @@ export const DepartmentUserChart: React.FC<Props> = React.memo(
               Department
             </p>
           </div>
-          <div className="ml-auto">
-            <YearFilter
-              defaultOption={{
-                value: new Date().getFullYear(),
-                label: new Date().getFullYear().toString(),
-              }}
-              onChange={(option) => {
-                option && setYear(option.value);
-              }}
-            />
-          </div>
         </div>
         <div className="mt-10 h-full">
           {/* Show chart */}
@@ -70,7 +53,14 @@ export const DepartmentUserChart: React.FC<Props> = React.memo(
                 plotOptions: {
                   pie: {
                     donut: {
-                      labels: { show: true },
+                      labels: {
+                        show: true,
+                        value: {
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          color: isDarkmode ? "white" : "#9ca3af",
+                        },
+                      },
                     },
                   },
                 },

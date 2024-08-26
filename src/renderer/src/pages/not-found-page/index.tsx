@@ -3,7 +3,7 @@ import { Button } from "../../shared/button";
 import { BubbleBackground } from "../../entities/bubble-background";
 import { LogoRedirect } from "../../widgets/logo-redirect";
 import { Link } from "react-router-dom";
-import notFoundImg from "../../assets/images/400-not-found.svg";
+import notFoundImg from "../../assets/images/404-not-found.svg";
 
 enum AnimationStage {
   HIDDEN = "hidden",

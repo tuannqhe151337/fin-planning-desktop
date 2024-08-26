@@ -4,6 +4,7 @@ import { cn } from "../../shared/utils/cn";
 import { YearFilter } from "../../entities/year-filter";
 import { useLazyGetDepartmentUserStatsQuery } from "../../providers/store/api/dashboardAPI";
 import { FaChartPie } from "react-icons/fa6";
+import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
 
 interface Props {
   className?: string;
@@ -27,11 +28,14 @@ export const DepartmentUserChart: React.FC<Props> = React.memo(
       return data?.data.map(({ numberUser }) => numberUser || 0) || [];
     }, [data]);
 
+    // Is dark mode
+    const isDarkmode = useDetectDarkmode();
+
     return (
       <div
         className={cn(
           "flex flex-col w-full h-full border shadow dark:border-neutral-800 dark:shadow-[0_0_15px_rgb(0,0,0,0.3)] rounded-xl py-7 px-8",
-          className
+          className,
         )}
       >
         <div className="flex flex-row flex-wrap w-full mt-2.5">
@@ -58,6 +62,7 @@ export const DepartmentUserChart: React.FC<Props> = React.memo(
             <Chart
               options={{
                 chart: { toolbar: { show: true, offsetY: 345 } },
+                stroke: { show: isDarkmode ? false : true },
                 legend: { show: false },
                 labels:
                   data?.data.map(({ department: { name } }) => name) || [],
@@ -90,5 +95,5 @@ export const DepartmentUserChart: React.FC<Props> = React.memo(
         </div>
       </div>
     );
-  }
+  },
 );

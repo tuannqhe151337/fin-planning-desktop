@@ -59,10 +59,6 @@ export interface Department {
   name: string;
 }
 
-export interface DepartmentUserStatsParam {
-  year: number;
-}
-
 export interface AdminStatistic {
   totalDepartment: number;
   totalEmployee: number;
@@ -95,7 +91,7 @@ const staggeredBaseQuery = retry(
   }),
   {
     maxRetries: 5,
-  }
+  },
 );
 
 const dashboardApi = createApi({
@@ -131,10 +127,9 @@ const dashboardApi = createApi({
       }),
       getDepartmentUserStats: builder.query<
         ListResponse<DepartmentUserStats[]>,
-        DepartmentUserStatsParam
+        void
       >({
-        query: ({ year }) =>
-          `/user/number-user-of-department-diagram?year=${year}`,
+        query: () => `/user/number-user-of-department-diagram`,
       }),
       getAdminStatistic: builder.query<AdminStatistic, void>({
         query: () => `/admin/statistic`,

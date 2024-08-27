@@ -262,7 +262,7 @@ export const processFile = async ({
 
           // -- Expense code
           let expenseCode =
-            typeof rawExpenseCode === "string" ? rawExpenseCode : "";
+            typeof rawExpenseCode === "string" ? rawExpenseCode.trim() : "";
           if (options && options.validateExpenseCode) {
             const expenseCodeErrorMessage = getZodMessasges(
               () => (expenseCode = ExpenseCodeSchema.parse(rawExpenseCode)),
@@ -518,9 +518,13 @@ export const processFile = async ({
   }
 
   // Validate username
-  const usernameList = expenses.map(({ pic: { username } }) => username);
+  const usernameList = new Set<string>();
 
-  const userList = await checkListUsernameExist(usernameList);
+  for (let expense of expenses) {
+    usernameList.add(expense.pic.username);
+  }
+
+  const userList = await checkListUsernameExist(Array.from(usernameList));
 
   const userMap: Record<string, number> = {};
   for (let user of userList) {

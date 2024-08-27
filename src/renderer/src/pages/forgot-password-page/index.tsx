@@ -76,7 +76,7 @@ type FormData = {
   email: string;
 };
 
-const EmailSchema = z.string().min(1, "Email cannot be empty");
+const EmailSchema = z.string().email().min(1, "Email cannot be empty");
 
 export const ForgotPasswordSchema: ZodType<FormData> = z.object({
   email: EmailSchema,

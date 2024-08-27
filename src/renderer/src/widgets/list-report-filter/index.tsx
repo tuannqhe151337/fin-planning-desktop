@@ -1,20 +1,10 @@
 import { AnimatePresence, Variants, motion } from "framer-motion";
+import { useState } from "react";
 import { SearchBox } from "../../shared/search-box";
 import { IconButton } from "../../shared/icon-button";
-import { FaListCheck, FaFilter, FaCheck } from "react-icons/fa6";
-import { HiDotsVertical } from "react-icons/hi";
-import { FaDownload, FaUpload } from "react-icons/fa";
-import { useState } from "react";
-import { TERipple } from "tw-elements-react";
-import { useCloseOutside } from "../../shared/hooks/use-close-popup";
-import { CostTypeFilter } from "../../entities/cost-type-filter";
-import { Button } from "../../shared/button";
-import { RiDeleteRow } from "react-icons/ri";
-import { CurrencyChanger } from "../../entities/currency-changer";
-import { Currency } from "../../providers/store/api/currencyApi";
-import { StatusExpenseFilter } from "../../entities/status-expense-filter";
-import { useTranslation } from "react-i18next";
-import { DepartmentFilter } from "../../entities/department-filter";
+import { FaFilter } from "react-icons/fa6";
+import { TermFilter } from "../../entities/term-filter";
+import { StatusReportFilter } from "../../entities/status-report-filter";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -24,38 +14,29 @@ enum AnimationStage {
 const staggerChildrenAnimation: Variants = {
   [AnimationStage.HIDDEN]: {
     transition: {
-      staggerChildren: 0.05,
+      staggerChildren: 0.1,
       staggerDirection: -1,
-      delayChildren: 0.15,
-      duration: 0.15,
+      delayChildren: 0.2,
+      duration: 0.2,
     },
   },
   [AnimationStage.VISIBLE]: {
     transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.15,
-      duration: 0.15,
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+      duration: 0.2,
     },
   },
 };
-
+``;
 const childrenAnimation: Variants = {
-  [AnimationStage.HIDDEN]: {
+  hidden: {
     opacity: 0,
-    y: 5,
+    y: 10,
   },
-  [AnimationStage.VISIBLE]: {
+  visible: {
     opacity: 1,
     y: 0,
-  },
-};
-
-const animation: Variants = {
-  [AnimationStage.HIDDEN]: {
-    opacity: 0,
-  },
-  [AnimationStage.VISIBLE]: {
-    opacity: 1,
   },
 };
 
@@ -71,301 +52,85 @@ const heightPlaceholderAnimation: Variants = {
   },
 };
 
-const ReviewExpenseWidth = 360;
-const widthPlaceholderAnimation: Variants = {
-  hidden: {
-    height: 0,
-    transition: {
-      delay: 0.4,
-    },
-  },
-  visible: {
-    width: ReviewExpenseWidth,
-    transition: {
-      duration: 0.4,
-    },
-  },
-};
-
 interface Props {
-  className?: string;
-  showReviewExpense?: boolean;
   searchboxValue?: string;
-  currencyId?: number;
-  allowReviewPlan?: boolean;
   onSearchboxChange?: (value: string) => any;
-  onCostTypeIdChange?: (costTypeId: number | null | undefined) => any;
-  onDepartmentIdChange?: (departmentId: number | null | undefined) => any;
-  onStatusIdChange?: (statusId: number | null | undefined) => any;
-  onCurrencyChoose?: (currency?: Currency) => any;
-  onApproveExpensesClick?: () => any;
-  onDenyExpensesClick?: () => any;
-  onDownloadClick?: () => any;
-  onUploadReviewReportClick?: () => any;
-  onMarkAsReviewed?: () => any;
+  onTermIdChange?: (termId: number | null | undefined) => any;
+  onStatusIdChange?: (termId: number | null | undefined) => any;
 }
 
-export const ListReportExpenseFilter: React.FC<Props> = ({
-  className,
-  showReviewExpense,
+export const ListReportFilter: React.FC<Props> = ({
   searchboxValue,
-  currencyId,
-  allowReviewPlan,
   onSearchboxChange,
-  onCostTypeIdChange,
+  onTermIdChange,
   onStatusIdChange,
-  onDepartmentIdChange,
-  onCurrencyChoose,
-  onApproveExpensesClick,
-  onDenyExpensesClick,
-  onDownloadClick,
-  onUploadReviewReportClick,
-  onMarkAsReviewed,
 }) => {
-  // i18n
-  const { t } = useTranslation(["report-management"]);
+  // UI: show 3 select box
+  const [showFilterBtn, setShowFilterBtn] = useState(false);
 
-  // Filter section
-  const [showFillterBtn, setShowFillterBtn] = useState(false);
-
-  // Show dropdown options
-  const [showOptions, setShowOptions] = useState(false);
-
-  const ref = useCloseOutside({
-    open: showOptions,
-    onClose: () => {
-      setShowOptions(false);
-    },
-  });
+  const filterBtnGroup = (
+    <motion.div
+      className="absolute w-full"
+      initial={AnimationStage.HIDDEN}
+      animate={AnimationStage.VISIBLE}
+      exit={AnimationStage.HIDDEN}
+      variants={staggerChildrenAnimation}
+    >
+      <motion.div className="flex justify-end mt-4">
+        <motion.div variants={childrenAnimation} className="mr-4 ">
+          <TermFilter
+            onChange={(option) => {
+              onTermIdChange && onTermIdChange(option?.value);
+            }}
+          />
+        </motion.div>
+        <motion.div variants={childrenAnimation} className="mr-4 ">
+          <StatusReportFilter
+            onChange={(option) => {
+              onStatusIdChange && onStatusIdChange(option?.value);
+            }}
+          />
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
 
   return (
-    <div className={className}>
-      <motion.div
-        className={"flex flex-row flex-wrap items-center gap-2"}
-        initial={AnimationStage.HIDDEN}
-        animate={AnimationStage.VISIBLE}
-        variants={staggerChildrenAnimation}
-      >
-        {/* Search box */}
-        <motion.div className="flex-1" variants={childrenAnimation}>
+    <>
+      <div className="flex flex-row flex-wrap w-full items-center mt-14 ">
+        <div className="flex-1">
           <SearchBox
             value={searchboxValue}
             onChange={(e) =>
               onSearchboxChange && onSearchboxChange(e.currentTarget.value)
             }
           />
-        </motion.div>
-
-        <div className="flex flex-row flex-wrap items-center ml-2">
-          {/* Review expenses section */}
-          <div className="relative self-start mt-0.5">
-            <AnimatePresence>
-              {showReviewExpense && (
-                <div
-                  className="absolute right-0 top-1"
-                  style={{ width: ReviewExpenseWidth }}
-                >
-                  <motion.div
-                    className="flex flex-row flex-wrap items-center gap-3 justify-center w-full"
-                    initial={AnimationStage.HIDDEN}
-                    animate={AnimationStage.VISIBLE}
-                    variants={staggerChildrenAnimation}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <motion.div
-                      className="h-max w-max"
-                      variants={childrenAnimation}
-                    >
-                      <Button
-                        variant="error"
-                        onClick={() => {
-                          onDenyExpensesClick && onDenyExpensesClick();
-                        }}
-                      >
-                        <div className="flex flex-row flex-wrap items-center gap-3">
-                          <RiDeleteRow className="text-xl" />
-                          <p className="text-sm font-semibold">
-                            {t("Deny expense")}
-                          </p>
-                        </div>
-                      </Button>
-                    </motion.div>
-
-                    <motion.div
-                      className="h-max w-max"
-                      variants={childrenAnimation}
-                    >
-                      <Button
-                        onClick={() => {
-                          onApproveExpensesClick && onApproveExpensesClick();
-                        }}
-                      >
-                        <div className="flex flex-row flex-wrap items-center gap-3">
-                          <FaListCheck className="text-lg" />
-                          <p className="text-sm font-semibold">
-                            {t("Approve expense")}
-                          </p>
-                        </div>
-                      </Button>
-                    </motion.div>
-                  </motion.div>
-                </div>
-              )}
-            </AnimatePresence>
-
-            <motion.div
-              initial={AnimationStage.HIDDEN}
-              animate={
-                showReviewExpense
-                  ? AnimationStage.VISIBLE
-                  : AnimationStage.HIDDEN
-              }
-              variants={widthPlaceholderAnimation}
-            />
-          </div>
-
-          {/* Currency changer */}
-          <motion.div variants={childrenAnimation}>
-            <CurrencyChanger
-              chosenCurrencyId={currencyId}
-              className="-mb-1.5"
-              onCurrencyChoose={onCurrencyChoose}
-            />
-          </motion.div>
-
-          {/* Filter icon */}
-          <motion.div variants={childrenAnimation}>
+        </div>
+        <div className="pl-3 flex flex-row flex-wrap items-center">
+          <div className="relative z-10 mr-3">
             <IconButton
-              tooltip="Filter"
+              className="px-3"
               onClick={() => {
-                setShowFillterBtn((prevState) => !prevState);
+                setShowFilterBtn((prevState) => !prevState);
               }}
             >
-              <FaFilter className="text-xl text-primary -mb-0.5 mt-0.5" />
+              <FaFilter className="text-xl text-primary-500/80 hover:text-primary-500/80 mt-1" />
             </IconButton>
-          </motion.div>
-
-          {/* Three dots icon */}
-          <motion.div variants={childrenAnimation}>
-            <div className="relative" ref={ref}>
-              <IconButton
-                tooltip="More"
-                onClick={() => {
-                  setShowOptions((prevState) => !prevState);
-                }}
-              >
-                <HiDotsVertical className="text-xl text-primary" />
-              </IconButton>
-
-              <AnimatePresence>
-                {showOptions && (
-                  <motion.div
-                    className="absolute right-0 z-20 shadow-[0px_0px_5px] shadow-neutral-300 dark:shadow-neutral-900 bg-white dark:bg-neutral-800 rounded-lg mt-2 overflow-hidden"
-                    initial={AnimationStage.HIDDEN}
-                    animate={AnimationStage.VISIBLE}
-                    exit={AnimationStage.HIDDEN}
-                    variants={animation}
-                  >
-                    {allowReviewPlan && (
-                      <TERipple
-                        rippleColor="light"
-                        className="w-full border-b-2 border-b-neutral-100 dark:border-b-neutral-700 cursor-pointer select-none hover:bg-primary-100 dark:hover:bg-primary-900 duration-200"
-                        onClick={onUploadReviewReportClick}
-                      >
-                        <div className="flex flex-row flex-wrap items-center px-5 py-3 w-max text-base font-bold">
-                          <FaUpload className="text-lg mb-0.5 mr-5 text-primary-500 dark:text-neutral-400" />
-
-                          <p className="mt-0.5 text-primary-500 dark:text-neutral-400">
-                            {t("Upload review file")}
-                          </p>
-                        </div>
-                      </TERipple>
-                    )}
-                    <TERipple
-                      rippleColor="light"
-                      className="w-full border-b-2 border-b-neutral-100 dark:border-b-neutral-700 cursor-pointer select-none hover:bg-primary-100 dark:hover:bg-primary-900 duration-200"
-                      onClick={onDownloadClick}
-                    >
-                      <div className="flex flex-row flex-wrap items-center px-5 py-3 w-max text-base font-bold">
-                        <FaDownload className="text-lg mb-0.5 mr-5 text-primary-500 dark:text-neutral-400" />
-
-                        <p className="mt-0.5 text-primary-500 dark:text-neutral-400">
-                          {t("Download report")}
-                        </p>
-                      </div>
-                    </TERipple>
-                    {allowReviewPlan && (
-                      <TERipple
-                        rippleColor="light"
-                        className="w-full cursor-pointer select-none hover:bg-primary-100 dark:hover:bg-primary-900 duration-200"
-                        onClick={onMarkAsReviewed}
-                      >
-                        <div className="flex flex-row flex-wrap items-center px-5 py-3 w-max text-base font-bold">
-                          <FaCheck className="text-lg mb-0.5 mr-5 text-primary-500 dark:text-neutral-400" />
-
-                          <p className="mt-0.5 text-primary-500 dark:text-neutral-400">
-                            {t("Mark as reviewed")}
-                          </p>
-                        </div>
-                      </TERipple>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Filter section */}
       <div className="relative w-full">
-        <AnimatePresence>
-          {showFillterBtn && (
-            <motion.div
-              className="absolute w-full"
-              initial={AnimationStage.HIDDEN}
-              animate={AnimationStage.VISIBLE}
-              exit={AnimationStage.HIDDEN}
-              variants={staggerChildrenAnimation}
-            >
-              <motion.div className="flex justify-end mt-4">
-                <motion.div variants={childrenAnimation} className="mr-4 ">
-                  <DepartmentFilter
-                    onChange={(option) => {
-                      onDepartmentIdChange &&
-                        onDepartmentIdChange(option?.value);
-                    }}
-                  />
-                </motion.div>
-
-                <motion.div variants={childrenAnimation} className="mr-4 ">
-                  <CostTypeFilter
-                    onChange={(option) => {
-                      onCostTypeIdChange && onCostTypeIdChange(option?.value);
-                    }}
-                  />
-                </motion.div>
-
-                <motion.div variants={childrenAnimation} className="mr-4">
-                  <StatusExpenseFilter
-                    onChange={(option) => {
-                      onStatusIdChange && onStatusIdChange(option?.value);
-                    }}
-                  />
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <AnimatePresence>{showFilterBtn && filterBtnGroup}</AnimatePresence>
 
         <motion.div
           initial={AnimationStage.HIDDEN}
           animate={
-            showFillterBtn ? AnimationStage.VISIBLE : AnimationStage.HIDDEN
+            showFilterBtn ? AnimationStage.VISIBLE : AnimationStage.HIDDEN
           }
           variants={heightPlaceholderAnimation}
         />
       </div>
-    </div>
+    </>
   );
 };

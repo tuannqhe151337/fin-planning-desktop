@@ -39,7 +39,7 @@ export const DepartmentFilter: React.FC<Props> = ({
   const loadOptions: LoadOptions<DepartmentOption, any, Additional> = async (
     currentQuery,
     _,
-    additional
+    additional,
   ) => {
     const page = additional?.page || 1;
 
@@ -73,7 +73,7 @@ export const DepartmentFilter: React.FC<Props> = ({
 
   // Select state
   const [selectedOption, setSelectedOption] = useState<DepartmentOption | null>(
-    defaultOption
+    defaultOption,
   );
 
   return (
@@ -89,7 +89,7 @@ export const DepartmentFilter: React.FC<Props> = ({
             onChange && onChange(value);
           }
         }}
-        options={[defaultOption]}
+        // options={[defaultOption]}
         loadOptions={loadOptions}
         additional={{
           page: 1,

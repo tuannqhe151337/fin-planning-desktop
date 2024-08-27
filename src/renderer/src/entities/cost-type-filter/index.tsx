@@ -67,7 +67,7 @@ export const CostTypeFilter: React.FC<Props> = ({
 
   // Select state
   const [selectedOption, setSelectedOption] = useState<CostTypeOption | null>(
-    defaultOption
+    defaultOption,
   );
 
   return (
@@ -83,7 +83,7 @@ export const CostTypeFilter: React.FC<Props> = ({
             onChange && onChange(value);
           }
         }}
-        options={[defaultOption]}
+        // options={[defaultOption]}
         loadOptions={loadOptions}
       />
     </div>

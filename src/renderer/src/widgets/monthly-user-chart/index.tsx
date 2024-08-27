@@ -5,12 +5,16 @@ import { cn } from "../../shared/utils/cn";
 import { useLazyGetMonthlyUserStatsQuery } from "../../providers/store/api/dashboardAPI";
 import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
 import { useConvertNumberToMonthFn } from "../../shared/utils/use-convert-number-to-month-fn";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   className?: string;
 }
 
 export const MonthlyUserChart: React.FC<Props> = React.memo(({ className }) => {
+  // Translation
+  const { t } = useTranslation(["home"]);
+
   // Select year
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
@@ -74,7 +78,7 @@ export const MonthlyUserChart: React.FC<Props> = React.memo(({ className }) => {
       <div className="flex flex-row flex-wrap mb-8">
         <div>
           <p className="text-primary-500 dark:text-primary-400 font-bold text-lg">
-            Monthly user statistics
+            {t("Monthly user statistics")}
           </p>
         </div>
         <div className="ml-auto">

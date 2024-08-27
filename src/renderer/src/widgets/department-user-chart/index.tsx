@@ -4,6 +4,7 @@ import { cn } from "../../shared/utils/cn";
 import { useLazyGetDepartmentUserStatsQuery } from "../../providers/store/api/dashboardAPI";
 import { FaChartPie } from "react-icons/fa6";
 import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   className?: string;
@@ -11,6 +12,9 @@ interface Props {
 
 export const DepartmentUserChart: React.FC<Props> = React.memo(
   ({ className }) => {
+    // Translation
+    const { t } = useTranslation(["home"]);
+
     // Get chart's data
     const [getDepartmentStats, { data }] = useLazyGetDepartmentUserStatsQuery();
 
@@ -35,7 +39,7 @@ export const DepartmentUserChart: React.FC<Props> = React.memo(
         <div className="flex flex-row flex-wrap w-full mt-2.5">
           <div>
             <p className="text-primary-500 dark:text-primary-400 font-bold text-lg">
-              Department
+              {t("Department")}
             </p>
           </div>
         </div>
@@ -77,7 +81,7 @@ export const DepartmentUserChart: React.FC<Props> = React.memo(
               <div>
                 <FaChartPie className="text-[220px] text-neutral-100 dark:text-neutral-800" />
                 <div className="text-center text-lg font-bold mt-5 text-neutral-300 dark:text-neutral-700">
-                  No data
+                  {t("No data")}
                 </div>
               </div>
             </div>

@@ -17,6 +17,7 @@ import { TermPreviewer } from "../../entities/term-previewer";
 import { ReportPreviewer } from "../../entities/report-previewer";
 import { truncateString } from "../../shared/utils/truncate-string";
 import { ReportStatusIcon } from "../../entities/report-status-icon";
+import { useTranslation } from "react-i18next";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -68,6 +69,9 @@ export const TableReportManagement: React.FC<Props> = ({
   onPrevious,
   onNext,
 }) => {
+  // i18n
+  const { t } = useTranslation(["report-management"]);
+
   // Navigation
   const navigate = useNavigate();
 
@@ -118,19 +122,19 @@ export const TableReportManagement: React.FC<Props> = ({
               scope="col"
               className="pl-28 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80 rounded-tl-lg"
             >
-              Report name
+              {t("Report")}
             </th>
             <th
               scope="col"
               className="px-10 py-4 font-extrabold text-left text-primary-500/80 dark:text-primary-600/80"
             >
-              Term
+              {t("Term")}
             </th>
             <th
               scope="col"
               className="pl-10 pr-20 py-4 font-extrabold text-primary-500/80 dark:text-primary-600/80 rounded-tr-lg"
             >
-              Created at
+              {t("Created at")}
             </th>
           </tr>
         </thead>
@@ -177,7 +181,7 @@ export const TableReportManagement: React.FC<Props> = ({
                     <div className="flex flex-row flex-wrap items-center ml-14 pr-5 group-hover:underline">
                       <ReportStatusIcon statusCode={report.status.code} />
                       <ReportPreviewer
-                        containerClassName="px-4 text-left w-[300px]"
+                        containerClassName="px-4 text-left"
                         reportId={report.reportId}
                       >
                         {truncateString(report.name, 38)}
@@ -214,7 +218,7 @@ export const TableReportManagement: React.FC<Props> = ({
                     <>
                       {format(
                         parseISOInResponse(report.createdAt),
-                        "dd MMMM yyyy"
+                        "dd MMMM yyyy",
                       )}
                     </>
                   )}
@@ -226,7 +230,7 @@ export const TableReportManagement: React.FC<Props> = ({
 
       {isDataEmpty && (
         <div className="flex flex-row flex-wrap items-center justify-center w-full min-h-[250px] text-lg font-semibold text-neutral-400 italic">
-          No data found.
+          {t("No data found")}
         </div>
       )}
       {!isDataEmpty && (
@@ -259,7 +263,7 @@ export const TableReportManagement: React.FC<Props> = ({
           showReviewOption={isAuthorizedAndTimeToReviewReport}
           onViewDetail={() => {
             navigate(
-              `/report-management/detail/information/${chosenReport.reportId}`
+              `/report-management/detail/information/${chosenReport.reportId}`,
             );
           }}
           onMarkAsReviewed={() => {
@@ -267,7 +271,7 @@ export const TableReportManagement: React.FC<Props> = ({
           }}
           onReview={() => {
             navigate(
-              `/report-management/detail/expenses/${chosenReport.reportId}`
+              `/report-management/detail/expenses/${chosenReport.reportId}`,
             );
           }}
           onDownload={() => {
@@ -279,7 +283,7 @@ export const TableReportManagement: React.FC<Props> = ({
                   import.meta.env.VITE_BACKEND_HOST
                 }report/download-xlsx?reportId=${chosenReport.reportId}`,
                 token,
-                `${chosenReport.name}.xlsx`
+                `${chosenReport.name}.xlsx`,
               );
             }
           }}

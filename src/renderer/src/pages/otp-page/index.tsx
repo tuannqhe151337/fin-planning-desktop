@@ -5,7 +5,7 @@ import { LanguageChanger } from "../../features/language-changer";
 import { ThemeChanger } from "../../features/theme-changer";
 import { DarkmodeChanger } from "../../features/darkmode-changer";
 import { BubbleBackground } from "../../entities/bubble-background";
-
+import Countdown from "react-countdown";
 import {
   InputOTP,
   InputOTPGroup,
@@ -13,22 +13,26 @@ import {
   InputOTPSlot,
 } from "../../shared/otp-input";
 import { LogoRedirect } from "../../widgets/logo-redirect";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectEmail,
   selectEmailToken,
+  setEmailToken,
   setOtpToken,
 } from "../../providers/store/slices/forgotPasswordSlice";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useOtpMutation } from "../../providers/store/api/usersApi";
+import {
+  useForgotPasswordMutation,
+  useOtpMutation,
+} from "../../providers/store/api/usersApi";
 import { useEffect } from "react";
-import { InputValidationMessage } from "../../shared/validation-input-message";
 import { CgSpinner } from "react-icons/cg";
 import { Button } from "../../shared/button";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
-import { useProcessError } from "@renderer/shared/utils/use-process-error";
+import { useProcessError } from "../../shared/utils/use-process-error";
+import { toast } from "react-toastify";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -98,12 +102,18 @@ export const OtpPage: React.FC = () => {
   const navigate = useNavigate();
 
   const emailToken = useSelector(selectEmailToken);
+  const email = useSelector(selectEmail);
+
+  useEffect(() => {
+    if (!email) {
+      navigate(`/auth/forgot-password`);
+    }
+  }, [email]);
 
   // Form
   const {
     // register,
-    watch,
-    formState: { isValid, dirtyFields },
+    formState: { isValid },
     handleSubmit,
     control,
     // setValue,
@@ -129,14 +139,33 @@ export const OtpPage: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      // toast("Change password successfully!", { type: "success" });
       dispatch(setOtpToken(data.token));
       navigate("/auth/reset-password");
     }
   }, [isSuccess]);
 
+  // Use for resend OTP
+  const [
+    resendOTP,
+    {
+      data: resendOTPData,
+      isSuccess: isResendOTPSuccess,
+      error: resendOTPError,
+      isError: isResendOTPError,
+    },
+  ] = useForgotPasswordMutation();
+
+  useEffect(() => {
+    if (isResendOTPSuccess) {
+      dispatch(setEmailToken(resendOTPData.token));
+      toast("Resend OTP successfully!", { type: "success" });
+    }
+  }, [isResendOTPSuccess]);
+
   // Error message
   const errorMessage = useProcessError({ error, isError });
+
+  useProcessError({ error: resendOTPError, isError: isResendOTPError });
 
   return (
     <div className="flex flex-row flex-wrap w-full">
@@ -192,7 +221,17 @@ export const OtpPage: React.FC = () => {
                 name="otp"
                 control={control}
                 render={({ field }) => (
-                  <InputOTP maxLength={6} {...field}>
+                  <InputOTP
+                    maxLength={6}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        e.currentTarget.blur();
+                      } else if (e.key === "Enter") {
+                        handleSubmit(onSubmit)();
+                      }
+                    }}
+                    {...field}
+                  >
                     <InputOTPGroup>
                       <InputOTPSlot index={0} />
                       <InputOTPSlot index={1} />
@@ -208,11 +247,17 @@ export const OtpPage: React.FC = () => {
                 )}
               />
             </motion.div>
-            <InputValidationMessage
-              show={dirtyFields.otp || false}
-              validateFn={() => OtpSchema.parse(watch("otp"))}
-              className="mt-2 pl-0"
-            />
+
+            <div className="w-full mt-3 -ml-44">
+              <Countdown
+                className="block ml-auto w-max font-semibold text-neutral-400"
+                key={resendOTPData?.token}
+                date={
+                  Date.now() +
+                  parseInt(import.meta.env.VITE_OTP_DURATION) * 1000
+                }
+              />
+            </div>
 
             <motion.div className="mt-5 w-full" variants={childrenAnimation}>
               <Button
@@ -234,12 +279,14 @@ export const OtpPage: React.FC = () => {
               className="w-full flex justify-end"
               variants={childrenAnimation}
             >
-              <a
-                href="#!"
-                className="mt-4 text-bold underline block text-primary-500 transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+              <p
+                className="mt-4 font-bold underline block text-primary-500 transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600 cursor-pointer"
+                onClick={() => {
+                  email && resendOTP({ email });
+                }}
               >
                 {t("resendOTP")}
-              </a>
+              </p>
             </motion.div>
           </motion.div>
         </div>

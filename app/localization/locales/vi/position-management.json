@@ -1,0 +1,27 @@
+{
+  "Position management": "Quản lý vị trí",
+  "Position name": "Tên vị trí",
+  "No.": "STT",
+  "Name": "Tên",
+  "Created at": "Ngày tạo",
+  "Updated at": "Ngày cập nhật",
+  "New position": "Vị trí mới",
+  "Create position": "Tạo vị trí",
+  "Create new position": "Tạo mới vị trí",
+  "Cancel": "Hủy bỏ",
+  "Update position": "Cập nhật vị trí",
+  "Delete position": "Xóa vị trí",
+  "No, cancel": "Không, hủy",
+  "Yes, delete": "Đồng ý, xóa",
+  "delete_position_message": {
+    "part1": "Bạn đang xóa vị trí ",
+    "part2": "{{positionName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "Hành động này",
+    "part2": "không thể",
+    "part3": "hoàn tác. Bạn chắc chứ?"
+  },
+  "No data found": "Không tìm thấy dữ liệu."
+}

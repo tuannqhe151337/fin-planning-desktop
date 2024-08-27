@@ -172,7 +172,7 @@ const staggeredBaseQuery = retry(
   }),
   {
     maxRetries: 5,
-  }
+  },
 );
 
 const reportsAPI = createApi({
@@ -262,6 +262,7 @@ const reportsAPI = createApi({
 
           return endpoint;
         },
+        providesTags: ["report-detail"],
       }),
 
       approveExpenses: builder.mutation<
@@ -284,13 +285,14 @@ const reportsAPI = createApi({
         }),
         invalidatesTags: ["actual-cost"],
       }),
+
       reviewListExpenses: builder.mutation<any, UploadReportExpenses>({
         query: (uploadReportExpenses) => ({
           url: "report/upload",
           method: "POST",
           body: trimObject(uploadReportExpenses),
         }),
-        invalidatesTags: ["actual-cost", "query"],
+        invalidatesTags: ["actual-cost", "query", "report-detail"],
       }),
 
       markAsReviewed: builder.mutation<void, CompleteReviewReportBody>({

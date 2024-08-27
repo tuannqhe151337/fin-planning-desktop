@@ -60,12 +60,24 @@ export const ProtectedRootPage: React.FC = () => {
   // Logout modal
   const [isShowLogout, setIsShowLogout] = useState<boolean>(false);
 
+  // Sidebar width
+  const [width, setWidth] = useState<number>();
+
   return (
     <div>
       <Header onLogoutClick={() => setIsShowLogout(true)} />
       <div className="flex flex-row">
-        <Sidebar />
-        <div className="w-full">
+        <div className="sticky">
+          <Sidebar
+            onWidthChange={(width) => {
+              setWidth(width);
+            }}
+          />
+        </div>
+        <div
+          className="overflow-y-hidden"
+          style={{ width: width ? window.innerWidth - width - 1 : undefined }}
+        >
           <Outlet />
         </div>
       </div>

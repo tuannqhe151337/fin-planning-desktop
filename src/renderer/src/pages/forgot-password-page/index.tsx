@@ -12,13 +12,16 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForgotPasswordMutation } from "../../providers/store/api/usersApi";
 import { useEffect } from "react";
-import { setEmailToken } from "../../providers/store/slices/forgotPasswordSlice";
+import {
+  setEmail,
+  setEmailToken,
+} from "../../providers/store/slices/forgotPasswordSlice";
 import { LogoRedirect } from "../../widgets/logo-redirect";
 import { InputValidationMessage } from "../../shared/validation-input-message";
 import { Button } from "../../shared/button";
 import { CgSpinner } from "react-icons/cg";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
-import { useProcessError } from "@renderer/shared/utils/use-process-error";
+import { useProcessError } from "../../shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -102,6 +105,7 @@ export const ForgotPasswordPage: React.FC = () => {
     useForgotPasswordMutation();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
+    dispatch(setEmail(data.email));
     forgotPassword({
       email: data.email,
     });
@@ -175,6 +179,13 @@ export const ForgotPasswordPage: React.FC = () => {
                   className="w-full bg-white dark:bg-neutral-900"
                   size="lg"
                   autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("email", { required: true })}
                 />
                 <InputValidationMessage

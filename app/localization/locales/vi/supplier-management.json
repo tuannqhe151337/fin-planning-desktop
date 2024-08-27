@@ -1,0 +1,27 @@
+{
+  "Supplier management":"Quản lý nhà cung cấp",
+  "Supplier name": "Tên nhà cung cấp",
+  "No.": "STT",
+  "Name": "Tên",
+  "Created at": "Ngày tạo",
+  "Updated at": "Ngày cập nhật",
+  "New supplier": "Nhà cung cấp mới",
+  "Create supplier": "Tạo nhà cung cấp",
+  "Create new supplier": "Tạo mới nhà cung cấp",
+  "Cancel": "Hủy bỏ",
+  "Update supplier": "Cập nhật nhà cung cấp",
+  "Delete supplier": "Xóa nhà cung cấp",
+  "No, cancel": "Không, hủy",
+  "Yes, delete": "Đồng ý, xóa",
+  "delete_supplier_message": {
+    "part1": "Bạn đang xóa nhà cung cấp ",
+    "part2": "{{supplierName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "Hành động này",
+    "part2": "không thể",
+    "part3": "hoàn tác. Bạn chắc chứ?"
+  },
+  "No data found": "Không tìm thấy dữ liệu."
+}

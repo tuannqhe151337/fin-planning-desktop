@@ -22,8 +22,7 @@ import { CgSpinner } from "react-icons/cg";
 import { InputValidationMessage } from "../../shared/validation-input-message";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
 import { PasswordInput } from "../../shared/password-input";
-import doimatkhauImg from "../../assets/images/doimatkhau.svg";
-import { useProcessError } from "@renderer/shared/utils/use-process-error";
+import { useProcessError } from "../../shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -83,7 +82,7 @@ const NewPasswordSchema = z
   .string()
   .regex(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    "Use 8 characters or more and include a mix of letters, numbers, and symbols",
+    "Use 8 characters or more and include a mix of letters, numbers, and symbols"
   );
 const ConfirmPasswordSchema = z
   .string()
@@ -169,7 +168,7 @@ export const ResetPasswordPage: React.FC = () => {
               initial={AnimationStage.HIDDEN}
               animate={AnimationStage.VISIBLE}
               variants={imageAnimation}
-              src={doimatkhauImg}
+              src="/images/doimatkhau.svg"
               alt=""
               className="h-[500px]"
             />
@@ -202,6 +201,13 @@ export const ResetPasswordPage: React.FC = () => {
                   className="w-full bg-white dark:bg-neutral-900"
                   size="lg"
                   autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("newPassword", { required: true })}
                 />
                 <InputValidationMessage
@@ -218,7 +224,13 @@ export const ResetPasswordPage: React.FC = () => {
                   label={t("confirmNewPassword")}
                   className="w-full bg-white dark:bg-neutral-900"
                   size="lg"
-                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("confirmPassword", { required: true })}
                 />
 
@@ -229,7 +241,7 @@ export const ResetPasswordPage: React.FC = () => {
 
                     if (watch("newPassword") !== watch("confirmPassword")) {
                       throw new Error(
-                        "Confirm new password must equal new password",
+                        "Confirm new password must equal new password"
                       );
                     }
                   }}

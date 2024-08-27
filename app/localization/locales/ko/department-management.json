@@ -1,0 +1,27 @@
+{
+  "Department management": "부서 관리",
+  "Department name": "부서 이름",
+  "No.": "번호",
+  "Name": "이름",
+  "Created at": "생성 날짜",
+  "Updated at": "수정 날짜",
+  "New department": "새 부서",
+  "Create department": "부서 생성",
+  "Create new department": "새 부서 생성",
+  "Cancel": "취소",
+  "Update department": "부서 수정",
+  "Delete department": "부서 삭제",
+  "No, cancel": "아니요, 취소",
+  "Yes, delete": " 예, 삭제",
+  "delete_department_message": {
+    "part1": "",
+    "part2": "{{departmentName}}",
+    "part3": " 부서를 삭제하려고 합니다"
+  },
+  "confirmation_message": {
+    "part1": "이 작업은",
+    "part2": "취소할 수 없습니다",
+    "part3": ". 정말 확실합니까?"
+  },
+  "No data found": "데이터 없음."
+}

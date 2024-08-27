@@ -6,10 +6,12 @@ import { Pagination } from "../../shared/pagination";
 import { TermList } from "./component/term-list";
 import {
   ListTermWhenCreatePlanParameters,
+  termAPI,
   TermCreatePlan,
   useLazyGetListTermWhenCreatePlanQuery,
 } from "../../providers/store/api/termApi";
-import { useWindowHeight } from "@renderer/shared/utils/use-window-height";
+import { useWindowHeight } from "../../shared/utils/use-window-height";
+import { useDispatch } from "react-redux";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -51,6 +53,15 @@ interface Props {
 }
 
 export const ChooseTermStage: React.FC<Props> = ({ hide, onTermSelected }) => {
+  // Remove cache each time show this stage
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!hide) {
+      dispatch(termAPI.util.resetApiState());
+    }
+  }, [hide]);
+
   // Pagination
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
@@ -75,7 +86,7 @@ export const ChooseTermStage: React.FC<Props> = ({ hide, onTermSelected }) => {
     }, 200);
 
     return () => clearTimeout(timeoutId);
-  }, [searchboxValue, page, pageSize, hide]);
+  }, [searchboxValue, page, hide]);
 
   // Calculate optimal height for select term
   const windowHeight = useWindowHeight();
@@ -112,8 +123,8 @@ export const ChooseTermStage: React.FC<Props> = ({ hide, onTermSelected }) => {
         <TermList
           hide={hide}
           isFetching={isFetching}
-          isEmpty={isSuccess && data?.pagination.totalRecords === 0}
           height={termListHeight}
+          isEmpty={isSuccess && data?.pagination.totalRecords === 0}
           terms={data?.data || []}
           onClick={(term) => {
             onTermSelected && onTermSelected(term);
@@ -136,7 +147,7 @@ export const ChooseTermStage: React.FC<Props> = ({ hide, onTermSelected }) => {
                 } else if (page > 1) {
                   return page - 1;
                 }
-              }),
+              })
             );
           }}
           onNext={() => {
@@ -151,7 +162,7 @@ export const ChooseTermStage: React.FC<Props> = ({ hide, onTermSelected }) => {
                 } else if (page < data?.pagination.numPages) {
                   return page + 1;
                 }
-              }),
+              })
             );
           }}
         />

@@ -17,6 +17,9 @@ i18n
     // saveMissing: true,
     // saveMissingTo: "current",
     lng: "vi",
+    react: {
+      useSuspense: false,
+    },
   });
 
 export default i18n;

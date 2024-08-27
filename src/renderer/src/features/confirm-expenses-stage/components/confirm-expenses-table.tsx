@@ -7,6 +7,7 @@ import { Expense } from "../../upload-file-stage/type";
 import clsx from "clsx";
 import { TETooltip } from "tw-elements-react";
 import { useWindowHeight } from "../../../shared/utils/use-window-height";
+import { truncateString } from "../../../shared/utils/truncate-string";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -74,22 +75,19 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
 
-  const renderExpenseCodeValue = useCallback(
-    (expenseCode?: string | number) => {
-      if (expenseCode) {
-        if (expenseCode.toString().length > 8) {
-          return (
-            <TETooltip className="cursor-default" title={expenseCode}>
-              {expenseCode.toString().substring(0, 8)}...
-            </TETooltip>
-          );
-        } else {
-          return <>{expenseCode}</>;
-        }
+  const renderTruncateValue = useCallback((value?: string | number) => {
+    if (value) {
+      if (value.toString().length > 8) {
+        return (
+          <TETooltip className="cursor-default" title={value}>
+            {value.toString().substring(0, 8)}...
+          </TETooltip>
+        );
+      } else {
+        return <>{value}</>;
       }
-    },
-    []
-  );
+    }
+  }, []);
 
   // UI: small text for large table
   const isSmallText = useMemo(() => {
@@ -104,10 +102,8 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
   }, [windowHeight, tableOffsetHeight]);
 
   useEffect(() => {
-    // Header height: 32px
-    // Row height: 56px
     const headerHeight = isSmallText ? 28 : 32;
-    const rowHeight = isSmallText ? 52 : 56;
+    const rowHeight = isSmallText ? 72 : 56;
     setPageSize(Math.floor((tableHeight - headerHeight) / rowHeight));
   }, [windowHeight, tableHeight, tableOffsetHeight]);
 
@@ -242,7 +238,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                 .map((expense, index) => (
                   <motion.tr key={index} variants={rowAnimation}>
                     {showExpenseIdColumn && (
-                      <td className="px-4 py-4 lg:w-min sm:w-[100px] font-extrabold text-left">
+                      <td className="px-4 py-4 w-min font-extrabold text-left">
                         <div
                           className={clsx({
                             "text-sm": isSmallText,
@@ -253,26 +249,27 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                       </td>
                     )}
                     {showExpenseCodeColumn && (
-                      <td className="px-4 py-4 lg:w-min sm:w-[100px] font-extrabold text-left">
+                      <td className="px-4 py-4 w-min font-extrabold text-left">
                         <div
                           className={clsx({
+                            "w-min": true,
                             "text-sm": isSmallText,
                           })}
                         >
-                          {renderExpenseCodeValue(expense.code)}
+                          {renderTruncateValue(expense.code)}
                         </div>
                       </td>
                     )}
-                    <td className="px-4 py-4 lg:w-min sm:w-[100px] font-extrabold text-left">
+                    <td className="px-4 py-4 w-min font-extrabold text-left">
                       <div
                         className={clsx({
                           "text-sm": isSmallText,
                         })}
                       >
-                        {expense.name}
+                        {renderTruncateValue(expense.name)}
                       </div>
                     </td>
-                    <td className="px-4 py-4 lg:w-min sm:w-[100px] font-bold text-center">
+                    <td className="px-4 py-4 font-bold text-center">
                       <div
                         className={clsx({
                           "text-sm": isSmallText,
@@ -281,9 +278,10 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         {expense.costType.name}
                       </div>
                     </td>
-                    <td className="px-4 py-4 xl:w-min font-bold text-right">
+                    <td className="px-4 py-4 xl:w-min w-min font-bold text-right">
                       <div
                         className={clsx({
+                          "w-min": true,
                           "text-sm": isSmallText,
                         })}
                       >
@@ -296,7 +294,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         />
                       </div>
                     </td>
-                    <td className="px-4 py-4 xl:w-min font-bold text-center">
+                    <td className="px-4 py-4 xl:w-min w-min font-bold text-center">
                       <div
                         className={clsx({
                           "text-sm": isSmallText,
@@ -334,7 +332,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 xl:w-min font-bold text-center">
+                    <td className="px-4 py-4 font-bold text-center">
                       <div
                         className={clsx({
                           "text-sm": isSmallText,
@@ -343,18 +341,19 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                         {expense.project.name}
                       </div>
                     </td>
-                    <td className="px-4 py-4 lg:w-min sm:w-[100px] font-bold text-center">
+                    <td className="px-4 py-4 w-min font-bold text-center">
                       <div
                         className={clsx({
                           "text-sm": isSmallText,
                         })}
                       >
-                        {expense.supplier.name}
+                        {truncateString(expense.supplier.name, 8)}
                       </div>
                     </td>
-                    <td className="px-4 py-4 xl:w-min font-bold text-center">
+                    <td className="px-4 py-4 font-bold text-center">
                       <div
                         className={clsx({
+                          "w-min": true,
                           "text-sm": isSmallText,
                         })}
                       >
@@ -364,6 +363,7 @@ export const ConfirmExpensesTable: React.FC<Props> = ({
                     <td className="px-4 py-4 lg:w-min sm:w-[100px] font-bold text-center text-neutral-400 dark:text-neutral-500">
                       <div
                         className={clsx({
+                          "w-min": true,
                           "text-sm": isSmallText,
                         })}
                       >

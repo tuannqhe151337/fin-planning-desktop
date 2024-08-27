@@ -127,7 +127,7 @@ const staggeredBaseQuery = retry(
   }),
   {
     maxRetries: 5,
-  }
+  },
 );
 
 export const termAPI = createApi({
@@ -149,7 +149,7 @@ export const termAPI = createApi({
 
         return endpoint;
       },
-      providesTags: ["terms", "create-plan-terms"],
+      providesTags: ["terms"],
     }),
 
     getListTermInterval: builder.query<TermInterval, void>({
@@ -169,6 +169,7 @@ export const termAPI = createApi({
 
         return endpoint;
       },
+      providesTags: ["create-plan-terms"],
     }),
 
     createTerm: builder.mutation<any, CreateTermBody>({

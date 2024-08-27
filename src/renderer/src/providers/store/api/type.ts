@@ -35,7 +35,7 @@ export enum Role {
 export const ExpenseStatusCodes = StringUnion(
   "WAITING_FOR_APPROVAL",
   "APPROVED",
-  "DENIED"
+  "DENIED",
 );
 
 export type ExpenseStatusCode = typeof ExpenseStatusCodes.type;
@@ -50,9 +50,23 @@ export interface Expense {
   currency: Currency;
   project: Project;
   supplier: Supplier;
+  department: Department;
   pic: Pic;
   notes: string;
   status: ExpenseStatus;
+  approvedBy: ApprovedBy;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApprovedBy {
+  approvedById?: number;
+  name?: string;
+}
+
+export interface Department {
+  departmentId: number;
+  name: string;
 }
 
 export interface Currency {

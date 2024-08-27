@@ -1,0 +1,27 @@
+{
+  "Position management": "Position management",
+  "New position": "New position",
+  "No.": "No.",
+  "Name": "Name",
+  "Created at": "Created at",
+  "Updated at": "Updated at",
+  "Position name": "Position name",
+  "Create position": "Create position",
+  "Create new position": "Create new position",
+  "Cancel": "Cancel",
+  "Update position": "Update position",
+  "Delete position": "Delete position",
+  "No, cancel": "No, cancel",
+  "Yes, delete": "Yes, delete",
+  "delete_position_message": {
+    "part1": "You're going to delete position ",
+    "part2": "{{positionName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "This action",
+    "part2": "cannot",
+    "part3": "be reversed. Are you sure?"
+  },
+  "No data found": "No data found."
+}

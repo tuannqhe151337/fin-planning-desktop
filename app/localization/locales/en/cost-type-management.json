@@ -1,0 +1,27 @@
+{
+  "Cost type management": "Cost type management",
+  "Cost type name": "Cost type name",
+  "No.": "No.",
+  "Name": "Name",
+  "Created at": "Created at",
+  "Updated at": "Updated at",
+  "New cost type": "New cost type",
+  "Create cost type": "Create cost type",
+  "Create new cost type": "Create new cost type",
+  "Cancel": "Cancel",
+  "Update cost type": "Update cost type",
+  "Delete cost type": "Delete cost type",
+  "No, cancel": "No, cancel",
+  "Yes, delete": "Yes, delete",
+  "delete_costType_message": {
+    "part1": "You're going to delete cost type ",
+    "part2": "{{costTypeName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "This action",
+    "part2": "cannot",
+    "part3": "be reversed. Are you sure?"
+  },
+  "No data found": "No data found."
+}

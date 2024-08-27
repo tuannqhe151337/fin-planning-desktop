@@ -13,5 +13,7 @@
   "Department": "부서",
   "Total expenses": "총 지출",
   "Biggest expenditure": "최대 지출",
-  "Cost type": "비용 유형"
+  "Cost type": "비용 유형",
+  "Total users": "총 사용자",
+  "Total positions": "총 직위"
 }

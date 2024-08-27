@@ -44,5 +44,8 @@
   "No, cancel": "No, cancel",
   "Yes, start term": "Yes, start term",
   "Yes, delete": "Yes, delete",
-  "Back": "Back"
+  "Back": "Back",
+  "Start - end date": "Start - end date",
+  "Reupload period": "Reupload period",
+  "Reupload plan period": "Reupload plan period"
 }

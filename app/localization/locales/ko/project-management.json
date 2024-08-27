@@ -1,0 +1,27 @@
+{
+  "Project management": "프로젝트 관리",
+  "Project name": "프로젝트 이름",
+  "No.": "번호",
+  "Name": "이름",
+  "Created at": "생성 날짜",
+  "Updated at": "수정 날짜",
+  "New project": "새 프로젝트",
+  "Create project": "프로젝트 생성",
+  "Create new project": "새 프로젝트 생성",
+  "Cancel": "취소",
+  "Update project": "프로젝트 수정",
+  "Delete project": "프로젝트 삭제",
+  "No, cancel": "아니요, 취소",
+  "Yes, delete": " 예, 삭제",
+  "delete_project_message": {
+    "part1": "",
+    "part2": "{{projectName}}",
+    "part3": " 프로젝트를 삭제하려고 합니다"
+  },
+  "confirmation_message": {
+    "part1": "이 작업은",
+    "part2": "취소할 수 없습니다",
+    "part3": ". 정말 확실합니까?"
+  },
+  "No data found": "데이터 없음."
+}

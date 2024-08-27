@@ -1,0 +1,27 @@
+{
+  "Position management": "직위 관리",
+  "Position name": "직위 이름",
+  "No.": "번호",
+  "Name": "이름",
+  "Created at": "생성 날짜",
+  "Updated at": "수정 날짜",
+  "New position": "새 직위",
+  "Create position": "직위 생성",
+  "Create new position": "새 직위 생성",
+  "Cancel": "취소",
+  "Update position": "직위 수정",
+  "Delete position": "직위 삭제",
+  "No, cancel": "아니요, 취소",
+  "Yes, delete": " 예, 삭제",
+  "delete_position_message": {
+    "part1": "",
+    "part2": "{{positionName}}",
+    "part3": " 직위를 삭제하려고 합니다"
+  },
+  "confirmation_message": {
+    "part1": "이 작업은",
+    "part2": "취소할 수 없습니다",
+    "part3": ". 정말 확실합니까?"
+  },
+  "No data found": "데이터 없음."
+}

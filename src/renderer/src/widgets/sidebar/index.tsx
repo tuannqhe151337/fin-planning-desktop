@@ -12,7 +12,7 @@ import {
   FaProjectDiagram,
 } from "react-icons/fa";
 import { Tab } from "./ui/tab";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useTranslation } from "react-i18next";
 import { IconButton } from "../../shared/icon-button";
@@ -22,7 +22,11 @@ import { HiOfficeBuilding } from "react-icons/hi";
 import { PiOfficeChairFill } from "react-icons/pi";
 import { CurrencyConversionIcon } from "../../shared/icons/currency-conversion-icon";
 
-export const Sidebar = () => {
+interface Props {
+  onWidthChange?: (width: number) => any;
+}
+
+export const Sidebar: React.FC<Props> = ({ onWidthChange }) => {
   // i18n
   const { t } = useTranslation(["sidebar"]);
 
@@ -46,10 +50,15 @@ export const Sidebar = () => {
     setWidth(isExpanded ? 275 : 85);
   }, [isExpanded]);
 
+  // Pass to outer components
+  useEffect(() => {
+    onWidthChange && onWidthChange(width);
+  }, [width]);
+
   return (
     <ResizableBox
       className="pl-5 z-20"
-      height={window.innerHeight - 100}
+      height={Infinity}
       width={width}
       minConstraints={[80, Infinity]}
       resizeHandles={["e"]}
@@ -164,7 +173,7 @@ export const Sidebar = () => {
                 icon={<HiOfficeBuilding className="text-2xl -ml-0.5" />}
                 text={t("Department")}
                 selected={location.pathname.startsWith(
-                  "/department-management"
+                  "/department-management",
                 )}
                 isExpanded={isExpanded}
               />

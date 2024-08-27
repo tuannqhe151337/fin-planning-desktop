@@ -1,0 +1,27 @@
+{
+  "Department management": "Quản lý phòng ban",
+  "Department name": "Tên phòng ban",
+  "No.": "STT",
+  "Name": "Tên",
+  "Created at": "Ngày tạo",
+  "Updated at": "Ngày cập nhật",
+  "New department": "Phòng ban mới",
+  "Create department": "Tạo phòng ban",
+  "Create new department": "Tạo mới phòng ban",
+  "Cancel": "Hủy bỏ",
+  "Update department": "Cập nhật phòng ban",
+  "Delete department": "Xóa phòng ban",
+  "No, cancel": "Không, hủy",
+  "Yes, delete": "Đồng ý, xóa",
+  "delete_department_message": {
+    "part1": "Bạn đang xóa phòng ban ",
+    "part2": "{{departmentName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "Hành động này",
+    "part2": "không thể",
+    "part3": "hoàn tác. Bạn chắc chứ?"
+  },
+  "No data found": "Không tìm thấy dữ liệu."
+}

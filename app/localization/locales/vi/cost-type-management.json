@@ -1,0 +1,27 @@
+{
+  "Cost type management": "Quản lý loại chi phí",
+  "Cost type name": "Tên loại chi phí",
+  "No.": "STT",
+  "Name": "Tên",
+  "Created at": "Ngày tạo",
+  "Updated at": "Ngày cập nhật",
+  "New cost type": "Loại chi phí mới",
+  "Create cost type": "Tạo loại chi phí",
+  "Create new cost type": "Tạo mới loại chi phí",
+  "Cancel": "Hủy bỏ",
+  "Update cost type": "Cập nhật loại chi phí",
+  "Delete cost type": "Xóa loại chi phí",
+  "No, cancel": "Không, hủy",
+  "Yes, delete": "Đồng ý, xóa",
+  "delete_costType_message": {
+    "part1": "Bạn đang xóa loại chi phí ",
+    "part2": "{{costTypeName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "Hành động này",
+    "part2": "không thể",
+    "part3": "hoàn tác. Bạn chắc chứ?"
+  },
+  "No data found": "Không tìm thấy dữ liệu."
+}

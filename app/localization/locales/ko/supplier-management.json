@@ -1,0 +1,27 @@
+{
+  "Supplier management": "공급자 관리",
+  "Supplier name": "공급자 이름",
+  "No.": "번호",
+  "Name": "이름",
+  "Created at": "생성 날짜",
+  "Updated at": "수정 날짜",
+  "New supplier": "새 공급자",
+  "Create supplier": "공급자 생성",
+  "Create new supplier": "새 공급자 생성",
+  "Cancel": "취소",
+  "Update supplier": "공급자 수정",
+  "Delete supplier": "공급자 삭제",
+  "No, cancel": "아니요, 취소",
+  "Yes, delete": " 예, 삭제",
+  "delete_supplier_message": {
+    "part1": "",
+    "part2": "{{supplierName}}",
+    "part3": " 공급자를 삭제하려고 합니다"
+  },
+  "confirmation_message": {
+    "part1": "이 작업은",
+    "part2": "취소할 수 없습니다",
+    "part3": ". 정말 확실합니까?"
+  },
+  "No data found": "데이터 없음."
+}

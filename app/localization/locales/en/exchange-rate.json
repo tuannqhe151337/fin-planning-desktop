@@ -1,0 +1,42 @@
+{
+  "Exchange rate": "Exchange rate",
+  "Monthly rate": "Monthly rate",
+  "Currency": "Currency",
+  "value compare to VND": "value compare to VND",
+  "Month": "Month",
+  "ID": "ID",
+  "Name": "Name",
+  "Created at": "Created at",
+  "Updated at": "Updated at",
+  "Update currency": "Update currency",
+  "Currency name": "Currency name",
+  "Symbol": "Symbol",
+  "Prefix": "Prefix",
+  "Suffix": "Suffix",
+  "Cancel": "Cancel",
+  "Delete currency": "Delete currency",
+  "No, cancel": "No, cancel",
+  "Yes, delete": "Yes, delete",
+  "delete_currency_message": {
+    "part1": "You're going to delete the currency ",
+    "part2": "{{currencyName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "This action",
+    "part2": "cannot",
+    "part3": "be reversed. Are you sure?"
+  },
+  "No data found": "No data found.",
+  "Add new currency": "Add new currency",
+  "Base currency": "Base currency",
+  "Delete monthly exchange rate": "Delete monthly exchange rate",
+  "delete_currencyMonthly_message": {
+    "part1": "You're going to delete exchange rate of ",
+    "part2": "{{currencyMonthlyName}}",
+    "part3": ""
+  },
+  "New monthly rate conversion": "New monthly rate conversion",
+  "New monthly rate": "New monthly rate"
+
+}

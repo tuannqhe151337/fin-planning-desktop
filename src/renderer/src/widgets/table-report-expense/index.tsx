@@ -14,6 +14,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ExpenseActionContextMenu } from "../../entities/expense-action-context-menu";
 import { ExpenseCodePreviewer } from "../../entities/expense-code-previewer";
+import { useTranslation } from "react-i18next";
+import { ExpenseNamePreviewer } from "@renderer/entities/expense-name-previewer";
+import { TETooltip } from "tw-elements-react";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -95,6 +98,9 @@ export const TableReportExpenses: React.FC<Props> = ({
   onPrevious,
   onNext,
 }) => {
+  // i18n
+  const { t } = useTranslation(["report-management"]);
+
   // Chosen expense
   const [chosenExpense, setChosenExpense] = useState<Expense>();
 
@@ -168,37 +174,37 @@ export const TableReportExpenses: React.FC<Props> = ({
               </th>
             )}
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70 text-left">
-              Expenses
+              {t("Expenses")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70 text-left">
-              Code
+              {t("Code")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Cost type
+              {t("Cost type")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Unit price
+              {t("Unit price")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Amount
+              {t("Amount")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Total
+              {t("Total")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Project name
+              {t("Project name")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Supplier name
+              {t("Supplier name")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              PiC
+              {t("PiC")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Notes
+              {t("Notes")}
             </th>
             <th className="px-1 xl:px-3 lg:py-1 xl:py-3 font-bold dark:font-bold text-primary/70">
-              Status
+              {t("Status")}
             </th>
           </tr>
         </motion.thead>
@@ -264,7 +270,10 @@ export const TableReportExpenses: React.FC<Props> = ({
                   {isFetching ? (
                     <Skeleton className="w-[60px]" />
                   ) : (
-                    <> {expense.name}</>
+                    <ExpenseNamePreviewer
+                      expenseName={expense.name}
+                      notes={expense.notes}
+                    />
                   )}
                 </td>
                 <td className="px-2 py-3 xl:py-5 lg:w-min sm:w-[100px] font-extrabold text-left">
@@ -276,7 +285,7 @@ export const TableReportExpenses: React.FC<Props> = ({
                     <ExpenseCodePreviewer expenseCode={expense.expenseCode} />
                   ) : (
                     <div className="opacity-40 font-semibold italic select-none">
-                      Empty
+                      {t("Empty")}
                     </div>
                   )}
                 </td>
@@ -371,7 +380,15 @@ export const TableReportExpenses: React.FC<Props> = ({
                     {isFetching ? (
                       <Skeleton className="w-[60px]" />
                     ) : (
-                      <ExpenseTag statusCode={expense.status.code} />
+                      <TETooltip
+                        enabled={
+                          expense.approvedBy.name !== undefined &&
+                          expense.approvedBy.name !== null
+                        }
+                        title={`${expense.status.name} by ${expense.approvedBy.name}`}
+                      >
+                        <ExpenseTag statusCode={expense.status.code} />
+                      </TETooltip>
                     )}
                   </div>
                 </td>
@@ -382,7 +399,7 @@ export const TableReportExpenses: React.FC<Props> = ({
 
       {isDataEmpty && (
         <div className="flex flex-row flex-wrap items-center justify-center w-full min-h-[250px] text-lg font-semibold text-neutral-400 italic">
-          No data found.
+          {t("No data found")}
         </div>
       )}
 

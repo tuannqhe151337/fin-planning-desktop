@@ -1,0 +1,27 @@
+{
+  "Supplier management": "Supplier management",
+  "New supplier": "New supplier",
+  "No.": "No.",
+  "Name": "Name",
+  "Created at": "Created at",
+  "Updated at": "Updated at",
+  "Supplier name": "Supplier name",
+  "Create Supplier": "Create Supplier",
+  "Create new Supplier": "Create new supplier",
+  "Cancel": "Cancel",
+  "Update Supplier": "Update supplier",
+  "Delete Supplier": "Delete supplier",
+  "No, cancel": "No, cancel",
+  "Yes, delete": "Yes, delete",
+  "delete_supplier_message": {
+    "part1": "You're going to delete supplier ",
+    "part2": "{{supplierName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "This action",
+    "part2": "cannot",
+    "part3": "be reversed. Are you sure?"
+  },
+  "No data found": "No data found."
+}

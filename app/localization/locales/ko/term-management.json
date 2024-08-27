@@ -43,5 +43,8 @@
   "No, cancel": "아니요, 취소",
   "Yes, start term": "예, 기간 시작",
   "Yes, delete": "예, 삭제",
-  "Back": "뒤로"
+  "Back": "뒤로",
+  "Start - end date": "시작 - 종료 날짜",
+  "Reupload period": "재업로드 기간",
+  "Reupload plan period": "계획 재업로드 기간"
 }

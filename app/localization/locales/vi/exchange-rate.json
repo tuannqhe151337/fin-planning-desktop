@@ -1,0 +1,41 @@
+{
+  "Exchange rate": "Tỷ giá hối đoái",
+  "Monthly rate": "Tỷ lệ hàng tháng",
+  "Currency": "Tiền tệ",
+  "value compare to VND": "value compare to VND",
+  "Month": "Tháng",
+  "ID": "ID",
+  "Name": "Tên",
+  "Created at": "Ngày tạo",
+  "Updated at": "Ngày sửa đổi",
+  "Update currency": "Cập nhật loại tiền",
+  "Currency name": "Tên loại tiền",
+  "Symbol": "Ký hiệu",
+  "Prefix": "Tiền tố",
+  "Suffix": "Hậu tố",
+  "Cancel": "Hủy bỏ",
+  "Delete currency": "Xóa loại tiền",
+  "No, cancel": "Không, hủy bỏ",
+  "Yes, delete": "Đồng ý, xóa",
+  "delete_currency_message": {
+    "part1": "Bạn đang xóa loại tiền ",
+    "part2": "{{currencyName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "Hành động này",
+    "part2": "không thể",
+    "part3": "hoàn tác. Bạn chắc chứ?"
+  },
+  "No data found": "Không tìm thấy dữ liệu.",
+  "Add new currency": "Thêm loại tiền mới",
+  "Base currency": "Loại tiền mặc định",
+  "Delete monthly exchange rate": "Xóa tỷ giá hối đoái hàng tháng",
+  "delete_currencyMonthly_message": {
+    "part1": "Bạn đang xóa tỷ giá hối đoái ",
+    "part2": "{{currencyMonthlyName}}",
+    "part3": ""
+  },
+  "New monthly rate conversion": "Chuyển đổi tỷ giá tháng mới",
+  "New monthly rate": "Thêm tỷ giá tháng mới"
+}

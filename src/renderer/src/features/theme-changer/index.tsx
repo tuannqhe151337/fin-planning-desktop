@@ -63,7 +63,7 @@ export const ThemeChanger = () => {
   }, [me?.settings.theme]);
 
   return (
-    <div ref={ref} className="relative z-30">
+    <div ref={ref} className="relative z-50">
       <IconButton
         tooltip="Change theme"
         showTooltip={!isDropdownOpen}

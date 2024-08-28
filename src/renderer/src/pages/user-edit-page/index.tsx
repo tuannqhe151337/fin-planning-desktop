@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BubbleBanner } from "../../entities/bubble-banner";
@@ -24,13 +24,14 @@ import { allowOnlyNumber } from "../../shared/utils/allow-only-number";
 import { RoleFilter } from "../../entities/role-filter";
 import { PositionFilter } from "../../entities/position-filter";
 import { CgSpinner } from "react-icons/cg";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
 import { toast } from "react-toastify";
-import { ErrorData, Role } from "../../providers/store/api/type";
+import { Role } from "../../providers/store/api/type";
 import { InputSkeleton } from "../../shared/input-skeleton";
 import { usePageAuthorizedForRole } from "../../features/use-page-authorized-for-role";
 import { parseISOInResponse } from "../../shared/utils/parse-iso-in-response";
 import { useTranslation } from "react-i18next";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
+import { formatISODateForBody } from "@renderer/shared/utils/format-iso-date-for-body";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -94,7 +95,7 @@ const FullNameSchema = z
   .string()
   .regex(
     /^[\p{L}\s]{5,}$/u,
-    "Full name should be at least 5 characters long and should not contain special characters"
+    "Full name should be at least 5 characters long and should not contain special characters",
   );
 
 const PhoneNumberSchema = z
@@ -109,7 +110,10 @@ const PositionIdSchema = z.number().gt(0, "Please choose a position");
 
 const DepartmentIdSchema = z.number().gt(0, "Please choose a department");
 
-const AddressSchema = z.string().nullable();
+const AddressSchema = z
+  .string()
+  .min(1, "Address can not be empty")
+  .max(200, "Address can not be greater than 200 characters");
 
 const RoleIdSchema = z.number().gt(0, "Please choose a role");
 
@@ -180,8 +184,6 @@ export const UserEditPage: React.FC = () => {
     useUpdateUserMutation();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    const birthDateString = data.birthDate.toISOString().replace("Z", "");
-
     if (userId) {
       const numericUserId = parseInt(userId, 10);
 
@@ -193,7 +195,7 @@ export const UserEditPage: React.FC = () => {
         departmentId: data.departmentId,
         roleId: data.roleId,
         positionId: data.positionId,
-        dob: birthDateString,
+        dob: formatISODateForBody(data.birthDate),
         address: data.address || "",
       });
     }
@@ -208,19 +210,7 @@ export const UserEditPage: React.FC = () => {
   }, [isLoading, isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message)
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   useEffect(() => {
     if (isError) {
@@ -243,7 +233,6 @@ export const UserEditPage: React.FC = () => {
               to={`/user-management`}
               className="font-bold opacity-70 hover:opacity-100 hover:underline duration-200"
             >
-              
               {t("User management")}
             </Link>
             <span className="text-base opacity-40">&gt;</span>
@@ -291,6 +280,13 @@ export const UserEditPage: React.FC = () => {
                   label={t("Full name")}
                   className="mb-4 font-semibold !text-neutral-500 bg-white dark:bg-neutral-900"
                   autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("fullName", { required: true })}
                 />
                 <InputValidationMessage
@@ -360,6 +356,13 @@ export const UserEditPage: React.FC = () => {
                       onChange={(e) => {
                         onChange(allowOnlyNumber(e.currentTarget.value));
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") {
+                          e.currentTarget.blur();
+                        } else if (e.key === "Enter") {
+                          handleSubmit(onSubmit)();
+                        }
+                      }}
                       {...props}
                     />
                   )}
@@ -427,6 +430,13 @@ export const UserEditPage: React.FC = () => {
                   type="email"
                   label={t("Email")}
                   className="mb-4 w-full font-semibold !text-neutral-500 bg-white dark:bg-neutral-900"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("email", { required: true })}
                 />
                 <InputValidationMessage
@@ -489,6 +499,13 @@ export const UserEditPage: React.FC = () => {
                   type="text"
                   label={t("Address")}
                   className="mb-4 w-full font-semibold !text-neutral-500 bg-white dark:bg-neutral-900"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("address")}
                 />
               </InputSkeleton>

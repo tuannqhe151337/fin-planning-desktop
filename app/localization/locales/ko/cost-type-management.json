@@ -1,0 +1,27 @@
+{
+  "Cost type management": "비용 유형 관리",
+  "Cost type name": "비용 유형 이름",
+  "No.": "번호",
+  "Name": "이름",
+  "Created at": "생성 날짜",
+  "Updated at": "수정 날짜",
+  "New cost type": "새 비용 유형",
+  "Create cost type": "비용 유형 생성",
+  "Create new cost type": "새 비용 유형 생성",
+  "Cancel": "취소",
+  "Update cost type": "비용 유형 수정",
+  "Delete cost type": "비용 유형 삭제",
+  "No, cancel": "아니요, 취소",
+  "Yes, delete": " 예, 삭제",
+  "delete_costType_message": {
+    "part1": "",
+    "part2": "{{costTypeName}}",
+    "part3": " 비용 유형을 삭제하려고 합니다"
+  },
+  "confirmation_message": {
+    "part1": "이 작업은",
+    "part2": "취소할 수 없습니다",
+    "part3": ". 정말 확실합니까?"
+  },
+  "No data found": "데이터 없음."
+}

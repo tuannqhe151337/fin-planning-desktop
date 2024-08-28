@@ -38,7 +38,7 @@ export const PositionFilter: React.FC<Props> = ({
   const loadOptions: LoadOptions<PositionOption, any, Additional> = async (
     currentQuery,
     _,
-    additional
+    additional,
   ) => {
     const page = additional?.page || 1;
 
@@ -72,7 +72,7 @@ export const PositionFilter: React.FC<Props> = ({
 
   // Select state
   const [selectedOption, setSelectedOption] = useState<PositionOption | null>(
-    defaultOption
+    defaultOption,
   );
 
   return (
@@ -88,7 +88,7 @@ export const PositionFilter: React.FC<Props> = ({
             onChange && onChange(value);
           }
         }}
-        options={[defaultOption]}
+        // options={[defaultOption]}
         loadOptions={loadOptions}
         additional={{
           page: 1,

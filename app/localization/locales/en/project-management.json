@@ -1,0 +1,27 @@
+{
+  "Project management": "Project management",
+  "New project": "New project",
+  "No.": "No.",
+  "Name": "Name",
+  "Created at": "Created at",
+  "Updated at": "Updated at",
+  "Project name": "Project name",
+  "Create project": "Create project",
+  "Create new project": "Create new project",
+  "Cancel": "Cancel",
+  "Update project": "Update project",
+  "Delete project": "Delete project",
+  "No, cancel": "No, cancel",
+  "Yes, delete": "Yes, delete",
+  "delete_project_message": {
+    "part1": "You're going to delete project ",
+    "part2": "{{projectName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "This action",
+    "part2": "cannot",
+    "part3": "be reversed. Are you sure?"
+  },
+  "No data found": "No data found."
+}

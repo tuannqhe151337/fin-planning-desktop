@@ -11,15 +11,17 @@ import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForgotPasswordMutation } from "../../providers/store/api/usersApi";
-import { useEffect, useState } from "react";
-import { setEmailToken } from "../../providers/store/slices/forgotPasswordSlice";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
+import { useEffect } from "react";
+import {
+  setEmail,
+  setEmailToken,
+} from "../../providers/store/slices/forgotPasswordSlice";
 import { LogoRedirect } from "../../widgets/logo-redirect";
-import { ErrorData } from "../../providers/store/api/type";
 import { InputValidationMessage } from "../../shared/validation-input-message";
 import { Button } from "../../shared/button";
 import { CgSpinner } from "react-icons/cg";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
+import { useProcessError } from "../../shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -74,7 +76,7 @@ type FormData = {
   email: string;
 };
 
-const EmailSchema = z.string().min(1, "Email cannot be empty");
+const EmailSchema = z.string().email().min(1, "Email cannot be empty");
 
 export const ForgotPasswordSchema: ZodType<FormData> = z.object({
   email: EmailSchema,
@@ -103,6 +105,7 @@ export const ForgotPasswordPage: React.FC = () => {
     useForgotPasswordMutation();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
+    dispatch(setEmail(data.email));
     forgotPassword({
       email: data.email,
     });
@@ -117,19 +120,7 @@ export const ForgotPasswordPage: React.FC = () => {
   }, [isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message),
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   return (
     <div className="flex flex-row flex-wrap w-full">
@@ -188,6 +179,13 @@ export const ForgotPasswordPage: React.FC = () => {
                   className="w-full bg-white dark:bg-neutral-900"
                   size="lg"
                   autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.currentTarget.blur();
+                    } else if (e.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                   {...register("email", { required: true })}
                 />
                 <InputValidationMessage

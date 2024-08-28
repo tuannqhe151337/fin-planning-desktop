@@ -6,10 +6,12 @@ import {
   LocalStorageItemKey,
   PaginationResponse,
 } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface ListReportParameters {
-  query?: string | null;
+  query?: string;
   termId?: number | null;
+  statusId?: number | null;
   page: number;
   pageSize: number;
 }
@@ -17,6 +19,7 @@ export interface ListReportParameters {
 export interface ListReportExpenseParameters {
   query?: string | null;
   currencyId?: number | null;
+  departmentId?: number | null;
   reportId: number | null;
   statusId?: number | null;
   costTypeId?: number | null;
@@ -169,7 +172,7 @@ const staggeredBaseQuery = retry(
   }),
   {
     maxRetries: 5,
-  }
+  },
 );
 
 const reportsAPI = createApi({
@@ -182,7 +185,7 @@ const reportsAPI = createApi({
         PaginationResponse<Report[]>,
         ListReportParameters
       >({
-        query: ({ query, termId, page, pageSize }) => {
+        query: ({ query, termId, statusId, page, pageSize }) => {
           let endpoint = `report/list?page=${page}&size=${pageSize}`;
 
           if (query && query !== "") {
@@ -191,6 +194,10 @@ const reportsAPI = createApi({
 
           if (termId) {
             endpoint += `&termId=${termId}`;
+          }
+
+          if (statusId) {
+            endpoint += `&statusId=${statusId}`;
           }
 
           return endpoint;
@@ -225,6 +232,7 @@ const reportsAPI = createApi({
           query,
           reportId,
           currencyId,
+          departmentId,
           costTypeId,
           statusId,
           page,
@@ -244,12 +252,17 @@ const reportsAPI = createApi({
             endpoint += `&costTypeId=${costTypeId}`;
           }
 
+          if (departmentId) {
+            endpoint += `&departmentId=${departmentId}`;
+          }
+
           if (statusId) {
             endpoint += `&statusId=${statusId}`;
           }
 
           return endpoint;
         },
+        providesTags: ["report-detail"],
       }),
 
       approveExpenses: builder.mutation<
@@ -259,7 +272,7 @@ const reportsAPI = createApi({
         query: (reviewExpenseBody) => ({
           url: "report/expense-approval",
           method: "PUT",
-          body: reviewExpenseBody,
+          body: trimObject(reviewExpenseBody),
         }),
         invalidatesTags: ["actual-cost"],
       }),
@@ -268,24 +281,25 @@ const reportsAPI = createApi({
         query: (reviewExpenseBody) => ({
           url: "report/expense-deny",
           method: "PUT",
-          body: reviewExpenseBody,
+          body: trimObject(reviewExpenseBody),
         }),
         invalidatesTags: ["actual-cost"],
       }),
+
       reviewListExpenses: builder.mutation<any, UploadReportExpenses>({
         query: (uploadReportExpenses) => ({
           url: "report/upload",
           method: "POST",
-          body: uploadReportExpenses,
+          body: trimObject(uploadReportExpenses),
         }),
-        invalidatesTags: ["actual-cost", "query"],
+        invalidatesTags: ["actual-cost", "query", "report-detail"],
       }),
 
       markAsReviewed: builder.mutation<void, CompleteReviewReportBody>({
         query: (completeReviewReportBody) => ({
           url: "report/complete-review",
           method: "POST",
-          body: completeReviewReportBody,
+          body: trimObject(completeReviewReportBody),
         }),
         invalidatesTags: ["report-detail"],
       }),

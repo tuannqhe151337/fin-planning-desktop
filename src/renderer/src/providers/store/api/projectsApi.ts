@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { ListResponse, LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface Project {
   projectId: number;
@@ -84,7 +85,7 @@ export const projectAPI = createApi({
       query: (createProjectBody) => ({
         url: `/project/create`,
         method: "POST",
-        body: createProjectBody,
+        body: trimObject(createProjectBody),
       }),
       invalidatesTags: ["projects"],
     }),
@@ -92,7 +93,7 @@ export const projectAPI = createApi({
       query: (updateProjectBody) => ({
         url: `/project/update`,
         method: "PUT",
-        body: updateProjectBody,
+        body: trimObject(updateProjectBody),
       }),
       invalidatesTags: ["projects"],
     }),
@@ -100,7 +101,7 @@ export const projectAPI = createApi({
       query: (deleteProjectBody) => ({
         url: `/project`,
         method: "DELETE",
-        body: deleteProjectBody,
+        body: trimObject(deleteProjectBody),
       }),
       invalidatesTags: ["projects"],
     }),

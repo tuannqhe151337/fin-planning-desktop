@@ -17,6 +17,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useScrollToTopOnLoad } from "../../shared/hooks/use-scroll-to-top-on-load";
 import { usePageAuthorizedForRole } from "../../features/use-page-authorized-for-role";
 import { Role } from "../../providers/store/api/type";
+import { useTranslation } from "react-i18next";
 
 const generateEmptyPlans = (total: number): Row[] => {
   const plans: Row[] = [];
@@ -87,6 +88,9 @@ const childrenAnimation: Variants = {
 };
 
 export const PlanManagementList: React.FC = () => {
+  // i18n
+  const { t } = useTranslation(["plan-management"]);
+
   // Authorized
   usePageAuthorizedForRole([Role.ACCOUNTANT, Role.FINANCIAL_STAFF]);
 
@@ -165,7 +169,7 @@ export const PlanManagementList: React.FC = () => {
       <BubbleBanner>
         <div className="flex flex-row flex-wrap w-full items-center mt-auto">
           <p className="text-primary dark:text-primary/70 font-extrabold text-2xl w-fit ml-7">
-            Plan management
+            {t("Plan management")}
           </p>
           <div className="ml-auto">
             <Button
@@ -175,7 +179,7 @@ export const PlanManagementList: React.FC = () => {
             >
               <div className="flex flex-row flex-wrap gap-3 ">
                 <FaUpload className="mt-0.5" />
-                <p className="text-sm font-semibold">Upload new plan</p>
+                <p className="text-sm font-semibold">{t("Upload new plan")}</p>
               </div>
             </Button>
           </div>

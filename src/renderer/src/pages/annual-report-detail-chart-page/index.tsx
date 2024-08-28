@@ -6,7 +6,8 @@ import {
   useLazyFetchAnnualReportDetailQuery,
 } from "../../providers/store/api/annualsAPI";
 import { useEffect } from "react";
-import { ApexOptions } from "apexcharts";
+import { formatViMoney } from "../../shared/utils/format-vi-money";
+import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
 
 export const AnnualReportDetailChartPage: React.FC = () => {
   // Get annual report detail
@@ -31,20 +32,10 @@ export const AnnualReportDetailChartPage: React.FC = () => {
     }
   }, [annualDetail]);
 
-  if (!isFetching && isSuccess && !annual) return <p>No annual found</p>;
+  // Is dark mode
+  const isDarkmode = useDetectDarkmode();
 
-  const chartOptions: ApexOptions = {
-    chart: { id: "annual-report-chart", toolbar: { show: false } },
-    legend: { position: "bottom" },
-    dataLabels: { enabled: true },
-    plotOptions: {
-      pie: {
-        donut: {
-          labels: { show: true },
-        },
-      },
-    },
-  };
+  if (!isFetching && isSuccess && !annual) return <p>No annual found</p>;
 
   return (
     <div className="mt-8">
@@ -52,10 +43,41 @@ export const AnnualReportDetailChartPage: React.FC = () => {
       {isSuccess && annual && (
         <Chart
           options={{
-            ...chartOptions,
+            chart: { id: "annual-report-chart", toolbar: { show: false } },
+            stroke: { show: isDarkmode ? false : true },
+            dataLabels: { enabled: true },
+            plotOptions: {
+              pie: {
+                donut: {
+                  labels: {
+                    show: true,
+                    value: {
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      formatter(val) {
+                        return formatViMoney(parseFloat(val));
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            legend: {
+              position: "bottom",
+              labels: {
+                colors: "#a3a3a3",
+              },
+            },
             labels: annual.data.map(
-              (item: AnnualReportChart) => item.costType.name
+              (item: AnnualReportChart) => item.costType.name,
             ),
+            yaxis: {
+              labels: {
+                formatter: (val) => {
+                  return formatViMoney(val);
+                },
+              },
+            },
           }}
           series={annual.data.map((item: AnnualReportChart) => item.totalCost)}
           type="donut"

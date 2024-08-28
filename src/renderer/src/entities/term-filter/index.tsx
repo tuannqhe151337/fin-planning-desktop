@@ -31,7 +31,7 @@ export const TermFilter: React.FC<Props> = ({ onChange }) => {
   const loadOptions: LoadOptions<TermOption, any, Additional> = async (
     currentQuery,
     _,
-    additional
+    additional,
   ) => {
     const page = additional?.page || 1;
 
@@ -68,7 +68,7 @@ export const TermFilter: React.FC<Props> = ({ onChange }) => {
 
   // Select state
   const [selectedOption, setSelectedOption] = useState<TermOption | null>(
-    defaultOption
+    defaultOption,
   );
 
   return (
@@ -84,7 +84,7 @@ export const TermFilter: React.FC<Props> = ({ onChange }) => {
             onChange && onChange(value);
           }
         }}
-        options={[defaultOption]}
+        // options={[defaultOption]}
         loadOptions={loadOptions}
         additional={{
           page: 1,

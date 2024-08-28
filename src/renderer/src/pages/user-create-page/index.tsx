@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,14 +20,14 @@ import { PiBagSimpleFill } from "react-icons/pi";
 import { MdEmail } from "react-icons/md";
 import { useCreateUserMutation } from "../../providers/store/api/usersApi";
 import { CgSpinner } from "react-icons/cg";
-import { ErrorData, Role } from "../../providers/store/api/type";
-import { uppercaseFirstCharacter } from "../../shared/utils/uppercase-first-character";
+import { Role } from "../../providers/store/api/type";
 import { toast } from "react-toastify";
 import { allowOnlyNumber } from "../../shared/utils/allow-only-number";
 import { formatISODateForBody } from "../../shared/utils/format-iso-date-for-body";
 import { ErrorNotificationCard } from "../../shared/error-notification-card";
 import { usePageAuthorizedForRole } from "../../features/use-page-authorized-for-role";
 import { useTranslation } from "react-i18next";
+import { useProcessError } from "@renderer/shared/utils/use-process-error";
 
 enum AnimationStage {
   HIDDEN = "hidden",
@@ -81,7 +81,7 @@ const FullNameSchema = z
   // .min(5, "Full name length must be at least 5 characters")
   .regex(
     /^[\p{L}\s]{5,}$/u,
-    "Full name should be at least 5 characters long and should not contain special characters"
+    "Full name should be at least 5 characters long and should not contain special characters",
   );
 
 const PhoneNumberSchema = z
@@ -96,7 +96,10 @@ const PositionIdSchema = z.number().gt(0, "Please choose a position");
 
 const DepartmentIdSchema = z.number().gt(0, "Please choose a department");
 
-const AddressSchema = z.string().nullable();
+const AddressSchema = z
+  .string()
+  .min(1, "Address can not be empty")
+  .max(200, "Address can not be greater than 200 characters");
 
 const RoleIdSchema = z.number().gt(0, "Please choose a role");
 
@@ -139,8 +142,6 @@ export const UserCreate: React.FC = () => {
     useCreateUserMutation();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    const birthDateString = formatISODateForBody(data.birthDate);
-
     createUser({
       fullName: data.fullName,
       email: data.email,
@@ -148,7 +149,7 @@ export const UserCreate: React.FC = () => {
       departmentId: data.departmentId,
       roleId: data.roleId,
       positionId: data.positionId,
-      dob: birthDateString,
+      dob: formatISODateForBody(data.birthDate),
       address: data.address || "",
     });
   };
@@ -161,19 +162,7 @@ export const UserCreate: React.FC = () => {
   }, [isSuccess]);
 
   // Error message
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  useEffect(() => {
-    if (isError) {
-      if (error && "data" in error && "message" in (error.data as any)) {
-        setErrorMessage(
-          uppercaseFirstCharacter((error.data as ErrorData).message)
-        );
-      } else {
-        setErrorMessage("Something went wrong, please try again!");
-      }
-    }
-  }, [isError]);
+  const errorMessage = useProcessError({ error, isError });
 
   useEffect(() => {
     if (isError) {
@@ -227,6 +216,13 @@ export const UserCreate: React.FC = () => {
                 label={t("Full name")}
                 className="mb-4 bg-white dark:bg-neutral-900"
                 autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.currentTarget.blur();
+                  } else if (e.key === "Enter") {
+                    handleSubmit(onSubmit)();
+                  }
+                }}
                 {...register("fullName", { required: true })}
               />
               <InputValidationMessage
@@ -281,6 +277,13 @@ export const UserCreate: React.FC = () => {
                     label={t("Phone")}
                     className="mb-4 w-full bg-white dark:bg-neutral-900"
                     value={value}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        e.currentTarget.blur();
+                      } else if (e.key === "Enter") {
+                        handleSubmit(onSubmit)();
+                      }
+                    }}
                     onChange={(e) => {
                       onChange(allowOnlyNumber(e.currentTarget.value));
                     }}
@@ -337,6 +340,13 @@ export const UserCreate: React.FC = () => {
                 type="email"
                 label={t("Email")}
                 className="mb-4 w-full bg-white dark:bg-neutral-900"
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.currentTarget.blur();
+                  } else if (e.key === "Enter") {
+                    handleSubmit(onSubmit)();
+                  }
+                }}
                 {...register("email", { required: true })}
               />
               <InputValidationMessage
@@ -387,6 +397,13 @@ export const UserCreate: React.FC = () => {
                 type="text"
                 label={t("Address")}
                 className="mb-4 w-full bg-white dark:bg-neutral-900"
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.currentTarget.blur();
+                  } else if (e.key === "Enter") {
+                    handleSubmit(onSubmit)();
+                  }
+                }}
                 {...register("address")}
               />
             </motion.div>

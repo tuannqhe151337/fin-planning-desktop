@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Select from "react-select";
 import {
-  PlanStatus,
-  useGetListStatusPlanQuery,
+  ReportStatus,
+  useGetListStatusReportQuery,
 } from "../../providers/store/api/statusApi";
 
 interface Option {
@@ -16,10 +16,10 @@ const DefaultOption: Option = {
 };
 
 const convertStatusToOptions = (
-  roles: PlanStatus[],
-  excludeRoleId?: number
+  status: ReportStatus[],
+  excludeRoleId?: number,
 ) => {
-  return roles
+  return status
     .map(({ statusId, name }) => ({ label: name, value: statusId }))
     .filter(({ value }) => value !== excludeRoleId);
 };
@@ -29,16 +29,16 @@ interface Props {
   onChange?: (option: Option | null | undefined) => any;
 }
 
-export const StatusPlanFilter: React.FC<Props> = ({
+export const StatusReportFilter: React.FC<Props> = ({
   onChange,
   defaultOption = DefaultOption,
 }) => {
   // Fetch initial data
-  const { data } = useGetListStatusPlanQuery();
+  const { data } = useGetListStatusReportQuery();
 
   // Select state
   const [selectedOption, setSelectedOption] = useState<Option | null>(
-    defaultOption
+    defaultOption,
   );
 
   return (

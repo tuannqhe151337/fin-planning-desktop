@@ -159,7 +159,7 @@ export const TableCurrency: React.FC<Props> = ({
         <tbody>
           {currencies?.map((currency, index) => (
             <motion.tr
-              key={index}
+              key={currency.currencyId}
               variants={rowAnimation}
               initial={AnimationStage.HIDDEN}
               animate={AnimationStage.VISIBLE}

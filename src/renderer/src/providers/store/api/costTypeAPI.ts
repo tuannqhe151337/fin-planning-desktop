@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { ListResponse, LocalStorageItemKey, PaginationResponse } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface CostType {
   costTypeId: number;
@@ -84,7 +85,7 @@ export const costTypeAPI = createApi({
       query: (createCostTypeBody) => ({
         url: `/cost-type/create`,
         method: "POST",
-        body: createCostTypeBody,
+        body: trimObject(createCostTypeBody),
       }),
       invalidatesTags: ["cost-types"],
     }),
@@ -92,7 +93,7 @@ export const costTypeAPI = createApi({
       query: (updateCostTypeBody) => ({
         url: `/cost-type/update`,
         method: "PUT",
-        body: updateCostTypeBody,
+        body: trimObject(updateCostTypeBody),
       }),
       invalidatesTags: ["cost-types"],
     }),
@@ -100,7 +101,7 @@ export const costTypeAPI = createApi({
       query: (deleteCostTypeBody) => ({
         url: `/cost-type`,
         method: "DELETE",
-        body: deleteCostTypeBody,
+        body: trimObject(deleteCostTypeBody),
       }),
       invalidatesTags: ["cost-types"],
     }),

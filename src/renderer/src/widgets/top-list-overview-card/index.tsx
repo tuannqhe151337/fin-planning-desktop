@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Variants, motion } from "framer-motion";
 import CountUp from "react-countup";
 import { OverviewCard } from "../../entities/overview-card";
@@ -8,7 +9,6 @@ import { useTranslation } from "react-i18next";
 import { useLazyFetchAnnualReportDetailQuery } from "../../providers/store/api/annualsAPI";
 import { useMeQuery } from "../../providers/store/api/authApi";
 import { Role } from "../../providers/store/api/type";
-import { useEffect } from "react";
 import { useLazyGetAdminStatisticQuery } from "../../providers/store/api/dashboardAPI";
 
 enum AnimationStage {
@@ -45,7 +45,7 @@ const childrenAnimation: Variants = {
   },
 };
 
-export const TopListOverviewCard: React.FC = () => {
+export const TopListOverviewCard: React.FC = React.memo(() => {
   // i18n
   const { t } = useTranslation(["annual-report-detail"]);
 
@@ -181,4 +181,4 @@ export const TopListOverviewCard: React.FC = () => {
       )}
     </motion.div>
   );
-};
+});

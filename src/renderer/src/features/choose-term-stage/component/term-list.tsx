@@ -78,10 +78,10 @@ export const TermList: React.FC<Props> = ({
           } else {
             return selectedTermIndex - 1;
           }
-        }),
+        })
       );
     },
-    { enableOnFormTags: ["input", "INPUT"] },
+    { enableOnFormTags: ["input", "INPUT"] }
   );
 
   useHotkeys(
@@ -96,10 +96,10 @@ export const TermList: React.FC<Props> = ({
           } else {
             return selectedTermIndex + 1;
           }
-        }),
+        })
       );
     },
-    { enableOnFormTags: ["input", "INPUT"] },
+    { enableOnFormTags: ["input", "INPUT"] }
   );
 
   // Deselect element when click outside
@@ -111,7 +111,7 @@ export const TermList: React.FC<Props> = ({
         setSelectedTermIndex(undefined);
       }
     },
-    [ref.current],
+    [ref.current]
   );
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const TermList: React.FC<Props> = ({
   return (
     <motion.div
       ref={ref}
-      className="flex flex-col py-6 gap-3 w-full"
+      className="flex flex-col flex-wrap py-6 gap-3 w-full min-h-[368px]"
       style={{ height }}
       initial={AnimationStage.HIDDEN}
       animate={hide ? AnimationStage.HIDDEN : AnimationStage.VISIBLE}

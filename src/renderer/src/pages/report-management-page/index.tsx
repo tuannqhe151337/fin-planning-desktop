@@ -16,6 +16,7 @@ import { usePageAuthorizedForRole } from "../../features/use-page-authorized-for
 import { Role } from "../../providers/store/api/type";
 import { toast } from "react-toastify";
 import { useDetectDarkmode } from "../../shared/hooks/use-detect-darkmode";
+import { useTranslation } from "react-i18next";
 
 const generateEmptyReports = (total: number): Row[] => {
   const reports: Row[] = [];
@@ -86,6 +87,9 @@ const childrenAnimation: Variants = {
 const pageSize = 10;
 
 export const ReportManagementList: React.FC = () => {
+  // i18n
+  const { t } = useTranslation(["report-management"]);
+
   // Authorized
   usePageAuthorizedForRole([Role.ACCOUNTANT]);
 
@@ -104,6 +108,8 @@ export const ReportManagementList: React.FC = () => {
 
   // Searchbox state
   const [searchboxValue, setSearchboxValue] = useState<string>("");
+
+  const [statusId, setStatusId] = useState<number | null>();
 
   const [termId, setTermId] = useState<number | null>();
 
@@ -129,11 +135,15 @@ export const ReportManagementList: React.FC = () => {
         paramters.termId = termId;
       }
 
+      if (statusId) {
+        paramters.statusId = statusId;
+      }
+
       fetchReport(paramters, true);
     }, 200);
 
     return () => clearTimeout(timeoutId);
-  }, [searchboxValue, page, termId]);
+  }, [searchboxValue, page, termId, statusId]);
 
   // Mark as reviewed
   const [markAsReviewed, { isSuccess }] = useMarkAsReviewedMutation();
@@ -146,7 +156,7 @@ export const ReportManagementList: React.FC = () => {
 
       reportsAPI.util.updateQueryData(
         "fetchReports",
-        { query: searchboxValue, termId, page, pageSize },
+        { query: searchboxValue, termId, statusId, page, pageSize },
         (draft) => {
           draft.data.forEach((report, index) => {
             if (report.reportId === reportId) {
@@ -154,10 +164,10 @@ export const ReportManagementList: React.FC = () => {
               draft.data[index].status.name = "Reviewed";
             }
           });
-        }
+        },
       );
     },
-    [markAsReviewed]
+    [markAsReviewed],
   );
 
   // Mark as reviewed success
@@ -183,7 +193,7 @@ export const ReportManagementList: React.FC = () => {
       <BubbleBanner>
         <div className="flex flex-row flex-wrap w-full items-center mt-auto">
           <p className="text-primary dark:text-primary/70 font-extrabold text-xl w-fit ml-7">
-            Report management
+            {t("Report management")}
           </p>
         </div>
       </BubbleBanner>
@@ -196,6 +206,9 @@ export const ReportManagementList: React.FC = () => {
           }}
           onTermIdChange={(termId) => {
             setTermId(termId);
+          }}
+          onStatusIdChange={(statusId) => {
+            setStatusId(statusId);
           }}
         />
       </motion.div>

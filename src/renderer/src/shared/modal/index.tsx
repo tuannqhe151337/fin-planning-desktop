@@ -23,6 +23,7 @@ const animation: Variants = {
 const duration = 200; // In miliseconds
 
 interface Props {
+  containerClassName?: string;
   className?: string;
   show: boolean;
   onClose: () => any;
@@ -30,6 +31,7 @@ interface Props {
 }
 
 export const Modal: React.FC<Props> = ({
+  containerClassName,
   className,
   show,
   onClose,
@@ -50,7 +52,7 @@ export const Modal: React.FC<Props> = ({
         onClose && onClose();
       }
     },
-    [onClose]
+    [onClose],
   );
 
   useEffect(() => {
@@ -85,7 +87,10 @@ export const Modal: React.FC<Props> = ({
       {showModal &&
         ReactDOM.createPortal(
           <div
-            className={`fixed flex w-full h-full top-0 left-0 backdrop-blur z-30 cursor-pointer`}
+            className={cn(
+              `fixed flex w-full h-full top-0 left-0 backdrop-blur z-[100] cursor-pointer`,
+              containerClassName,
+            )}
           >
             <AnimatePresence>
               {show && (
@@ -93,7 +98,7 @@ export const Modal: React.FC<Props> = ({
                   ref={modalRef}
                   className={cn(
                     "bg-white dark:bg-neutral-800 w-[500px] h-[500px] m-auto shadow-[0px_0px_50px] shadow-neutral-300 dark:shadow-black rounded-xl cursor-auto",
-                    className
+                    className,
                   )}
                   initial={AnimationStage.HIDDEN}
                   animate={AnimationStage.VISIBLE}
@@ -105,7 +110,7 @@ export const Modal: React.FC<Props> = ({
               )}
             </AnimatePresence>
           </div>,
-          document.querySelector("#popup") as HTMLDivElement
+          document.querySelector("#popup") as HTMLDivElement,
         )}
     </>
   );

@@ -5,6 +5,7 @@ import {
   LocalStorageItemKey,
   PaginationResponse,
 } from "./type";
+import { trimObject } from "../../../shared/utils/trim-object";
 
 export interface Currency {
   currencyId: number;
@@ -96,7 +97,7 @@ export const currencyApi = createApi({
       query: (createCurrencyBody) => ({
         url: `/currency/create`,
         method: "POST",
-        body: createCurrencyBody,
+        body: trimObject(createCurrencyBody),
       }),
       invalidatesTags: ["currencies"],
     }),
@@ -104,7 +105,7 @@ export const currencyApi = createApi({
       query: (updateCurrencyBody) => ({
         url: `/currency/update`,
         method: "PUT",
-        body: updateCurrencyBody,
+        body: trimObject(updateCurrencyBody),
       }),
       invalidatesTags: ["currencies"],
     }),
@@ -112,7 +113,7 @@ export const currencyApi = createApi({
       query: (deleteCurrencyBody) => ({
         url: `/currency`,
         method: "DELETE",
-        body: deleteCurrencyBody,
+        body: trimObject(deleteCurrencyBody),
       }),
       invalidatesTags: ["currencies"],
     }),

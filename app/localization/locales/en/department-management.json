@@ -1,0 +1,27 @@
+{
+  "Department management": "Department management",
+  "New department": "New department",
+  "No.": "No.",
+  "Name": "Name",
+  "Created at": "Created at",
+  "Updated at": "Updated at",
+  "Department name": "Department name",
+  "Create department": "Create department",
+  "Create new department": "Create new department",
+  "Cancel": "Cancel",
+  "Update department": "Update department",
+  "Delete department": "Delete department",
+  "No, cancel": "No, cancel",
+  "Yes, delete": "Yes, delete",
+  "delete_department_message": {
+    "part1": "You're going to delete department ",
+    "part2": "{{departmentName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "This action",
+    "part2": "cannot",
+    "part3": "be reversed. Are you sure?"
+  },
+  "No data found": "No data found."
+}

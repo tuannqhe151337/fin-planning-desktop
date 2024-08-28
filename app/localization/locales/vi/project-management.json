@@ -1,0 +1,27 @@
+{
+  "Project management": "Quản lý dự án",
+  "Project name": "Tên dự án",
+  "No.": "STT",
+  "Name": "Tên",
+  "Created at": "Ngày tạo",
+  "Updated at": "Ngày cập nhật",
+  "New project": "Dự án mới",
+  "Create project": "Tạo dự án",
+  "Create new project": "Tạo mới dự án",
+  "Cancel": "Hủy bỏ",
+  "Update project": "Cập nhật dự án",
+  "Delete project": "Xóa dự án",
+  "No, cancel": "Không, hủy",
+  "Yes, delete": "Đồng ý, xóa",
+  "delete_project_message": {
+    "part1": "Bạn đang xóa dự án ",
+    "part2": "{{projectName}}",
+    "part3": ""
+  },
+  "confirmation_message": {
+    "part1": "Hành động này",
+    "part2": "không thể",
+    "part3": "hoàn tác. Bạn chắc chứ?"
+  },
+  "No data found": "Không tìm thấy dữ liệu."
+}
